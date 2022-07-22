@@ -4,12 +4,12 @@ import "./home.css";
 
 function Home() {
   // 이름 상태 저장
-  const [name, setName] = useState("");
+  const [summoner, setSummoner] = useState("");
   const navigate = useNavigate();
 
   // 이름
   const onChange = (e) => {
-    setName(e.target.value);
+    setSummoner(e.target.value);
   };
 
   // 클릭시 페이지 이동
