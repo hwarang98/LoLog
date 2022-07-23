@@ -1,3 +1,13 @@
 .summoner {
   text-align: center;
 }
+
+/* 간격 맞추기 */
+ul {
+  margin: 0 auto;
+  padding: 0px;
+}
+/* 점 없애기 */
+li {
+  list-style: none;
+}

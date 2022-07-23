@@ -12,14 +12,26 @@ function Home() {
     setSummoner(e.target.value);
   };
 
+  // 엔터
+  const onEnter = (e) => {
+    if (e.key === "Enter") {
+      onClick();
+    }
+  };
+
   // 클릭시 페이지 이동
   const onClick = () => {
-    navigate("/summoner");
+    navigate("/summoner", { state: summoner });
   };
   return (
     <div className="home">
       <h1>LoLog</h1>
-      <input type="text" placeholder="소환사 이름" onChange={onChange}></input>
+      <input
+        type="text"
+        placeholder="소환사 이름"
+        onChange={onChange}
+        onKeyPress={onEnter}
+      ></input>
       <button onClick={onClick}>Log</button>
     </div>
   );
