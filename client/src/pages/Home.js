@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import "./home.css";
 
 function Home() {
@@ -21,7 +22,10 @@ function Home() {
 
   // 클릭시 페이지 이동
   const onClick = () => {
-    navigate("/summoner", { state: summoner });
+    axios
+      .post("http://localhost:4000/api", { data: summoner })
+      .then((data) => console.log(data));
+    // navigate(`/summoner/:${summoner}`, { state: summoner });
   };
   return (
     <div className="home">
