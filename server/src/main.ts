@@ -15,8 +15,8 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('Select API')
-    .setDescription('user API description')
+    .setTitle('LoLog')
+    .setDescription('라이엇 api')
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

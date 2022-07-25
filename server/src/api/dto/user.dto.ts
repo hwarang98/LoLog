@@ -1,6 +1,6 @@
 import { IsString } from 'class-validator';
 
-export class ApiDto {
+export class GithubCodeDto {
   @IsString()
-  readonly userInfo: string;
+  readonly userName: string;
 }
