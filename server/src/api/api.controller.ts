@@ -7,8 +7,8 @@ import { ApiTags } from '@nestjs/swagger';
 export class ApiController {
   constructor(private ApiService: ApiService) {}
 
-  @Get('/summoner/:name')
-  getMatch(@Param('name') name: string) {
+  @Post('/summoner')
+  async getMatch(@Body('name') name: string): Promise<any> {
     return this.ApiService.getUserInfo(name);
   }
 
