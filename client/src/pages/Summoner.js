@@ -1,15 +1,26 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import "./summoner.css";
 
 function Summoner() {
+  const [matchId, setMatchId] = useState([]);
+
   const { state } = useLocation();
   const userInfo = state.data;
   const name = state.name;
+  const puuid = state.puuid;
 
+  // matchId request
   useEffect(() => {
-    console.log("state: ", state);
+    const matchData = async () => {
+      let response = await axios.post("http://localhost:4000/api/matchInfo", {
+        puuid: puuid,
+      });
+      setMatchId(response.data);
+      return response;
+    };
+    matchData();
   }, []);
   return (
     <div className="summoner">
@@ -21,10 +32,9 @@ function Summoner() {
       </div>
       <p></p>
       <ul>
-        <li>전적1</li>
-        <li>전적2</li>
-        <li>전적3</li>
-        <li>전적4</li>
+        {matchId.map((item, index) => {
+          return <li key={index}>{item}</li>;
+        })}
       </ul>
     </div>
   );
