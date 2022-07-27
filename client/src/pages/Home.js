@@ -21,25 +21,16 @@ function Home() {
   };
 
   // 클릭시 페이지 이동
-  const onClick = () => {
-    try {
-      axios
-        .post(`http://localhost:4000/api/summoner`, {
-          name: summoner,
-        })
-        .then((data) => {
-          localStorage.setItem("name", summoner);
-          const status = data.status;
-          if (status === 201) {
-            navigate(`/summoner/:${summoner}`, {
-              state: { data: data.data, name: summoner },
-            });
-          }
-        });
-    } catch (err) {
-      alert("asd");
-    }
+  const onClick = async () => {
+    let response = await axios.post(`http://localhost:4000/api/userInfo`, {
+      name: summoner,
+    });
+    const userData = response.data;
+    navigate(`/summoner/${summoner}`, {
+      state: userData,
+    });
   };
+
   return (
     <div className="home">
       <h1>LoLog</h1>
