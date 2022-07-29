@@ -29,11 +29,10 @@ function Summoner() {
     let getGameInfo = await axios.post("http://localhost:4000/api/gameInfo", {
       matchId: matchId,
     });
-    console.log(getGameInfo);
     setGetGameInfo(getGameInfo.data);
     return getGameInfo;
   };
-  console.log(gameInfo);
+  console.log("gameInfo: ", gameInfo);
 
   return (
     <div className="summoner">
