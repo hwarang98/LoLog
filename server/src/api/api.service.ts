@@ -39,6 +39,7 @@ export class ApiService {
   }
 
   async gameInfo(matchId: string[]): Promise<AxiosResponse> {
+    const test: any = [];
     const url: string = 'https://asia.api.riotgames.com';
     for (let i = 0; i < matchId.length; i++) {
       let gameInfo = await this.httpService.axiosRef.get(
@@ -50,7 +51,9 @@ export class ApiService {
           },
         },
       );
-      return gameInfo.data;
+      console.log(gameInfo.data);
+      test.push(gameInfo.data);
     }
+    return test;
   }
 }
