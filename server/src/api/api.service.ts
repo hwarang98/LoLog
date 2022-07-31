@@ -10,7 +10,7 @@ export class ApiService {
   // 유저 정보 요청
   async getUserInfo(name: string): Promise<AxiosResponse> {
     const url: string = 'https://kr.api.riotgames.com';
-    let userData = await this.httpService.axiosRef.get(
+    const userData = await this.httpService.axiosRef.get(
       `${url}/lol/summoner/v4/summoners/by-name/${encodeURI(name)}?api_key=${
         process.env.RIOT_API_KEY
       }`,
@@ -23,11 +23,25 @@ export class ApiService {
     return userData.data;
   }
 
+  // 리그정보 요청
+  async getLeagueInfo(cryptoId: string): Promise<AxiosResponse> {
+    const url: string = 'https://kr.api.riotgames.com';
+    const leagueInfo = await this.httpService.axiosRef.get(
+      `${url}/lol/league/v4/entries/by-summoner/${cryptoId}`,
+      {
+        headers: {
+          'X-Riot-Token': process.env.RIOT_API_KEY,
+        },
+      },
+    );
+    return leagueInfo.data;
+  }
+
   // 게임 매칭 id 요청
   async matchId(puuid: string): Promise<AxiosResponse> {
     const url: string = 'https://asia.api.riotgames.com';
-    let matchData = await this.httpService.axiosRef.get(
-      `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=20
+    const matchData = await this.httpService.axiosRef.get(
+      `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=1
       `,
       {
         headers: {
@@ -42,7 +56,7 @@ export class ApiService {
     const test: any = [];
     const url: string = 'https://asia.api.riotgames.com';
     for (let i = 0; i < matchId.length; i++) {
-      let gameInfo = await this.httpService.axiosRef.get(
+      const gameInfo = await this.httpService.axiosRef.get(
         `${url}/lol/match/v5/matches/${matchId[i]}
         `,
         {
