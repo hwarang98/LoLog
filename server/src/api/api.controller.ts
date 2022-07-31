@@ -7,13 +7,23 @@ import { ApiTags, ApiOperation } from '@nestjs/swagger';
 export class ApiController {
   constructor(private ApiService: ApiService) {}
 
-  @Post('userInfo')
+  @Post('getUserInfo')
   @ApiOperation({
-    summary: '유저 정보 조회 API',
+    summary: '유저정보 조회 API',
     description: '소환사 이름을 사용한 해당 유저 정보 조회',
   })
   getUser(@Body('name') name: string) {
     return this.ApiService.getUserInfo(name);
+  }
+
+  @Post('getLeagueInfo')
+  @ApiOperation({
+    summary: '리그정보 조회 API',
+    description: '암호화된 소환사 아이디를 사용한 해당 소환사 리그정보 조회',
+  })
+  getLeague(@Body('cryptoId') cryptoId: string) {
+    console.log('cryptoId: ', cryptoId);
+    return this.ApiService.getLeagueInfo(cryptoId);
   }
 
   @Post('matchInfo')
