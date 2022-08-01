@@ -11,6 +11,7 @@ function Summoner() {
   const [freeRankInfo, setFreeRankInfo] = useState([]);
   const { state } = useLocation();
   const { name, puuid, profileIconId, summonerLevel } = state.userData;
+  console.log(state);
 
   useEffect(() => {
     setSoloRankInfo(state.leagueData[0]);
@@ -30,7 +31,7 @@ function Summoner() {
 
   // matchId에 해당하는 게임 정보조회 요청
   const getGameInfo = async () => {
-    console.log(matchId);
+    console.log("matchId: ", gameInfo.data);
     let getGameInfo = await axios.post("http://localhost:4000/api/gameInfo", {
       matchId: matchId,
     });

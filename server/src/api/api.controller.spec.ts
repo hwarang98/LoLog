@@ -13,6 +13,10 @@ describe('ApiController', () => {
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(controller);
+  });
+
+  it('유저정보 조회 요청 테스트', () => {
+    expect(controller.getGameInfo).toEqual(String);
   });
 });

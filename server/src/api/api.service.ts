@@ -52,6 +52,7 @@ export class ApiService {
     return matchData.data;
   }
 
+  // 게임정보 요청
   async gameInfo(matchId: string[]): Promise<AxiosResponse> {
     const test: any = [];
     const url: string = 'https://asia.api.riotgames.com';
@@ -65,8 +66,15 @@ export class ApiService {
           },
         },
       );
-      console.log(gameInfo.data);
+      // console.log(gameInfo.data);
       test.push(gameInfo.data);
+      if (gameInfo.data) {
+        // console.log('aaa: ', test[0].info.participants[0]);
+        if (gameInfo.data.info.participants[i].summonerName === '돌면킬') {
+          console.log('test: ', gameInfo.data.info.participants[i]);
+        }
+        // console.log('ㅋㅋㅋ: ', test.info.gameCreation);`
+      }
     }
     return test;
   }
