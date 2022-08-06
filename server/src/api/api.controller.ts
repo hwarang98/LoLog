@@ -22,7 +22,7 @@ export class ApiController {
     description: '암호화된 소환사 아이디를 사용한 해당 소환사 리그정보 조회',
   })
   getLeague(@Body('cryptoId') cryptoId: string) {
-    console.log('cryptoId: ', cryptoId);
+    console.log(cryptoId);
     return this.ApiService.getLeagueInfo(cryptoId);
   }
 

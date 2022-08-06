@@ -58,24 +58,19 @@ export class ApiService {
     const url: string = 'https://asia.api.riotgames.com';
     for (let i = 0; i < matchId.length; i++) {
       const gameInfo = await this.httpService.axiosRef.get(
-        `${url}/lol/match/v5/matches/${matchId[i]}
-        `,
+        `${url}/lol/match/v5/matches/${matchId[i]}`,
         {
           headers: {
             'X-Riot-Token': process.env.RIOT_API_KEY,
           },
         },
       );
-      // console.log(gameInfo.data);
       test.push(gameInfo.data);
-      if (gameInfo.data) {
-        // console.log('aaa: ', test[0].info.participants[0]);
-        if (gameInfo.data.info.participants[i].summonerName === '돌면킬') {
-          console.log('test: ', gameInfo.data.info.participants[i]);
-        }
-        // console.log('ㅋㅋㅋ: ', test.info.gameCreation);`
-      }
     }
+
+    // for (let i = 0; i < 100; i++) {
+    //   console.log(test[i].info.participants[i]) ;
+    // }
     return test;
   }
 }
