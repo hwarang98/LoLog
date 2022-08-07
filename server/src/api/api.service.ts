@@ -1,16 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
-import { AxiosResponse } from 'axios';
-import { UserInfo } from './interface/user.interface';
+import axios, { AxiosResponse } from 'axios';
+import { UserGameData } from './interface/userData.interface';
 
 @Injectable()
 export class ApiService {
   constructor(private readonly httpService: HttpService) {}
 
   // 유저 정보 요청
-  async getUserInfo(name: string): Promise<AxiosResponse> {
+  async getUserInfo(name: string) {
     const url: string = 'https://kr.api.riotgames.com';
-    const userData = await this.httpService.axiosRef.get(
+    const userData = await axios.get(
       `${url}/lol/summoner/v4/summoners/by-name/${encodeURI(name)}?api_key=${
         process.env.RIOT_API_KEY
       }`,
@@ -24,9 +24,9 @@ export class ApiService {
   }
 
   // 리그정보 요청
-  async getLeagueInfo(cryptoId: string): Promise<AxiosResponse> {
+  async getLeagueInfo(cryptoId: string) {
     const url: string = 'https://kr.api.riotgames.com';
-    const leagueInfo = await this.httpService.axiosRef.get(
+    const leagueInfo = await axios.get(
       `${url}/lol/league/v4/entries/by-summoner/${cryptoId}`,
       {
         headers: {
@@ -38,10 +38,10 @@ export class ApiService {
   }
 
   // 게임 매칭 id 요청
-  async matchId(puuid: string): Promise<AxiosResponse> {
+  async matchId(puuid: string) {
     const url: string = 'https://asia.api.riotgames.com';
-    const matchData = await this.httpService.axiosRef.get(
-      `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=1
+    const matchData = await axios.get(
+      `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=2
       `,
       {
         headers: {
@@ -53,11 +53,16 @@ export class ApiService {
   }
 
   // 게임정보 요청
-  async gameInfo(matchId: string[]): Promise<AxiosResponse> {
-    const test: any = [];
+  async gameInfo(data: any[]) {
+    const matchId: string[] = data[0];
+    const userName = data[1];
+    const gameMetaData: any = [];
+    console.log(userName);
+    let playData: any[];
+    let userMetaData: UserGameData;
     const url: string = 'https://asia.api.riotgames.com';
     for (let i = 0; i < matchId.length; i++) {
-      const gameInfo = await this.httpService.axiosRef.get(
+      const gameInfo = await axios.get(
         `${url}/lol/match/v5/matches/${matchId[i]}`,
         {
           headers: {
@@ -65,12 +70,44 @@ export class ApiService {
           },
         },
       );
-      test.push(gameInfo.data);
+      gameMetaData.push(gameInfo.data);
+      playData = gameMetaData[i].info.participants;
     }
-
-    // for (let i = 0; i < 100; i++) {
-    //   console.log(test[i].info.participants[i]) ;
-    // }
-    return test;
+    for (let i = 0; i < playData.length; i++) {
+      if (playData[i].summonerName === userName) {
+        const userData = playData[i];
+        // console.log('userData: ', userData);
+        userMetaData = {
+          champLevel: userData.champLevel,
+          championId: userData.championId,
+          championName: userData.championName,
+          firstBloodKill: userData.firstBloodKill,
+          item0: userData.item0,
+          item1: userData.item1,
+          item2: userData.item2,
+          item3: userData.item3,
+          item4: userData.item4,
+          item5: userData.item5,
+          item6: userData.item6,
+          summonerName: userData.summonerName,
+          summonerLevel: userData.summonerLevel,
+          teamId: userData.teamId,
+          teamPosition: userData.teamPosition,
+          win: userData.win,
+          totalDamageDealt: userData.totalDamageDealt,
+          kda: userData.challenges.kda,
+          kills: userData.kills,
+          deaths: userData.deaths,
+          assists: userData.assists,
+          soloKills: userData.challenges.soloKills,
+          doubleKills: userData.doubleKills,
+          pentaKills: userData.pentaKills,
+          tripleKills: userData.tripleKills,
+          totalDamageDealtToChampions: userData.totalDamageDealtToChampions,
+          totalDamageTaken: userData.totalDamageTaken,
+        };
+      }
+    }
+    return [userMetaData];
   }
 }
