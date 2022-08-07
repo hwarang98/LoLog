@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { Profile, SoloGameRankRate } from "../components";
+import { Profile, SoloGameRankRate, GameInfoRender } from "../components";
 import axios from "axios";
 import "./summoner.css";
 
@@ -9,9 +9,10 @@ function Summoner() {
   const [gameInfo, setGetGameInfo] = useState([]);
   const [soloRankInfo, setSoloRankInfo] = useState([]);
   const [freeRankInfo, setFreeRankInfo] = useState([]);
+  const [clickCheck, setClickCheck] = useState(false);
   const { state } = useLocation();
   const { name, puuid, profileIconId, summonerLevel } = state.userData;
-  console.log(state);
+  // console.log(state);
 
   useEffect(() => {
     setSoloRankInfo(state.leagueData[0]);
@@ -31,15 +32,17 @@ function Summoner() {
 
   // matchId에 해당하는 게임 정보조회 요청
   const getGameInfo = async () => {
-    console.log("matchId: ", gameInfo.data);
     let getGameInfo = await axios.post("http://localhost:4000/api/gameInfo", {
       matchId: matchId,
+      name: name,
     });
     setGetGameInfo(getGameInfo.data);
+    setClickCheck(true);
+    // return getGameInfo;
     return getGameInfo;
   };
 
-  // console.log("gameInfo: ", gameInfo);
+  console.log("gameInfo: ", gameInfo);
 
   return (
     <div className="summoner">
@@ -49,15 +52,8 @@ function Summoner() {
         leagueType={soloRankInfo.queueType}
       />
       <SoloGameRankRate wins={soloRankInfo.wins} losses={soloRankInfo.losses} />
-      <ul>
-        <button onClick={getGameInfo}>전적검색</button>
-        <ul>
-          {gameInfo.map((item, index) => {
-            console.log(item.info.gameId);
-            return <li key={index}>{item.info.gameId}</li>;
-          })}
-        </ul>
-      </ul>
+      <button onClick={getGameInfo}>전적검색</button>
+      {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} /> : null}
     </div>
   );
 }
