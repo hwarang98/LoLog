@@ -1,0 +1,29 @@
+export class UserGameData {
+  champLevel: number;
+  championId: number;
+  championName: string;
+  firstBloodKill: boolean;
+  item0: number;
+  item1: number;
+  item2: number;
+  item3: number;
+  item4: number;
+  item5: number;
+  item6: number;
+  summonerName: string;
+  summonerLevel: number;
+  teamId: number;
+  teamPosition: string;
+  win: boolean;
+  totalDamageDealt: number;
+  kda: number;
+  kills: number;
+  deaths: number;
+  assists: number;
+  soloKills: number;
+  doubleKills: number;
+  pentaKills: number;
+  tripleKills: number;
+  totalDamageDealtToChampions: number;
+  totalDamageTaken: number;
+}
