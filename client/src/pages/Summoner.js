@@ -42,7 +42,7 @@ function Summoner() {
     return getGameInfo;
   };
 
-  console.log("gameInfo: ", gameInfo);
+  // console.log("gameInfo: ", gameInfo);
 
   return (
     <div className="summoner">
