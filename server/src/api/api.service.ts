@@ -41,7 +41,7 @@ export class ApiService {
   async matchId(puuid: string) {
     const url: string = 'https://asia.api.riotgames.com';
     const matchData = await axios.get(
-      `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=2
+      `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10
       `,
       {
         headers: {
@@ -57,7 +57,7 @@ export class ApiService {
     const matchId: string[] = data[0];
     const userName = data[1];
     const gameMetaData: any = [];
-    console.log(userName);
+    console.log('data: ', data);
     let playData: any[];
     let userMetaData: UserGameData;
     const url: string = 'https://asia.api.riotgames.com';
