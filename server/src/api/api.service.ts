@@ -54,10 +54,11 @@ export class ApiService {
 
   // 게임정보 요청
   async gameInfo(data: any[]) {
-    const matchId: string[] = data[0];
+    console.log('data: ', data);
+
+    const matchId = data;
     const userName = data[1];
     const gameMetaData: any = [];
-    console.log('data: ', data);
     let playData: any[];
     let userMetaData: UserGameData;
     const url: string = 'https://asia.api.riotgames.com';

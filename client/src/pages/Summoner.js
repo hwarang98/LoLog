@@ -33,8 +33,9 @@ function Summoner() {
   // matchId에 해당하는 게임 정보조회 요청
   const getGameInfo = async () => {
     let getGameInfo = await axios.post("http://localhost:4000/api/gameInfo", {
-      matchId: matchId,
-      name: name,
+      // matchId: matchId,
+      // name: name,
+      data: { matchId: matchId, name: name },
     });
     setGetGameInfo(getGameInfo.data);
     setClickCheck(true);

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { InputField } from "../components";
+import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import SearchIcon from "@mui/icons-material/Search";
 import "./home.css";
 
 function Home() {
@@ -50,14 +52,17 @@ function Home() {
   return (
     <div className="home">
       <h1>LoLog</h1>
-      <input
-        type="text"
-        placeholder="소환사 이름"
+      <TextField
+        id="summonerName"
+        label="소환사 이름"
+        size="small"
+        style={{ width: 400 }}
         onChange={onChange}
         onKeyPress={onEnter}
-      ></input>
-      {/* <InputField onChange={onChange} onKeyPress={onEnter} /> */}
-      <button onClick={onClick}>Log</button>
+      />
+      <IconButton onClick={onClick}>
+        <SearchIcon />
+      </IconButton>
     </div>
   );
 }
