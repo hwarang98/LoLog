@@ -1,0 +1,26 @@
+.summonerFrofileInfo {
+  text-align: left;
+}
+
+#userIconImg {
+  float: left;
+  border-radius: 10%;
+}
+
+.name {
+  font-weight: bold;
+  /* display: block; */
+}
+
+.level {
+  font-size: 15px;
+}
+.searchGameInfo {
+  padding-bottom: 50px;
+  text-align: left;
+}
+
+.summonerRankInfo {
+  text-align: right;
+  /* padding-bottom: 50px; */
+}
