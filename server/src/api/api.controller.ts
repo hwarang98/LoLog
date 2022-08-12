@@ -41,8 +41,6 @@ export class ApiController {
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
   getGameInfo(@Body('data') data: string[]) {
-    console.log('data: ', data);
-    // const data: any[] = [matchId, name];
     return this.ApiService.gameInfo(data);
   }
 }
