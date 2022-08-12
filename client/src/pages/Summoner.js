@@ -1,6 +1,6 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import { Profile, SoloGameRankRate, GameInfoRender } from "../components";
+import { Profile } from "../components";
 import axios from "axios";
 import "./summoner.css";
 
@@ -30,31 +30,17 @@ function Summoner() {
     getMatchData();
   }, []);
 
-  // matchId에 해당하는 게임 정보조회 요청
-  const getGameInfo = async () => {
-    let getGameInfo = await axios.post("http://localhost:4000/api/gameInfo", {
-      // matchId: matchId,
-      // name: name,
-      data: { matchId: matchId, name: name },
-    });
-    setGetGameInfo(getGameInfo.data);
-    setClickCheck(true);
-    // return getGameInfo;
-    return getGameInfo;
-  };
-
-  // console.log("gameInfo: ", gameInfo);
-
   return (
     <div className="summoner">
       <Profile
         name={name}
+        profileIconId={profileIconId}
         level={summonerLevel}
         leagueType={soloRankInfo.queueType}
+        matchId={matchId}
+        wins={soloRankInfo.wins}
+        losses={soloRankInfo.wins}
       />
-      <SoloGameRankRate wins={soloRankInfo.wins} losses={soloRankInfo.losses} />
-      <button onClick={getGameInfo}>전적검색</button>
-      {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} /> : null}
     </div>
   );
 }
