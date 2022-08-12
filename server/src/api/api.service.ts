@@ -53,14 +53,12 @@ export class ApiService {
   }
 
   // 게임정보 요청
-  async gameInfo(data: any[]) {
-    console.log('data: ', data);
-
-    const matchId = data;
-    const userName = data[1];
-    const gameMetaData: any = [];
-    let playData: any[];
-    let userMetaData: UserGameData;
+  async gameInfo(data: any) {
+    const matchId = data.matchId;
+    const userName = data.name;
+    const gameMetaData: any[] = [];
+    const playData: any[] = [];
+    let userMetaData: any[] = [];
     const url: string = 'https://asia.api.riotgames.com';
     for (let i = 0; i < matchId.length; i++) {
       const gameInfo = await axios.get(
@@ -72,43 +70,44 @@ export class ApiService {
         },
       );
       gameMetaData.push(gameInfo.data);
-      playData = gameMetaData[i].info.participants;
-    }
-    for (let i = 0; i < playData.length; i++) {
-      if (playData[i].summonerName === userName) {
-        const userData = playData[i];
-        // console.log('userData: ', userData);
-        userMetaData = {
-          champLevel: userData.champLevel,
-          championId: userData.championId,
-          championName: userData.championName,
-          firstBloodKill: userData.firstBloodKill,
-          item0: userData.item0,
-          item1: userData.item1,
-          item2: userData.item2,
-          item3: userData.item3,
-          item4: userData.item4,
-          item5: userData.item5,
-          item6: userData.item6,
-          summonerName: userData.summonerName,
-          summonerLevel: userData.summonerLevel,
-          teamId: userData.teamId,
-          teamPosition: userData.teamPosition,
-          win: userData.win,
-          totalDamageDealt: userData.totalDamageDealt,
-          kda: userData.challenges.kda,
-          kills: userData.kills,
-          deaths: userData.deaths,
-          assists: userData.assists,
-          soloKills: userData.challenges.soloKills,
-          doubleKills: userData.doubleKills,
-          pentaKills: userData.pentaKills,
-          tripleKills: userData.tripleKills,
-          totalDamageDealtToChampions: userData.totalDamageDealtToChampions,
-          totalDamageTaken: userData.totalDamageTaken,
-        };
+      const playData = gameMetaData[i].info.participants;
+      console.log('ㅋㅋㅋ: ', playData[i].challenges.kda);
+      for (let i = 0; i < playData.length; i++) {
+        if (playData[i].summonerName === userName) {
+          userMetaData.push({
+            champLevel: playData[i].champLevel,
+            championId: playData[i].championId,
+            championName: playData[i].championName,
+            firstBloodKill: playData[i].firstBloodKill,
+            item0: playData[i].item0,
+            item1: playData[i].item1,
+            item2: playData[i].item2,
+            item3: playData[i].item3,
+            item4: playData[i].item4,
+            item5: playData[i].item5,
+            item6: playData[i].item6,
+            summonerName: playData[i].summonerName,
+            summonerLevel: playData[i].summonerLevel,
+            teamId: playData[i].teamId,
+            teamPosition: playData[i].teamPosition,
+            win: playData[i].win,
+            totalDamageDealt: playData[i].totalDamageDealt,
+            kda: playData[i].challenges.kda,
+            kills: playData[i].kills,
+            deaths: playData[i].deaths,
+            assists: playData[i].assists,
+            soloKills: playData[i].challenges.soloKills,
+            doubleKills: playData[i].doubleKills,
+            pentaKills: playData[i].pentaKills,
+            tripleKills: playData[i].tripleKills,
+            totalDamageDealtToChampions:
+              playData[i].totalDamageDealtToChampions,
+            totalDamageTaken: playData[i].totalDamageTaken,
+          });
+          // console.log(userMetaData);
+        }
       }
     }
-    return [userMetaData];
+    return userMetaData;
   }
 }
