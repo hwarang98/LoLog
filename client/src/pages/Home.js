@@ -8,7 +8,6 @@ import "./home.css";
 
 function Home() {
   const [summoner, setSummoner] = useState("");
-  // const [leagueInfo, getLeagueInfo] = useState([]);
   const navigate = useNavigate();
 
   // 이름
