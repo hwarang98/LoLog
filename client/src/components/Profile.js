@@ -26,49 +26,51 @@ function Profile(props) {
     return getGameInfo;
   };
   return (
-    <div className="profile">
-      {/* <Box sx={{ flexGrow: 2 }}> */}
-      <Grid container spacing={0}>
-        <Grid item xs={1}>
-          <div className="summonerFrofileIcon">
-            <img
-              id="userIconImg"
-              src={userIcon}
-              alt="유저 아이콘"
-              style={{ height: 85 }}
-            />
-          </div>
-        </Grid>
-        <Grid item xs={1}>
-          <div className="summonerFrofile">
-            <span className="name">{name}</span>
-            <span className="level">Lv:{level}</span>
-          </div>
-        </Grid>
-        <Grid item xs={10}>
-          <div className="summonerRankInfo">
-            <SoloGameRankRate wins={wins} losses={losses} />
-            <div className="leagueType">
-              {leagueType === "RANKED_SOLO_5x5" && "솔로랭크"}
+    <main className="profile">
+      <Box sx={{ flexGrow: 2 }}>
+        <Grid container spacing={0}>
+          <Grid item xs={2}>
+            <div className="summonerFrofileIcon">
+              <img
+                id="userIconImg"
+                src={userIcon}
+                alt="유저 아이콘"
+                style={{ height: 85 }}
+              />
+              <div>
+                <span className="level">Lv:{level}</span>
+              </div>
             </div>
-          </div>
-        </Grid>
-        <Grid item xs={12}>
-          <div className="searchGameInfo">
-            <button onClick={getGameInfo}>전적검색</button>
-          </div>
-        </Grid>
+          </Grid>
+          <Grid item xs={2}>
+            <div className="summonerFrofile">
+              <span className="name">{name}</span>
+            </div>
+          </Grid>
+          <Grid item xs={8}>
+            <div className="summonerRankInfo">
+              <SoloGameRankRate wins={wins} losses={losses} />
+              <div className="leagueType">
+                {leagueType === "RANKED_SOLO_5x5" && "솔로랭크"}
+              </div>
+            </div>
+          </Grid>
+          <Grid item xs={12}>
+            <div className="searchGameInfo">
+              <button onClick={getGameInfo}>전적검색</button>
+            </div>
+          </Grid>
 
-        <Grid item xs={12}>
-          <div className="gameList">
-            {clickCheck === true ? (
-              <GameInfoRender gameInfo={gameInfo} />
-            ) : null}
-          </div>
+          <Grid item xs={12}>
+            <div className="gameList">
+              {clickCheck === true ? (
+                <GameInfoRender gameInfo={gameInfo} />
+              ) : null}
+            </div>
+          </Grid>
         </Grid>
-      </Grid>
-      {/* </Box> */}
-    </div>
+      </Box>
+    </main>
   );
 }
 

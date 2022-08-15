@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import "./GameInfoRender.css";
 
 function GameInfoRender(props) {
   const { gameInfo } = props;
