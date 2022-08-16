@@ -6,17 +6,25 @@ import "./summoner.css";
 
 function Summoner() {
   const [matchId, setMatchId] = useState([]);
-  const [gameInfo, setGetGameInfo] = useState([]);
   const [soloRankInfo, setSoloRankInfo] = useState([]);
   const [freeRankInfo, setFreeRankInfo] = useState([]);
-  const [clickCheck, setClickCheck] = useState(false);
   const { state } = useLocation();
+  const { queueType, wins, losses, tier, rank, leaguePoints } = soloRankInfo;
   const { name, puuid, profileIconId, summonerLevel } = state.userData;
-  // console.log(state);
 
+  // 솔랭, 자랭 정보저장
   useEffect(() => {
-    setSoloRankInfo(state.leagueData[0]);
-    setFreeRankInfo(state.leagueData[1]);
+    // console.log("soloRankInfo: ", soloRankInfo);
+    const userData = state.leagueData;
+    for (let i = 0; i < userData.length; i++) {
+      const queueType = userData[i].queueType;
+      if (queueType === "RANKED_SOLO_5x5") {
+        setSoloRankInfo(userData[i]);
+      }
+      if (queueType === "RANKED_FLEX_SR") {
+        setFreeRankInfo(userData[i]);
+      }
+    }
   }, []);
 
   // matchId 조회 요청
@@ -25,6 +33,7 @@ function Summoner() {
       let getMatchId = await axios.post("http://localhost:4000/api/matchInfo", {
         puuid: puuid,
       });
+
       return setMatchId(getMatchId.data);
     };
     getMatchData();
@@ -36,10 +45,13 @@ function Summoner() {
         name={name}
         profileIconId={profileIconId}
         level={summonerLevel}
-        leagueType={soloRankInfo.queueType}
+        leagueType={queueType}
         matchId={matchId}
-        wins={soloRankInfo.wins}
-        losses={soloRankInfo.wins}
+        wins={wins}
+        losses={losses}
+        tier={tier}
+        rank={rank}
+        leaguePoints={leaguePoints}
       />
     </div>
   );

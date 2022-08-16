@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./GameInfoRender.css";
 
 function GameInfoRender(props) {
   const { gameInfo } = props;
+  const [winCount, setWinCount] = useState(0);
 
   const championIcon = async () => {
     const getIcon = await axios.get(
@@ -27,8 +28,9 @@ function GameInfoRender(props) {
   // teamId 100 = 블루팀
   return (
     <div className="gameInfoRendering">
+      <div className="allGameWinRate">최근 10게임 승률:</div>
       {gameInfo.map((item, index) => {
-        console.log("item: ", item);
+        // console.log("item: ", item);
         return (
           <div className="gameInfo" key={index}>
             <li className="gameList">
@@ -56,6 +58,7 @@ function GameInfoRender(props) {
               {item.teamId === 200 ? "레드팀" : "블루팀"}
               라인: {item.teamPosition}
               {item.win === true ? "승리" : "패배"}
+              {item.win === true ? setWinCount() : null}
             </li>
           </div>
         );

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { GameInfoRender, SoloGameRankRate } from "./index";
 import { styled } from "@mui/material/styles";
@@ -10,9 +10,18 @@ import "./Profile.css";
 function Profile(props) {
   const [gameInfo, setGetGameInfo] = useState([]);
   const [clickCheck, setClickCheck] = useState(false);
-  const { name, level, leagueType, profileIconId, matchId, wins, losses } =
-    props;
-  console.log(props);
+  const {
+    name,
+    level,
+    leagueType,
+    profileIconId,
+    matchId,
+    wins,
+    losses,
+    tier,
+    rank,
+    leaguePoints,
+  } = props;
   const userIcon = `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${profileIconId}.png`;
 
   // matchId에 해당하는 게임 정보조회 요청
@@ -22,14 +31,14 @@ function Profile(props) {
     });
     setGetGameInfo(getGameInfo.data);
     setClickCheck(true);
-    // return getGameInfo;
     return getGameInfo;
   };
+
   return (
     <main className="profile">
       <Box sx={{ flexGrow: 2 }}>
-        <Grid container spacing={0}>
-          <Grid item xs={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={1}>
             <div className="summonerFrofileIcon">
               <img
                 id="userIconImg"
@@ -37,22 +46,24 @@ function Profile(props) {
                 alt="유저 아이콘"
                 style={{ height: 85 }}
               />
-              <div>
-                <span className="level">Lv:{level}</span>
-              </div>
             </div>
+            <span className="level">{level}</span>
           </Grid>
           <Grid item xs={2}>
-            <div className="summonerFrofile">
-              <span className="name">{name}</span>
+            <div className="summonerName">
+              <span>{name}</span>
             </div>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={9}>
             <div className="summonerRankInfo">
-              <SoloGameRankRate wins={wins} losses={losses} />
               <div className="leagueType">
                 {leagueType === "RANKED_SOLO_5x5" && "솔로랭크"}
               </div>
+              <div className="tire">
+                {tier} {rank}
+              </div>
+              {leaguePoints} LP
+              <SoloGameRankRate wins={wins} losses={losses} />
             </div>
           </Grid>
           <Grid item xs={12}>
