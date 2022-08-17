@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { GameInfoRender, SoloGameRankRate } from "./index";
+import { GameInfoRender, SoloGameRankRate, Emblem } from "./index";
 import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
@@ -10,6 +10,8 @@ import "./Profile.css";
 function Profile(props) {
   const [gameInfo, setGetGameInfo] = useState([]);
   const [clickCheck, setClickCheck] = useState(false);
+  const [winCount, setWinCount] = useState(0);
+
   const {
     name,
     level,
@@ -26,13 +28,40 @@ function Profile(props) {
 
   // matchId에 해당하는 게임 정보조회 요청
   const getGameInfo = async () => {
-    let getGameInfo = await axios.post("http://localhost:4000/api/gameInfo", {
-      data: { matchId: matchId, name: name },
+    let getGameInfoList = await axios.post(
+      "http://localhost:4000/api/gameInfo",
+      {
+        data: { matchId: matchId, name: name },
+      }
+    );
+
+    // 버튼 클릭시 게임 승리 유무 상태 저장
+    const gameList = getGameInfoList.data;
+    gameList.map((item, idx) => {
+      if (item.win) {
+        setWinCount((winCount) => winCount + 1);
+      }
     });
-    setGetGameInfo(getGameInfo.data);
+    setGetGameInfo(getGameInfoList.data);
     setClickCheck(true);
     return getGameInfo;
   };
+
+  // const emblems = () => {
+  //   console.log(tier);
+  //   switch (tier) {
+  //     case "BRONZE":
+  //       break;
+
+  //     case "SILVER":
+  //       <img src={"images/emblems/Emblem_Bronze.png"} alt="silvler"></img>;
+  //       console.log("hello silver");
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
 
   return (
     <main className="profile">
@@ -62,8 +91,14 @@ function Profile(props) {
               <div className="tire">
                 {tier} {rank}
               </div>
+              <Emblem tier={tier}></Emblem>
+              {/* <img src={emblems()}></img> */}
               {leaguePoints} LP
-              <SoloGameRankRate wins={wins} losses={losses} />
+              <SoloGameRankRate
+                wins={wins}
+                losses={losses}
+                winCount={winCount}
+              />
             </div>
           </Grid>
           <Grid item xs={12}>
@@ -75,7 +110,7 @@ function Profile(props) {
           <Grid item xs={12}>
             <div className="gameList">
               {clickCheck === true ? (
-                <GameInfoRender gameInfo={gameInfo} />
+                <GameInfoRender gameInfo={gameInfo} winCount={winCount} />
               ) : null}
             </div>
           </Grid>
