@@ -1,17 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./GameInfoRender.css";
 
 function GameInfoRender(props) {
-  const { gameInfo } = props;
-  const [winCount, setWinCount] = useState(0);
+  const { gameInfo, winCount } = props;
 
   const championIcon = async () => {
     const getIcon = await axios.get(
       "http://ddragon.leagueoflegends.com/cdn/12.15.1/data/en_US/champion.json"
     );
-    console.log();
   };
+
+  // 전체 게임 승률
+  const recentGames = (winCount / 10) * 100;
 
   // 2번째 소숫점 자리부터 버리는 함수
   const getNotRoundDecimalNumber = (number, decimalPoint = 2) => {
@@ -28,9 +29,8 @@ function GameInfoRender(props) {
   // teamId 100 = 블루팀
   return (
     <div className="gameInfoRendering">
-      <div className="allGameWinRate">최근 10게임 승률:</div>
+      <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
       {gameInfo.map((item, index) => {
-        // console.log("item: ", item);
         return (
           <div className="gameInfo" key={index}>
             <li className="gameList">
@@ -58,7 +58,6 @@ function GameInfoRender(props) {
               {item.teamId === 200 ? "레드팀" : "블루팀"}
               라인: {item.teamPosition}
               {item.win === true ? "승리" : "패배"}
-              {item.win === true ? setWinCount() : null}
             </li>
           </div>
         );
