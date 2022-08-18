@@ -1,0 +1,7 @@
+.userTier {
+  float: left;
+  padding: 0px 8px;
+  position: relative;
+  top: 10%;
+  max-width: 100%;
+}
