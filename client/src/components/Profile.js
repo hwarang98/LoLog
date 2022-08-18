@@ -5,6 +5,7 @@ import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
 import Grid from "@mui/material/Grid";
+
 import "./Profile.css";
 
 function Profile(props) {
@@ -47,75 +48,54 @@ function Profile(props) {
     return getGameInfo;
   };
 
-  // const emblems = () => {
-  //   console.log(tier);
-  //   switch (tier) {
-  //     case "BRONZE":
-  //       break;
-
-  //     case "SILVER":
-  //       <img src={"images/emblems/Emblem_Bronze.png"} alt="silvler"></img>;
-  //       console.log("hello silver");
-  //       break;
-
-  //     default:
-  //       break;
-  //   }
-  // };
-
   return (
     <main className="profile">
-      <Box sx={{ flexGrow: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={1}>
-            <div className="summonerFrofileIcon">
-              <img
-                id="userIconImg"
-                src={userIcon}
-                alt="유저 아이콘"
-                style={{ height: 85 }}
-              />
-            </div>
-            <span className="level">{level}</span>
-          </Grid>
-          <Grid item xs={2}>
-            <div className="summonerName">
-              <span>{name}</span>
-            </div>
-          </Grid>
-          <Grid item xs={9}>
-            <div className="summonerRankInfo">
-              <div className="leagueType">
-                {leagueType === "RANKED_SOLO_5x5" && "솔로랭크"}
-              </div>
-              <div className="tire">
-                {tier} {rank}
-              </div>
-              <Emblem tier={tier}></Emblem>
-              {/* <img src={emblems()}></img> */}
-              {leaguePoints} LP
-              <SoloGameRankRate
-                wins={wins}
-                losses={losses}
-                winCount={winCount}
-              />
-            </div>
-          </Grid>
-          <Grid item xs={12}>
-            <div className="searchGameInfo">
-              <button onClick={getGameInfo}>전적검색</button>
-            </div>
-          </Grid>
-
-          <Grid item xs={12}>
-            <div className="gameList">
-              {clickCheck === true ? (
-                <GameInfoRender gameInfo={gameInfo} winCount={winCount} />
-              ) : null}
-            </div>
-          </Grid>
+      {/* <Box sx={{ flexGrow: 2 }}> */}
+      <Grid container spacing={2}>
+        <Grid item xs={1}>
+          <div className="summonerFrofileIcon">
+            <img
+              id="userIconImg"
+              src={userIcon}
+              alt="유저 아이콘"
+              style={{ height: 85 }}
+            />
+          </div>
+          <span className="level">{level}</span>
         </Grid>
-      </Box>
+        <Grid item xs={2}>
+          <div className="summonerName">
+            <span>{name}</span>
+          </div>
+        </Grid>
+        <Grid item xs={9}>
+          <div className="summonerRankInfo">
+            <div className="leagueType">
+              {leagueType === "RANKED_SOLO_5x5" && "솔로랭크"}
+            </div>
+            <div className="tire">
+              {tier} {rank}
+            </div>
+            <Emblem tier={tier}></Emblem>
+            {leaguePoints} LP
+            <SoloGameRankRate wins={wins} losses={losses} winCount={winCount} />
+          </div>
+        </Grid>
+        <Grid item xs={12}>
+          <div className="searchGameInfo">
+            <button onClick={getGameInfo}>전적검색</button>
+          </div>
+        </Grid>
+
+        <Grid item xs={12}>
+          <div className="gameList">
+            {clickCheck === true ? (
+              <GameInfoRender gameInfo={gameInfo} winCount={winCount} />
+            ) : null}
+          </div>
+        </Grid>
+      </Grid>
+      {/* </Box> */}
     </main>
   );
 }
