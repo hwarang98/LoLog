@@ -6,6 +6,7 @@ import { UserGameData } from './interface/userData.interface';
 @Injectable()
 export class ApiService {
   constructor(private readonly httpService: HttpService) {}
+  private readonly userGameData: UserGameData[] = [];
 
   // 유저 정보 요청
   async getUserInfo(name: string) {
@@ -58,7 +59,7 @@ export class ApiService {
     const userName = data.name;
     const gameMetaData: any[] = [];
     const playData: any[] = [];
-    let userMetaData: any[] = [];
+    // let userMetaData: any[] = [];
     const url: string = 'https://asia.api.riotgames.com';
     for (let i = 0; i < matchId.length; i++) {
       const gameInfo = await axios.get(
@@ -74,7 +75,7 @@ export class ApiService {
       console.log('ㅋㅋㅋ: ', playData[i].challenges.kda);
       for (let i = 0; i < playData.length; i++) {
         if (playData[i].summonerName === userName) {
-          userMetaData.push({
+          this.userGameData.push({
             champLevel: playData[i].champLevel,
             championId: playData[i].championId,
             championName: playData[i].championName,
@@ -108,6 +109,6 @@ export class ApiService {
         }
       }
     }
-    return userMetaData;
+    return this.userGameData;
   }
 }

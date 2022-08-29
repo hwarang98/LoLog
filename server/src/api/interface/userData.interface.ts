@@ -1,4 +1,4 @@
-export class UserGameData {
+export interface UserGameData {
   champLevel: number;
   championId: number;
   championName: string;
