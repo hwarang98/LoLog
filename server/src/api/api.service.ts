@@ -2,10 +2,16 @@ import { Injectable } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import axios, { AxiosResponse } from 'axios';
 import { UserGameData } from './interface/userData.interface';
+import { Summoner, SummonerDocument } from './schema/summoner.schema';
+import { Model } from 'mongoose';
+import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class ApiService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    @InjectModel(Summoner.name) private summonerModel: Model<SummonerDocument>,
+  ) {}
+  private readonly httpService: HttpService;
   private readonly userGameData: UserGameData[] = [];
 
   // 유저 정보 요청
@@ -58,7 +64,7 @@ export class ApiService {
     const matchId = data.matchId;
     const userName = data.name;
     const gameMetaData: any[] = [];
-    const playData: any[] = [];
+    // const playData: any[] = [];
     // let userMetaData: any[] = [];
     const url: string = 'https://asia.api.riotgames.com';
     for (let i = 0; i < matchId.length; i++) {
@@ -72,7 +78,7 @@ export class ApiService {
       );
       gameMetaData.push(gameInfo.data);
       const playData = gameMetaData[i].info.participants;
-      console.log('ㅋㅋㅋ: ', playData[i].challenges.kda);
+      console.log('통신중...');
       for (let i = 0; i < playData.length; i++) {
         if (playData[i].summonerName === userName) {
           this.userGameData.push({
