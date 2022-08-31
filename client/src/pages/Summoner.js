@@ -36,6 +36,7 @@ function Summoner() {
 
       return setMatchId(getMatchId.data);
     };
+    console.log(matchId);
     getMatchData();
   }, []);
 
