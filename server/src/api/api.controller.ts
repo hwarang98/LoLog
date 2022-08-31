@@ -1,6 +1,7 @@
 import { Controller, Get, Param, Post, Body } from '@nestjs/common';
 import { ApiService } from './api.service';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { UserGameData } from './interface/userData.interface';
 
 @ApiTags('riot api')
 @Controller('api')
@@ -41,6 +42,7 @@ export class ApiController {
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
   getGameInfo(@Body('data') data: string[]) {
+    console.log(data);
     return this.ApiService.gameInfo(data);
   }
 }
