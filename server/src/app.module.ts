@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ApiModule } from './api/api.module';
 import { ConfigModule } from '@nestjs/config';
-// import { HttpModule } from '@nestjs/axios';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
@@ -15,7 +15,9 @@ import { ConfigModule } from '@nestjs/config';
           ? '.stage.env'
           : '.env',
     }),
+    MongooseModule.forRoot(process.env.MONGO_URL),
   ],
+
   controllers: [AppController],
   providers: [],
 })
