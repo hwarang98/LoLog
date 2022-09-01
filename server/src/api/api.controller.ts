@@ -1,7 +1,9 @@
-import { Controller, Get, Param, Post, Body } from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, HttpStatus } from '@nestjs/common';
 import { ApiService } from './api.service';
+import { Summoner } from 'src/schema/summoner.schema';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { UserGameData } from './interface/userData.interface';
+import { response } from 'express';
 
 @ApiTags('riot api')
 @Controller('api')
@@ -13,7 +15,9 @@ export class ApiController {
     summary: '유저정보 조회 API',
     description: '소환사 이름을 사용한 해당 유저 정보 조회',
   })
-  getUser(@Body('name') name: string) {
+  async getUser(@Body('name') name: string) {
+    // const newSummonerName = await this.ApiService.create(name);
+    // return response.status(HttpStatus.OK).json({ newSummonerName });
     return this.ApiService.getUserInfo(name);
   }
 
