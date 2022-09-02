@@ -3,6 +3,7 @@ import { AppController } from './app.controller';
 import { ApiModule } from './api/api.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { SummonerModule } from './summoner/summoner.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MongooseModule } from '@nestjs/mongoose';
           : '.env',
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
+    SummonerModule,
   ],
 
   controllers: [AppController],

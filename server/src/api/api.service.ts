@@ -1,21 +1,30 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import axios, { AxiosResponse } from 'axios';
 import { UserGameData } from './interface/userData.interface';
-import { Summoner, SummonerDocument } from './schema/summoner.schema';
+import { Summoner, SummonerDocument } from '../schema/summoner.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
 export class ApiService {
   constructor(
-    @InjectModel(Summoner.name) private summonerModel: Model<SummonerDocument>,
+    @InjectModel(Summoner.name)
+    private readonly summonerModel: Model<SummonerDocument>,
   ) {}
-  private readonly httpService: HttpService;
-  private readonly userGameData: UserGameData[] = [];
+  private httpService: HttpService;
+  private userGameData: UserGameData[] = [];
+  private readonly logger = new Logger(ApiService.name);
 
+  // db 저장
+  async create(userName: string): Promise<Summoner> {
+    const result = new this.summonerModel({ summonerName: userName });
+    this.logger.error(result);
+    return result.save();
+  }
   // 유저 정보 요청
   async getUserInfo(name: string) {
+    this.logger.log('유저 정보 검사');
     const url: string = 'https://kr.api.riotgames.com';
     const userData = await axios.get(
       `${url}/lol/summoner/v4/summoners/by-name/${encodeURI(name)}?api_key=${
@@ -27,11 +36,13 @@ export class ApiService {
         },
       },
     );
+    // this.create(userData.data);
     return userData.data;
   }
 
   // 리그정보 요청
   async getLeagueInfo(cryptoId: string) {
+    this.logger.log('리그정보 요청');
     const url: string = 'https://kr.api.riotgames.com';
     const leagueInfo = await axios.get(
       `${url}/lol/league/v4/entries/by-summoner/${cryptoId}`,
@@ -46,6 +57,7 @@ export class ApiService {
 
   // 게임 매칭 id 요청
   async matchId(puuid: string) {
+    this.logger.log('게임 매칭 id 조회 요청');
     const url: string = 'https://asia.api.riotgames.com';
     const matchData = await axios.get(
       `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10
@@ -61,9 +73,11 @@ export class ApiService {
 
   // 게임정보 요청
   async gameInfo(data: any) {
+    this.logger.log('게임정보 요청');
     const matchId = data.matchId;
-    const userName = data.name;
+    const userName: string = data.name;
     const gameMetaData: any[] = [];
+
     // const playData: any[] = [];
     // let userMetaData: any[] = [];
     const url: string = 'https://asia.api.riotgames.com';
@@ -111,7 +125,6 @@ export class ApiService {
               playData[i].totalDamageDealtToChampions,
             totalDamageTaken: playData[i].totalDamageTaken,
           });
-          // console.log(userMetaData);
         }
       }
     }
