@@ -1,9 +1,10 @@
-import { Module } from '@nestjs/common';
+import { Logger, MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { ApiModule } from './api/api.module';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SummonerModule } from './summoner/summoner.module';
+import * as mongoose from 'mongoose';
+import { LoggerMiddleware } from './logger.middleware';
 
 @Module({
   imports: [
@@ -17,10 +18,15 @@ import { SummonerModule } from './summoner/summoner.module';
           : '.env',
     }),
     MongooseModule.forRoot(process.env.MONGO_URL),
-    SummonerModule,
+    // SummonerModule,
   ],
 
   controllers: [AppController],
   providers: [],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  // 로깅 미들웨어 등록
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

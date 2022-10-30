@@ -5,17 +5,11 @@ export type SummonerDocument = Summoner & Document;
 
 @Schema()
 export class Summoner {
-  @Prop({ unique: true })
+  @Prop({ required: true })
   summonerName: string;
 
-  // @Prop()
-  // summonerInfo: string;
-
-  // @Prop()
-  // summonerGameInfo: string;
-
-  // @Prop()
-  // search: boolean;
+  // @Prop({ required: true })
+  // summonerGameDatas: string;
 }
 
 export const SummonerSchema = SchemaFactory.createForClass(Summoner);

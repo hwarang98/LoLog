@@ -1,8 +1,16 @@
-import { Controller, Get, Param, Post, Body, HttpStatus } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Param,
+  Post,
+  Body,
+  HttpStatus,
+  HttpException,
+} from '@nestjs/common';
 import { ApiService } from './api.service';
 import { Summoner } from 'src/schema/summoner.schema';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { UserGameData } from './interface/userData.interface';
+import { UserGameData } from './dto/userData.dto';
 import { response } from 'express';
 
 @ApiTags('riot api')
@@ -16,8 +24,7 @@ export class ApiController {
     description: '소환사 이름을 사용한 해당 유저 정보 조회',
   })
   async getUser(@Body('name') name: string) {
-    // const newSummonerName = await this.ApiService.create(name);
-    // return response.status(HttpStatus.OK).json({ newSummonerName });
+    // throw new HttpException('소환사를 찾을수 없습니다.', 404);
     return this.ApiService.getUserInfo(name);
   }
 
@@ -26,7 +33,7 @@ export class ApiController {
     summary: '리그정보 조회 API',
     description: '암호화된 소환사 아이디를 사용한 해당 소환사 리그정보 조회',
   })
-  getLeague(@Body('cryptoId') cryptoId: string) {
+  async getLeague(@Body('cryptoId') cryptoId: string) {
     return this.ApiService.getLeagueInfo(cryptoId);
   }
 
@@ -36,7 +43,7 @@ export class ApiController {
     description:
       'userInfo API 에서 요청받은 항목중 puuid를 사용한 게임 매칭 ID조회',
   })
-  getMatch(@Body('puuid') puuid: string) {
+  async getMatch(@Body('puuid') puuid: string) {
     return this.ApiService.matchId(puuid);
   }
 
@@ -45,7 +52,7 @@ export class ApiController {
     summary: '게임정보 조회 API',
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
-  getGameInfo(@Body('data') data: string[]) {
+  async getGameInfo(@Body('data') data: string[]) {
     console.log(data);
     return this.ApiService.gameInfo(data);
   }
