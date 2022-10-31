@@ -10,7 +10,7 @@ import {
 import { ApiService } from './api.service';
 import { Summoner } from 'src/schema/summoner.schema';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
-import { UserGameData } from './dto/userData.dto';
+import { SummonerData } from './dto/summonerData.dto';
 import { response } from 'express';
 
 @ApiTags('riot api')

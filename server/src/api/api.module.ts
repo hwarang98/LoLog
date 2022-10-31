@@ -5,7 +5,6 @@ import { HttpModule } from '@nestjs/axios';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Summoner, SummonerSchema } from 'src/schema/summoner.schema';
 import { CatsRepository } from './api.repository';
-// import { Summoner, SummonerSchema } from '../schema/summoner.schema';
 
 @Module({
   imports: [
@@ -14,7 +13,7 @@ import { CatsRepository } from './api.repository';
       { name: Summoner.name, schema: SummonerSchema },
     ]),
   ],
-  controllers: [ApiController, CatsRepository],
-  providers: [ApiService],
+  providers: [ApiService, CatsRepository],
+  controllers: [ApiController],
 })
 export class ApiModule {}
