@@ -7,7 +7,7 @@ import { SummonerData } from './dto/summonerData.dto';
 
 //데이터베이스 중앙 처리실 (미들웨어랑 비슷한 개념)
 @Injectable()
-export class CatsRepository {
+export class SummonerRepository {
   constructor(
     @InjectModel(Summoner.name) private readonly summonerModel: Model<Summoner>,
   ) {}
@@ -20,6 +20,7 @@ export class CatsRepository {
   async isCheckSummonerName(summonerName: string): Promise<object> {
     try {
       const result = await this.summonerModel.exists({ summonerName });
+      console.log(result);
       return result;
     } catch (error) {
       throw new HttpException('소환사가 이미 존재합니다.', 400);

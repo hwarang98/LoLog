@@ -4,12 +4,16 @@ import axios, { AxiosResponse } from 'axios';
 import { Summoner, SummonerDocument } from '../schema/summoner.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-import { CatsRepository } from './api.repository';
+import { SummonerRepository } from './api.repository';
 
 @Injectable()
 export class ApiService {
-  constructor(private readonly catsRepository: CatsRepository) {}
+  constructor(private readonly summonerRepository: SummonerRepository) {}
   private readonly logger = new Logger(ApiService.name);
+  RIOT_URL = process.env.RIOT_URL;
+  RIOT_ASIA_URL = process.env.RIOT_ASIA_URL;
+  RIOT_API_KEY = process.env.RIOT_API_KEY;
+  header = { 'X-Riot-Token': this.RIOT_API_KEY };
 
   /**
    *
@@ -18,15 +22,12 @@ export class ApiService {
    */
   async getUserInfo(name: string) {
     this.logger.log('유저 정보 요청');
-    const url = 'https://kr.api.riotgames.com';
     const userData = await axios.get(
-      `${url}/lol/summoner/v4/summoners/by-name/${encodeURI(name)}?api_key=${
-        process.env.RIOT_API_KEY
-      }`,
+      `${this.RIOT_URL}/lol/summoner/v4/summoners/by-name/${encodeURI(
+        name,
+      )}?api_key=${this.RIOT_API_KEY}`,
       {
-        headers: {
-          'X-Riot-Token': process.env.RIOT_API_KEY,
-        },
+        headers: this.header,
       },
     );
     return userData.data;
@@ -37,21 +38,17 @@ export class ApiService {
    * @param cryptoId 해쉬화된 유저 ID
    * @returns 유저 프로필 정보
    */
-  async getLeagueInfo(cryptoId: string) {
+  async getLeagueInfo(id: string) {
     this.logger.log('리그정보 요청');
-    const url = 'https://kr.api.riotgames.com';
     const leagueInfo = await axios.get(
-      `${url}/lol/league/v4/entries/by-summoner/${cryptoId}`,
+      `${this.RIOT_URL}/lol/league/v4/entries/by-summoner/${id}`,
       {
-        headers: {
-          'X-Riot-Token': process.env.RIOT_API_KEY,
-        },
+        headers: this.header,
       },
     );
     return leagueInfo.data;
   }
 
-  // 게임 매칭 id 요청
   /**
    *
    * @param puuid 문자열 타입 PUUID
@@ -59,14 +56,12 @@ export class ApiService {
    */
   async matchId(puuid: string) {
     this.logger.log('게임 매칭 id 조회 요청');
-    const url = 'https://asia.api.riotgames.com';
+
     const matchData = await axios.get(
-      `${url}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10
+      `${this.RIOT_ASIA_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10
       `,
       {
-        headers: {
-          'X-Riot-Token': process.env.RIOT_API_KEY,
-        },
+        headers: this.header,
       },
     );
     return matchData.data;
@@ -81,20 +76,21 @@ export class ApiService {
     this.logger.log('게임정보 요청');
     const matchId = data.matchId;
     const userName: string = data.name;
-    const url = 'https://asia.api.riotgames.com';
+    if (this.summonerRepository.isCheckSummonerName(userName)) {
+      console.log('아이디있음~');
+    }
     for (let i = 0; i < matchId.length; i++) {
       const gameInfo = await axios.get(
-        `${url}/lol/match/v5/matches/${matchId[i]}`,
+        `${this.RIOT_ASIA_URL}/lol/match/v5/matches/${matchId[i]}`,
         {
-          headers: {
-            'X-Riot-Token': process.env.RIOT_API_KEY,
-          },
+          headers: this.header,
         },
       );
-      const userInfoSave = await this.catsRepository.gameInfoSave({
+      const userInfoSave = await this.summonerRepository.gameInfoSave({
         summonerName: userName,
         summonerGameData: gameInfo.data,
       });
+      console.log(userInfoSave);
       return userInfoSave;
     }
   }

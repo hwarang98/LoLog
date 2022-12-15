@@ -33,8 +33,8 @@ export class ApiController {
     summary: '리그정보 조회 API',
     description: '암호화된 소환사 아이디를 사용한 해당 소환사 리그정보 조회',
   })
-  async getLeague(@Body('cryptoId') cryptoId: string) {
-    return this.ApiService.getLeagueInfo(cryptoId);
+  async getLeague(@Body('id') id: string) {
+    return this.ApiService.getLeagueInfo(id);
   }
 
   @Post('matchInfo')
