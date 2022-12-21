@@ -8,19 +8,16 @@ import { SummonerData } from './dto/summonerData.dto';
 //데이터베이스 중앙 처리실 (미들웨어랑 비슷한 개념)
 @Injectable()
 export class SummonerRepository {
-  constructor(
-    @InjectModel(Summoner.name) private readonly summonerModel: Model<Summoner>,
-  ) {}
+  constructor(@InjectModel(Summoner.name) private readonly summonerModel: Model<Summoner>) {}
 
   /**
    *
    * @param summonerName 문자열 타입의 소환사이름
-   * @returns 소환사 이름 반환
+   * @returns 소환사 _id 반환
    */
   async isCheckSummonerName(summonerName: string): Promise<object> {
     try {
       const result = await this.summonerModel.exists({ summonerName });
-      console.log(result);
       return result;
     } catch (error) {
       throw new HttpException('소환사가 이미 존재합니다.', 400);
@@ -34,5 +31,9 @@ export class SummonerRepository {
    */
   async gameInfoSave(data: SummonerData) {
     return this.summonerModel.create(data);
+  }
+
+  async getGameSaveLog(summonerName: string) {
+    return this.summonerModel.find({ summonerName: summonerName }, { _id: 1, summonerName: 1 });
   }
 }

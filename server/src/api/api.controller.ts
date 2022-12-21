@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Get,
-  Param,
-  Post,
-  Body,
-  HttpStatus,
-  HttpException,
-} from '@nestjs/common';
+import { Controller, Get, Param, Post, Body, HttpStatus, HttpException, Patch } from '@nestjs/common';
 import { ApiService } from './api.service';
 import { Summoner } from 'src/schema/summoner.schema';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
@@ -40,8 +32,7 @@ export class ApiController {
   @Post('matchInfo')
   @ApiOperation({
     summary: '게임 matchId 조회 API',
-    description:
-      'userInfo API 에서 요청받은 항목중 puuid를 사용한 게임 매칭 ID조회',
+    description: 'userInfo API 에서 요청받은 항목중 puuid를 사용한 게임 매칭 ID조회',
   })
   async getMatch(@Body('puuid') puuid: string) {
     return this.ApiService.matchId(puuid);
@@ -53,7 +44,15 @@ export class ApiController {
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
   async getGameInfo(@Body('data') data: string[]) {
-    console.log(data);
     return this.ApiService.gameInfo(data);
+  }
+
+  @Patch('gameInfo')
+  @ApiOperation({
+    summary: '게임정보 업데이트 API',
+    description: '전적을 최초 1회 검색한 유저 게임전적 업데이트',
+  })
+  async patchGameInfo(@Body('summonerName') summonerName: string) {
+    return this.ApiService.patchGameInfo(summonerName);
   }
 }

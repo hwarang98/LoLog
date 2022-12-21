@@ -23,9 +23,7 @@ export class ApiService {
   async getUserInfo(name: string) {
     this.logger.log('유저 정보 요청');
     const userData = await axios.get(
-      `${this.RIOT_URL}/lol/summoner/v4/summoners/by-name/${encodeURI(
-        name,
-      )}?api_key=${this.RIOT_API_KEY}`,
+      `${this.RIOT_URL}/lol/summoner/v4/summoners/by-name/${encodeURI(name)}?api_key=${this.RIOT_API_KEY}`,
       {
         headers: this.header,
       },
@@ -40,12 +38,9 @@ export class ApiService {
    */
   async getLeagueInfo(id: string) {
     this.logger.log('리그정보 요청');
-    const leagueInfo = await axios.get(
-      `${this.RIOT_URL}/lol/league/v4/entries/by-summoner/${id}`,
-      {
-        headers: this.header,
-      },
-    );
+    const leagueInfo = await axios.get(`${this.RIOT_URL}/lol/league/v4/entries/by-summoner/${id}`, {
+      headers: this.header,
+    });
     return leagueInfo.data;
   }
 
@@ -74,24 +69,26 @@ export class ApiService {
    */
   async gameInfo(data: any) {
     this.logger.log('게임정보 요청');
-    const matchId = data.matchId;
-    const userName: string = data.name;
-    if (this.summonerRepository.isCheckSummonerName(userName)) {
-      console.log('아이디있음~');
-    }
-    for (let i = 0; i < matchId.length; i++) {
-      const gameInfo = await axios.get(
-        `${this.RIOT_ASIA_URL}/lol/match/v5/matches/${matchId[i]}`,
-        {
+    const { matchId, name } = data;
+    const isCheckSummonerName = await this.summonerRepository.isCheckSummonerName(name);
+
+    if (!isCheckSummonerName) {
+      for (let i = 0; i < matchId.length; i++) {
+        const gameInfo = await axios.get(`${this.RIOT_ASIA_URL}/lol/match/v5/matches/${matchId[i]}`, {
           headers: this.header,
-        },
-      );
-      const userInfoSave = await this.summonerRepository.gameInfoSave({
-        summonerName: userName,
-        summonerGameData: gameInfo.data,
-      });
-      console.log(userInfoSave);
-      return userInfoSave;
+        });
+
+        await this.summonerRepository.gameInfoSave({
+          summonerName: name,
+          summonerGameData: gameInfo.data,
+        });
+
+        return gameInfo.data;
+      }
     }
+  }
+
+  async patchGameInfo(summonerName: string) {
+    return await this.summonerRepository.getGameSaveLog(summonerName);
   }
 }
