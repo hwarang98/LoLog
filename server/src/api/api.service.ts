@@ -53,8 +53,7 @@ export class ApiService {
     this.logger.log('게임 매칭 id 조회 요청');
 
     const matchData = await axios.get(
-      `${this.RIOT_ASIA_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10
-      `,
+      `${this.RIOT_ASIA_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10`,
       {
         headers: this.header,
       },
@@ -72,23 +71,17 @@ export class ApiService {
     const { matchId, name } = data;
     const isCheckSummonerName = await this.summonerRepository.isCheckSummonerName(name);
 
+    const summonerGameData: any = [];
     if (!isCheckSummonerName) {
       for (let i = 0; i < matchId.length; i++) {
         const gameInfo = await axios.get(`${this.RIOT_ASIA_URL}/lol/match/v5/matches/${matchId[i]}`, {
           headers: this.header,
         });
-
-        await this.summonerRepository.gameInfoSave({
-          summonerName: name,
-          summonerGameData: gameInfo.data,
-        });
-
-        return gameInfo.data;
+        summonerGameData.push({ summonerGameData: gameInfo.data });
       }
-    }
-  }
 
-  async patchGameInfo(summonerName: string) {
-    return await this.summonerRepository.getGameSaveLog(summonerName);
+      await this.summonerRepository.gameInfoSave({ summonerName: name, summonerGameData: summonerGameData });
+    }
+    return 'success';
   }
 }
