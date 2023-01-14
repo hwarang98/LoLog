@@ -13,9 +13,9 @@ export class Summoner {
   @Prop({ required: true })
   summonerName: string;
 
-  // @ApiProperty({})
+  @ApiProperty({})
   @Prop({})
-  summonerGameData: [object];
+  summonerGameData: object[];
 }
 
 export const SummonerSchema = SchemaFactory.createForClass(Summoner);
