@@ -12,6 +12,18 @@ export class SummonerRepository {
 
   /**
    *
+   * @param data dto를 거친 api data
+   * @설명 api rawData를 몽고DB애 저장하는 함수
+   */
+  async gameInfoSave(data: SummonerData) {
+    const name = data.summonerName;
+    const gameData = data.summonerGameData;
+
+    return await this.summonerModel.create({ summonerName: name, summonerGameData: gameData });
+  }
+
+  /**
+   *
    * @param summonerName 문자열 타입의 소환사이름
    * @returns 소환사 _id 반환
    */
@@ -24,16 +36,11 @@ export class SummonerRepository {
     }
   }
 
-  /**
-   *
-   * @param data dto를 거친 api data
-   * @설명 api rawData를 몽고DB애 저장하는 함수
-   */
-  async gameInfoSave(data: SummonerData) {
-    return this.summonerModel.create(data);
-  }
-
   async getGameSaveLog(summonerName: string) {
     return this.summonerModel.find({ summonerName: summonerName }, { _id: 1, summonerName: 1 });
+  }
+
+  async getGameDate(summonerName: string) {
+    return this.summonerModel.find({ summonerName: summonerName });
   }
 }
