@@ -46,13 +46,4 @@ export class ApiController {
   async getGameInfo(@Body('data') data: string[]) {
     return this.ApiService.gameInfo(data);
   }
-
-  @Patch('gameInfo')
-  @ApiOperation({
-    summary: '게임정보 업데이트 API',
-    description: '전적을 최초 1회 검색한 유저 게임전적 업데이트',
-  })
-  async patchGameInfo(@Body('summonerName') summonerName: string) {
-    return this.ApiService.patchGameInfo(summonerName);
-  }
 }
