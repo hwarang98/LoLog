@@ -1,4 +1,4 @@
-export class SummonerData {
+export interface SummonerData {
   summonerName: string;
-  summonerGameData: object[];
+  summonerGameData?: object[];
 }
