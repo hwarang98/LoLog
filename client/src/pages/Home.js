@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
-import SearchIcon from "@mui/icons-material/Search";
-import "./home.css";
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import SearchIcon from '@mui/icons-material/Search';
+import './home.css';
 
 function Home() {
-  const [summoner, setSummoner] = useState("");
+  const [summoner, setSummoner] = useState('');
   const navigate = useNavigate();
 
   // 이름
@@ -17,7 +17,7 @@ function Home() {
 
   // 엔터
   const onEnter = (e) => {
-    if (e.key === "Enter") {
+    if (e.key === 'Enter') {
       onClick();
     }
   };
@@ -38,7 +38,7 @@ function Home() {
     const getLeague = await axios.post(
       `http://localhost:4000/api/getLeagueInfo`,
       {
-        cryptoId: cryptoId,
+        id: cryptoId,
       }
     );
     const leagueData = getLeague.data;
@@ -49,12 +49,12 @@ function Home() {
   };
 
   return (
-    <div className="home">
+    <div className='home'>
       <h1>LoLog</h1>
       <TextField
-        id="summonerName"
-        label="소환사 이름"
-        size="small"
+        id='summonerName'
+        label='소환사 이름'
+        size='small'
         style={{ width: 400 }}
         onChange={onChange}
         onKeyPress={onEnter}
