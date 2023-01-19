@@ -1,10 +1,11 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import axios, { AxiosResponse } from 'axios';
 import { Summoner, SummonerDocument } from '../schema/summoner.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { SummonerRepository } from './api.repository';
+import { threadId } from 'worker_threads';
 
 @Injectable()
 export class ApiService {
@@ -83,5 +84,15 @@ export class ApiService {
       await this.summonerRepository.gameInfoSave({ summonerName: name, summonerGameData: summonerGameData });
     }
     return 'success';
+  }
+
+  async getGameData(summonerName: string) {
+    try {
+      const [gameData] = await this.summonerRepository.getGameData({ summonerName });
+
+      return gameData;
+    } catch (error) {
+      throw new HttpException('소환사가 없습니다.', 400);
+    }
   }
 }
