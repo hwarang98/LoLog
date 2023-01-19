@@ -26,6 +26,15 @@ export class SummonerRepository {
     }
   }
 
+  async getGameData(name: SummonerData) {
+    try {
+      const summonerName = name.summonerName;
+      return await this.summonerModel.find({ summonerName: summonerName });
+    } catch (error) {
+      throw new HttpException('소환사가 없습니다.', 400);
+    }
+  }
+
   /**
    *
    * @param summonerName 문자열 타입의 소환사이름
@@ -42,9 +51,5 @@ export class SummonerRepository {
 
   async getGameSaveLog(summonerName: string) {
     return this.summonerModel.find({ summonerName: summonerName }, { _id: 1, summonerName: 1 });
-  }
-
-  async getGameDate(summonerName: string) {
-    return this.summonerModel.find({ summonerName: summonerName });
   }
 }
