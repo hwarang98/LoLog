@@ -16,10 +16,14 @@ export class SummonerRepository {
    * @설명 api rawData를 몽고DB애 저장하는 함수
    */
   async gameInfoSave(data: SummonerData) {
-    const name = data.summonerName;
-    const gameData = data.summonerGameData;
+    try {
+      const name = data.summonerName;
+      const gameData = data.summonerGameData;
 
-    return await this.summonerModel.create({ summonerName: name, summonerGameData: gameData });
+      return await this.summonerModel.create({ summonerName: name, summonerGameData: gameData });
+    } catch (error) {
+      throw new HttpException('소환사가 없습니다.', 400);
+    }
   }
 
   /**

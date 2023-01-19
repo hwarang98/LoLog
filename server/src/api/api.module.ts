@@ -7,12 +7,7 @@ import { Summoner, SummonerSchema } from 'src/schema/summoner.schema';
 import { SummonerRepository } from './api.repository';
 
 @Module({
-  imports: [
-    HttpModule,
-    MongooseModule.forFeature([
-      { name: Summoner.name, schema: SummonerSchema },
-    ]),
-  ],
+  imports: [HttpModule, MongooseModule.forFeature([{ name: Summoner.name, schema: SummonerSchema }])],
   providers: [ApiService, SummonerRepository],
   controllers: [ApiController],
 })
