@@ -40,10 +40,19 @@ export class ApiController {
 
   @Post('gameInfo')
   @ApiOperation({
-    summary: '게임정보 조회 API',
+    summary: '게임정보 저장 API',
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
   async getGameInfo(@Body('data') data: string[]) {
     return this.ApiService.gameInfo(data);
+  }
+
+  @Post('game/info')
+  @ApiOperation({
+    summary: '게임정보 조회 API',
+    description: '소환사 이름으로 게임정보 조회 API',
+  })
+  async gameInfo(@Body('name') name: string) {
+    return this.ApiService.getGameData(name);
   }
 }
