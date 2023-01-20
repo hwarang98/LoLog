@@ -1,92 +1,102 @@
-import React from "react";
-import "./Emblem.css";
+import React from 'react';
+import './Emblem.css';
 
 function Emblem(props) {
   const { tier } = props;
 
   switch (tier) {
-    case "IRON":
+    case 'IRON':
       return (
         <img
-          src={require("../images/emblems/Emblem_Iron.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Iron.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Iron'
         />
       );
 
-    case "BRONZE":
+    case 'BRONZE':
       return (
         <img
-          src={require("../images/emblems/Emblem_Bronze.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Bronze.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Bronze'
         />
       );
 
-    case "SILVER":
+    case 'SILVER':
       return (
         <img
-          src={require("../images/emblems/Emblem_Silver.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Silver.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Silver'
         />
       );
 
-    case "GOLD":
+    case 'GOLD':
       return (
         <img
-          src={require("../images/emblems/Emblem_Gold.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Gold.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Gold'
         />
       );
 
-    case "PLATINUM":
+    case 'PLATINUM':
       return (
         <img
-          src={require("../images/emblems/Emblem_Platinum.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Platinum.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Platinum'
         />
       );
 
-    case "DIAMOND":
+    case 'DIAMOND':
       return (
         <img
-          src={require("../images/emblems/Emblem_Diamond.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Diamond.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Diamond'
         />
       );
 
-    case "MASTER":
+    case 'MASTER':
       return (
         <img
-          src={require("../images/emblems/Emblem_Master.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Master.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Master'
         />
       );
 
-    case "GRANDMASTER":
+    case 'GRANDMASTER':
       return (
         <img
-          src={require("../images/emblems/Emblem_Grandmaster.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Grandmaster.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Grandmaster'
         />
       );
 
-    case "CHALLENGER":
+    case 'CHALLENGER':
       return (
         <img
-          src={require("../images/emblems/Emblem_Challenger.png")}
-          className="userTier"
+          src={require('../images/emblems/Emblem_Challenger.png')}
+          className='userTier'
           style={{ height: 100 }}
+          alt='Challenger'
         />
       );
 
-    // default null
+    default:
+      return null;
   }
 }
 
