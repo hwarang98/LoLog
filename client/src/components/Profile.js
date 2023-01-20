@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { GameInfoRender, SoloGameRankRate, Emblem } from "./index";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { GameInfoRender, SoloGameRankRate, Emblem } from './index';
+import { styled } from '@mui/material/styles';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Grid from '@mui/material/Grid';
 
-import "./Profile.css";
+import './Profile.css';
 
 function Profile(props) {
   const [gameInfo, setGetGameInfo] = useState([]);
@@ -30,7 +30,7 @@ function Profile(props) {
   // matchId에 해당하는 게임 정보조회 요청
   const getGameInfo = async () => {
     let getGameInfoList = await axios.post(
-      "http://localhost:4000/api/gameInfo",
+      'http://localhost:4000/api/game/info',
       {
         data: { matchId: matchId, name: name },
       }
@@ -49,31 +49,31 @@ function Profile(props) {
   };
 
   return (
-    <main className="profile">
+    <main className='profile'>
       {/* <Box sx={{ flexGrow: 2 }}> */}
       <Grid container spacing={2}>
         <Grid item xs={1}>
-          <div className="summonerFrofileIcon">
+          <div className='summonerFrofileIcon'>
             <img
-              id="userIconImg"
+              id='userIconImg'
               src={userIcon}
-              alt="유저 아이콘"
+              alt='유저 아이콘'
               style={{ height: 85 }}
             />
           </div>
-          <span className="level">{level}</span>
+          <span className='level'>{level}</span>
         </Grid>
         <Grid item xs={2}>
-          <div className="summonerName">
+          <div className='summonerName'>
             <span>{name}</span>
           </div>
         </Grid>
         <Grid item xs={9}>
-          <div className="summonerRankInfo">
-            <div className="leagueType">
-              {leagueType === "RANKED_SOLO_5x5" && "솔로랭크"}
+          <div className='summonerRankInfo'>
+            <div className='leagueType'>
+              {leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}
             </div>
-            <div className="tire">
+            <div className='tire'>
               {tier} {rank}
             </div>
             <Emblem tier={tier}></Emblem>
@@ -82,13 +82,13 @@ function Profile(props) {
           </div>
         </Grid>
         <Grid item xs={12}>
-          <div className="searchGameInfo">
+          <div className='searchGameInfo'>
             <button onClick={getGameInfo}>전적검색</button>
           </div>
         </Grid>
 
         <Grid item xs={12}>
-          <div className="gameList">
+          <div className='gameList'>
             {clickCheck === true ? (
               <GameInfoRender gameInfo={gameInfo} winCount={winCount} />
             ) : null}

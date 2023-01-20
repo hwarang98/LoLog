@@ -13,7 +13,7 @@ export class SummonerRepository {
   /**
    *
    * @param data dto를 거친 api data
-   * @설명 api rawData를 몽고DB애 저장하는 함수
+   * @설명 게임정보 저장
    */
   async gameInfoSave(data: SummonerData) {
     try {
@@ -21,6 +21,20 @@ export class SummonerRepository {
       const gameData = data.summonerGameData;
 
       return await this.summonerModel.create({ summonerName: name, summonerGameData: gameData });
+    } catch (error) {
+      throw new HttpException('소환사가 없습니다.', 400);
+    }
+  }
+
+  /**
+   *
+   * @param name string 문자열
+   * @returns 해당 유저의 게임 정보
+   */
+  async getGameData(name: SummonerData) {
+    try {
+      const summonerName = name.summonerName;
+      return await this.summonerModel.find({ summonerName: summonerName });
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
@@ -38,13 +52,5 @@ export class SummonerRepository {
     } catch (error) {
       throw new HttpException('소환사가 이미 존재합니다.', 400);
     }
-  }
-
-  async getGameSaveLog(summonerName: string) {
-    return this.summonerModel.find({ summonerName: summonerName }, { _id: 1, summonerName: 1 });
-  }
-
-  async getGameDate(summonerName: string) {
-    return this.summonerModel.find({ summonerName: summonerName });
   }
 }

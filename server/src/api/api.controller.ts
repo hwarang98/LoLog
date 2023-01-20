@@ -10,7 +10,7 @@ import { response } from 'express';
 export class ApiController {
   constructor(private ApiService: ApiService) {}
 
-  @Post('getUserInfo')
+  @Post('summoner/info')
   @ApiOperation({
     summary: '유저정보 조회 API',
     description: '소환사 이름을 사용한 해당 유저 정보 조회',
@@ -20,7 +20,7 @@ export class ApiController {
     return this.ApiService.getUserInfo(name);
   }
 
-  @Post('getLeagueInfo')
+  @Post('league/info')
   @ApiOperation({
     summary: '리그정보 조회 API',
     description: '암호화된 소환사 아이디를 사용한 해당 소환사 리그정보 조회',
@@ -29,21 +29,30 @@ export class ApiController {
     return this.ApiService.getLeagueInfo(id);
   }
 
-  @Post('matchInfo')
+  @Post('match/info')
   @ApiOperation({
     summary: '게임 matchId 조회 API',
     description: 'userInfo API 에서 요청받은 항목중 puuid를 사용한 게임 매칭 ID조회',
   })
   async getMatch(@Body('puuid') puuid: string) {
-    return this.ApiService.matchId(puuid);
+    return this.ApiService.getMatchId(puuid);
   }
 
-  @Post('gameInfo')
+  @Post('game/info')
   @ApiOperation({
-    summary: '게임정보 조회 API',
+    summary: '게임정보 저장 API',
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
   async getGameInfo(@Body('data') data: string[]) {
     return this.ApiService.gameInfo(data);
+  }
+
+  @Post('game/info/summoner/name')
+  @ApiOperation({
+    summary: '게임정보 조회 API',
+    description: '소환사 이름으로 게임정보 조회 API',
+  })
+  async gameInfo(@Body('name') name: string) {
+    return this.ApiService.getGameData(name);
   }
 }

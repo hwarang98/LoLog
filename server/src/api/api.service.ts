@@ -1,15 +1,17 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import axios, { AxiosResponse } from 'axios';
 import { Summoner, SummonerDocument } from '../schema/summoner.schema';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { SummonerRepository } from './api.repository';
+import { threadId } from 'worker_threads';
 
 @Injectable()
 export class ApiService {
   constructor(private readonly summonerRepository: SummonerRepository) {}
   private readonly logger = new Logger(ApiService.name);
+
   RIOT_URL = process.env.RIOT_URL;
   RIOT_ASIA_URL = process.env.RIOT_ASIA_URL;
   RIOT_API_KEY = process.env.RIOT_API_KEY;
@@ -49,7 +51,7 @@ export class ApiService {
    * @param puuid 문자열 타입 PUUID
    * @returns 게임 매칭 ID
    */
-  async matchId(puuid: string) {
+  async getMatchId(puuid: string) {
     this.logger.log('게임 매칭 id 조회 요청');
 
     const matchData = await axios.get(
@@ -77,11 +79,20 @@ export class ApiService {
         const gameInfo = await axios.get(`${this.RIOT_ASIA_URL}/lol/match/v5/matches/${matchId[i]}`, {
           headers: this.header,
         });
-        summonerGameData.push({ summonerGameData: gameInfo.data });
+        summonerGameData.push(gameInfo.data);
       }
 
       await this.summonerRepository.gameInfoSave({ summonerName: name, summonerGameData: summonerGameData });
     }
     return 'success';
+  }
+
+  async getGameData(summonerName: string) {
+    try {
+      const [gameData] = await this.summonerRepository.getGameData({ summonerName });
+      return gameData;
+    } catch (error) {
+      throw new HttpException('소환사가 없습니다.', 400);
+    }
   }
 }
