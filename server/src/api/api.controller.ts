@@ -44,7 +44,7 @@ export class ApiController {
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
   async getGameInfo(@Body('data') data: string[]) {
-    return this.ApiService.gameInfo(data);
+    return this.ApiService.getGameInfo(data);
   }
 
   @Post('game/info/summoner/name')

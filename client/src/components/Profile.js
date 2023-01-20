@@ -11,6 +11,7 @@ import './Profile.css';
 function Profile(props) {
   const [gameInfo, setGetGameInfo] = useState([]);
   const [clickCheck, setClickCheck] = useState(false);
+  const [clickGameInfoCheck, setClickGameInfoCheck] = useState(false);
   const [winCount, setWinCount] = useState(0);
 
   const {
@@ -29,7 +30,7 @@ function Profile(props) {
 
   // matchId에 해당하는 게임 정보조회 요청
   const getGameInfo = async () => {
-    let getGameInfoList = await axios.post(
+    const getGameInfoList = await axios.post(
       'http://localhost:4000/api/game/info',
       {
         data: { matchId: matchId, name: name },
@@ -38,6 +39,7 @@ function Profile(props) {
 
     // 버튼 클릭시 게임 승리 유무 상태 저장
     const gameList = getGameInfoList.data;
+    console.log(gameList);
     gameList.map((item, idx) => {
       if (item.win) {
         setWinCount((winCount) => winCount + 1);
