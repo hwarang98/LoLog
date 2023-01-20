@@ -26,7 +26,7 @@ function Home() {
   const onClick = async () => {
     // 소환사 정보 요청
     const getSummoner = await axios.post(
-      `http://localhost:4000/api/getUserInfo`,
+      `http://localhost:4000/api/summoner/info`,
       {
         name: summoner,
       }
@@ -36,7 +36,7 @@ function Home() {
 
     // 소환사 리그정보 조회 요청
     const getLeague = await axios.post(
-      `http://localhost:4000/api/getLeagueInfo`,
+      `http://localhost:4000/api/league/info`,
       {
         id: cryptoId,
       }

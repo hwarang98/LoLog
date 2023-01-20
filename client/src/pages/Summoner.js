@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { Profile } from "../components";
-import axios from "axios";
-import "./summoner.css";
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
+import { Profile } from '../components';
+import axios from 'axios';
+import './summoner.css';
 
 function Summoner() {
   const [matchId, setMatchId] = useState([]);
@@ -18,10 +18,10 @@ function Summoner() {
     const userData = state.leagueData;
     for (let i = 0; i < userData.length; i++) {
       const queueType = userData[i].queueType;
-      if (queueType === "RANKED_SOLO_5x5") {
+      if (queueType === 'RANKED_SOLO_5x5') {
         setSoloRankInfo(userData[i]);
       }
-      if (queueType === "RANKED_FLEX_SR") {
+      if (queueType === 'RANKED_FLEX_SR') {
         setFreeRankInfo(userData[i]);
       }
     }
@@ -30,9 +30,12 @@ function Summoner() {
   // matchId 조회 요청
   useEffect(() => {
     const getMatchData = async () => {
-      let getMatchId = await axios.post("http://localhost:4000/api/matchInfo", {
-        puuid: puuid,
-      });
+      let getMatchId = await axios.post(
+        'http://localhost:4000/api/match/info',
+        {
+          puuid: puuid,
+        }
+      );
 
       return setMatchId(getMatchId.data);
     };
@@ -40,7 +43,7 @@ function Summoner() {
   }, []);
 
   return (
-    <div className="summoner">
+    <div className='summoner'>
       <Profile
         name={name}
         profileIconId={profileIconId}
