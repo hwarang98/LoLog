@@ -68,7 +68,7 @@ export class ApiService {
    * @param data api data
    * @returns 유저 정보
    */
-  async getGameInfo(data: any) {
+  async getGameInfoForMatchId(data: any) {
     this.logger.log('게임정보 요청');
     const { matchId, name } = data;
     const isCheckSummonerName = await this.summonerRepository.isCheckSummonerName(name);
@@ -87,7 +87,7 @@ export class ApiService {
     return { summonerName: name, summonerGameData: summonerGameData };
   }
 
-  async getGameData(summonerName: string) {
+  async getGameDataForSummonerName(summonerName: string) {
     try {
       const [gameData] = await this.summonerRepository.getGameData({ summonerName });
       return gameData;

@@ -14,11 +14,7 @@ async function bootstrap() {
     }),
   );
 
-  const config = new DocumentBuilder()
-    .setTitle('LoLog')
-    .setDescription('라이엇 api')
-    .setVersion('1.0')
-    .build();
+  const config = new DocumentBuilder().setTitle('LoLog').setDescription('라이엇 api').setVersion('1.0').build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
   app.enableCors();
