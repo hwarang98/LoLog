@@ -3,7 +3,6 @@ import { ApiService } from './api.service';
 import { Summoner } from 'src/schema/summoner.schema';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { SummonerData } from './dto/summonerData.dto';
-import { response } from 'express';
 
 @ApiTags('riot api')
 @Controller('api')
@@ -16,7 +15,6 @@ export class ApiController {
     description: '소환사 이름을 사용한 해당 유저 정보 조회',
   })
   async getUser(@Body('name') name: string) {
-    // throw new HttpException('소환사를 찾을수 없습니다.', 404);
     return this.ApiService.getUserInfo(name);
   }
 
@@ -38,13 +36,13 @@ export class ApiController {
     return this.ApiService.getMatchId(puuid);
   }
 
-  @Post('game/info')
+  @Post('game/info/matchId')
   @ApiOperation({
     summary: '게임정보 저장 API',
     description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
   })
   async getGameInfo(@Body('data') data: string[]) {
-    return this.ApiService.gameInfo(data);
+    return this.ApiService.getGameInfoForMatchId(data);
   }
 
   @Post('game/info/summoner/name')
@@ -53,6 +51,6 @@ export class ApiController {
     description: '소환사 이름으로 게임정보 조회 API',
   })
   async gameInfo(@Body('name') name: string) {
-    return this.ApiService.getGameData(name);
+    return this.ApiService.getGameDataForSummonerName(name);
   }
 }
