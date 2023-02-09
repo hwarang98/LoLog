@@ -31,7 +31,7 @@ function Profile(props) {
   // matchId에 해당하는 게임 정보조회 요청
   const getGameInfo = async () => {
     const getGameInfoList = await axios.post(
-      'http://localhost:4000/api/game/info',
+      'http://localhost:4000/api/game/info/matchId',
       {
         data: { matchId: matchId, name: name },
       }
