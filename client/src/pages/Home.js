@@ -24,23 +24,27 @@ function Home() {
 
   // 클릭시 페이지 이동
   const onClick = async () => {
-    // 소환사 정보 요청
-    const getSummoner = await axios.post(
-      `http://localhost:4000/api/summoner/info`,
-      {
+    const getSummoner = await axios
+      .post(`http://localhost:4000/api/summoner/info`, {
         name: summoner,
-      }
-    );
-    const userData = getSummoner.data; // 소환사 정보
+      })
+      .catch((error) => {
+        const errorMessage = error.response.data.message;
+        alert(errorMessage);
+      });
+
+    const userData = getSummoner.data;
     const cryptoId = userData.id; // 소환사 암호화 id
 
     // 소환사 리그정보 조회 요청
-    const getLeague = await axios.post(
-      `http://localhost:4000/api/league/info`,
-      {
+    const getLeague = await axios
+      .post(`http://localhost:4000/api/league/info`, {
         id: cryptoId,
-      }
-    );
+      })
+      .catch((error) => {
+        const errorMessage = error.response.data.message;
+        alert(errorMessage);
+      });
     const leagueData = getLeague.data;
 
     navigate(`/summoner/${summoner}`, {
