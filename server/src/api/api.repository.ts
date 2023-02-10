@@ -38,7 +38,7 @@ export class SummonerRepository {
       if (typeof summonerName !== 'string') {
         return null;
       }
-      return await this.Summoner.findOne({ summonerName: summonerName });
+      return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData.info.participants');
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
