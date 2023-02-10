@@ -10,7 +10,7 @@ function GameInfoRender(props) {
       'http://ddragon.leagueoflegends.com/cdn/12.15.1/data/en_US/champion.json'
     );
   };
-  console.log(gameInfo);
+
   // 전체 게임 승률
   const recentGames = (winCount / 10) * 100;
 
@@ -31,12 +31,11 @@ function GameInfoRender(props) {
     <div className='gameInfoRendering'>
       <div className='recentGames'>최근 10게임 승률:{recentGames}%</div>
       {gameInfo.map((item, index) => {
-        console.log('item: ', item);
         return (
           <div className='gameInfo' key={index}>
             <li className='gameList'>
-              챔피언 이름: {item.championName}
-              레벨: {item.champLevel}
+              챔피언 이름: {item.info.participants[index].championName}
+              {/* 레벨: {item.champLevel}
               챔피언 ID: {item.championId}
               {item.kills}/{item.deaths}/{item.assists}
               {item.deaths === 0
@@ -58,7 +57,7 @@ function GameInfoRender(props) {
               아이탬7: {item.item6}
               {item.teamId === 200 ? '레드팀' : '블루팀'}
               라인: {item.teamPosition}
-              {item.win === true ? '승리' : '패배'}
+              {item.win === true ? '승리' : '패배'} */}
             </li>
           </div>
         );
