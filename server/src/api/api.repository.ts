@@ -9,7 +9,7 @@ import { isValidObjectId } from 'mongoose';
 //데이터베이스 중앙 처리실 (미들웨어랑 비슷한 개념)
 @Injectable()
 export class SummonerRepository {
-  constructor(@InjectModel(Summoner.name) private readonly summonerModel: Model<Summoner>) {}
+  constructor(@InjectModel(Summoner.name) private readonly Summoner: Model<Summoner>) {}
 
   /**
    *
@@ -21,7 +21,7 @@ export class SummonerRepository {
       const name = data.summonerName;
       const gameData = data.summonerGameData;
 
-      return await this.summonerModel.create({ summonerName: name, summonerGameData: gameData });
+      return await this.Summoner.create({ summonerName: name, summonerGameData: gameData });
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
@@ -38,7 +38,7 @@ export class SummonerRepository {
       if (typeof summonerName !== 'string') {
         return null;
       }
-      return await this.summonerModel.findOne({ summonerName: summonerName });
+      return await this.Summoner.findOne({ summonerName: summonerName });
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
@@ -51,7 +51,7 @@ export class SummonerRepository {
    */
   async isCheckSummonerName(summonerName: string): Promise<object> {
     try {
-      const result = await this.summonerModel.exists({ summonerName });
+      const result = await this.Summoner.exists({ summonerName });
       return result;
     } catch (error) {
       throw new HttpException('소환사가 이미 존재합니다.', 400);
