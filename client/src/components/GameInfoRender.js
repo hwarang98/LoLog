@@ -31,17 +31,22 @@ function GameInfoRender(props) {
     <div className='gameInfoRendering'>
       <div className='recentGames'>최근 10게임 승률:{recentGames}%</div>
       {gameInfo.map((item, index) => {
+        // console.log('item: ', item.info.participants[index].challenges.kda);
         return (
           <div className='gameInfo' key={index}>
             <li className='gameList'>
               챔피언 이름: {item.info.participants[index].championName}
-              {/* 레벨: {item.champLevel}
-              챔피언 ID: {item.championId}
-              {item.kills}/{item.deaths}/{item.assists}
-              {item.deaths === 0
+              레벨: {item.info.participants[index].champLevel}
+              챔피언 ID: {item.info.participants[index].championId}
+              {/* {item.info.participants[index].kills}/
+              {item.info.participants[index].deaths}/
+              {item.info.participants[index].assists}
+              {item.info.participants[index].deaths === 0
                 ? 'Perfect'
-                : `(${getNotRoundDecimalNumber(item.kda)})`}
-              총 딜량: {item.totalDamageDealtToChampions}
+                : `(${getNotRoundDecimalNumber(
+                    item.info.participants[index].challenges.kda
+                  )})`} */}
+              {/* 총 딜량: {item.totalDamageDealtToChampions}
               받은 피해량: {item.totalDamageTaken}
               솔킬 횟수: {item.soloKills}
               퍼스트 블러드: {item.firstBloodKill}
