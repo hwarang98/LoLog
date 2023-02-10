@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Profile } from '../components';
 import axios from 'axios';
+import _ from 'lodash';
 import './summoner.css';
 
 function Summoner() {
@@ -14,16 +15,27 @@ function Summoner() {
 
   // 솔랭, 자랭 정보저장
   useEffect(() => {
-    // console.log("soloRankInfo: ", soloRankInfo);
-    const userData = state.leagueData;
-    for (let i = 0; i < userData.length; i++) {
-      const queueType = userData[i].queueType;
-      if (queueType === 'RANKED_SOLO_5x5') {
-        setSoloRankInfo(userData[i]);
-      }
-      if (queueType === 'RANKED_FLEX_SR') {
-        setFreeRankInfo(userData[i]);
-      }
+    try {
+      const userData = state.leagueData;
+
+      _.map(userData, (item) => {
+        const queueType = item.queueType;
+
+        switch (queueType) {
+          case 'RANKED_SOLO_5x5':
+            setSoloRankInfo(item);
+            break;
+
+          case 'RANKED_FLEX_SR':
+            setFreeRankInfo(item);
+            break;
+
+          default:
+            return 'queueType을 확인해주세요.';
+        }
+      });
+    } catch (error) {
+      throw new Error(alert({ error: error.message }));
     }
   }, []);
 
