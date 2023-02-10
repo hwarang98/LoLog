@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Profile } from '../components';
+import { Profile, GameInfoRender } from '../components';
 import axios from 'axios';
 import _ from 'lodash';
 import './summoner.css';
@@ -12,6 +12,7 @@ function Summoner() {
   const { state } = useLocation();
   const { queueType, wins, losses, tier, rank, leaguePoints } = soloRankInfo;
   const { name, puuid, profileIconId, summonerLevel } = state.userData;
+  const { summonerGameData } = state.summonerGameData;
 
   // 솔랭, 자랭 정보저장
   useEffect(() => {
@@ -68,6 +69,7 @@ function Summoner() {
         rank={rank}
         leaguePoints={leaguePoints}
       />
+      <GameInfoRender gameInfo={summonerGameData} winCount={10} />
     </div>
   );
 }
