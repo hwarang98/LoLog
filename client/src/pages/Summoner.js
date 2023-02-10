@@ -42,7 +42,7 @@ function Summoner() {
   // matchId 조회 요청
   useEffect(() => {
     const getMatchData = async () => {
-      let getMatchId = await axios.post(
+      const getMatchId = await axios.post(
         'http://localhost:4000/api/match/info',
         {
           puuid: puuid,
