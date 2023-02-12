@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Profile } from '../components';
+import { Profile, GameInfoRender } from '../components';
 import axios from 'axios';
 import _ from 'lodash';
 import './summoner.css';
@@ -42,12 +42,9 @@ function Summoner() {
   // matchId 조회 요청
   useEffect(() => {
     const getMatchData = async () => {
-      const getMatchId = await axios.post(
-        'http://localhost:4000/api/match/info',
-        {
-          puuid: puuid,
-        }
-      );
+      const getMatchId = await axios.post('http://localhost:4000/api/match/info', {
+        puuid: puuid,
+      });
 
       return setMatchId(getMatchId.data);
     };
@@ -68,6 +65,7 @@ function Summoner() {
         rank={rank}
         leaguePoints={leaguePoints}
       />
+      <GameInfoRender gameInfo={state.summonerGameData} winCount={10} />
     </div>
   );
 }

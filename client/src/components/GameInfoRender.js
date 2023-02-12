@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import _ from 'lodash';
 import './GameInfoRender.css';
 
 function GameInfoRender(props) {
   const { gameInfo, winCount } = props;
-
   const championIcon = async () => {
-    const getIcon = await axios.get(
-      'http://ddragon.leagueoflegends.com/cdn/12.15.1/data/en_US/champion.json'
-    );
+    const getIcon = await axios.get('http://ddragon.leagueoflegends.com/cdn/12.15.1/data/en_US/champion.json');
   };
-  console.log(gameInfo);
+  // console.log(gameInfo);
   // 전체 게임 승률
   const recentGames = (winCount / 10) * 100;
 
@@ -25,24 +23,23 @@ function GameInfoRender(props) {
     const rightNum = splitNumber[1].substring(0, decimalPoint);
     return Number(`${splitNumber[0]}.${rightNum}`).toFixed(decimalPoint);
   };
+
   // teamId 200 = 레드팀
   // teamId 100 = 블루팀
+
   return (
-    <div className='gameInfoRendering'>
-      <div className='recentGames'>최근 10게임 승률:{recentGames}%</div>
-      {gameInfo.map((item, index) => {
-        console.log('item: ', item);
+    <div className="gameInfoRendering">
+      <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
+      {_.map(gameInfo, (item, idx) => {
         return (
-          <div className='gameInfo' key={index}>
-            <li className='gameList'>
+          <div className="gameInfo" key={idx}>
+            <li className="gameList">
               챔피언 이름: {item.championName}
               레벨: {item.champLevel}
               챔피언 ID: {item.championId}
               {item.kills}/{item.deaths}/{item.assists}
-              {item.deaths === 0
-                ? 'Perfect'
-                : `(${getNotRoundDecimalNumber(item.kda)})`}
-              총 딜량: {item.totalDamageDealtToChampions}
+              {item.deaths === 0 ? 'Perfect' : `(${getNotRoundDecimalNumber(item.challenges.kda)})`}총 딜량:{' '}
+              {item.totalDamageDealtToChampions}
               받은 피해량: {item.totalDamageTaken}
               솔킬 횟수: {item.soloKills}
               퍼스트 블러드: {item.firstBloodKill}

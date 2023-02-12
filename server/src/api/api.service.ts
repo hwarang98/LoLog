@@ -1,6 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { SummonerRepository } from './api.repository';
+import _ from 'lodash';
 
 @Injectable()
 export class ApiService {
@@ -26,6 +27,7 @@ export class ApiService {
           headers: this.header,
         },
       );
+      console.log(userData.data);
       return userData.data;
     } catch (error) {
       throw new HttpException('소환사를 찾을수 없습니다!', 400);
@@ -97,8 +99,17 @@ export class ApiService {
 
   async getGameDataForSummonerName(summonerName: string) {
     try {
+      let finalData: [];
       const gameData = await this.summonerRepository.getGameData({ summonerName });
-      return gameData;
+
+      _.map(gameData, (item: any) => {
+        const data = item.summonerGameData;
+        _.each(data, (data: any) => {
+          finalData = data.info.participants;
+        });
+      });
+
+      return finalData;
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
