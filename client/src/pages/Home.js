@@ -48,12 +48,10 @@ function Home() {
       });
     const leagueData = getLeague.data;
 
-    const getSummonerGameData = await axios.post(
-      `http://localhost:4000/api/game/info/summoner/name`,
-      {
-        name: summonerName,
-      }
-    );
+    const getSummonerGameData = await axios.post(`http://localhost:4000/api/game/info/summoner/name`, {
+      name: summonerName,
+    });
+
     const summonerGameData = getSummonerGameData.data;
 
     navigate(`/summoner/${summoner}`, {
