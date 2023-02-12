@@ -5,6 +5,7 @@ import { throwError } from 'rxjs';
 import { Summoner } from 'src/schema/summoner.schema';
 import { SummonerData } from './dto/summonerData.dto';
 import { isValidObjectId } from 'mongoose';
+import _ from 'lodash';
 
 //데이터베이스 중앙 처리실 (미들웨어랑 비슷한 개념)
 @Injectable()
@@ -38,6 +39,7 @@ export class SummonerRepository {
       if (typeof summonerName !== 'string') {
         return null;
       }
+
       return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData.info.participants');
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
