@@ -4,16 +4,17 @@ import _ from 'lodash';
 import './GameInfoRender.css';
 
 function GameInfoRender(props) {
-  const { gameInfo, winCount } = props;
-  const championIcon = async () => {
-    const getIcon = await axios.get('http://ddragon.leagueoflegends.com/cdn/12.15.1/data/en_US/champion.json');
-  };
-  // console.log(gameInfo);
+  const [summonerGameData, setSummonerGameData] = useState([]);
+  const { gameInfo, winCount, summonerId } = props;
+
+  // const userIcon = `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${profileIconId}.png`;
+
   // 전체 게임 승률
   const recentGames = (winCount / 10) * 100;
 
   // 2번째 소숫점 자리부터 버리는 함수
   const getNotRoundDecimalNumber = (number, decimalPoint = 2) => {
+    console.log(number);
     let num = typeof number === 'number' ? String(number) : number;
     const pointPos = num.indexOf('.');
 
@@ -24,13 +25,61 @@ function GameInfoRender(props) {
     return Number(`${splitNumber[0]}.${rightNum}`).toFixed(decimalPoint);
   };
 
+  useEffect(() => {
+    _.map(gameInfo, (game) => {
+      if (game.summonerId === summonerId) {
+        setSummonerGameData(game);
+      }
+    });
+  }, []);
+
+  const linePosition = (line) => {
+    switch (line) {
+      case 'TOP':
+        return '탑';
+
+      case 'JUNGLE':
+        return '정글';
+
+      case 'MIDDLE':
+        return '미드';
+
+      case 'BOTTOM':
+        return '원딜';
+      case 'UTILITY':
+        return '서폿';
+
+      default:
+        break;
+    }
+  };
   // teamId 200 = 레드팀
   // teamId 100 = 블루팀
+
+  const championIcon = `https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/${summonerGameData.championName}.png`;
+
+  console.log(summonerGameData);
+  //  {<img id="userIconImg" src={championIcon} alt="챔피언 아이콘" style={{ height: 42 }} />}
 
   return (
     <div className="gameInfoRendering">
       <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
-      {_.map(gameInfo, (item, idx) => {
+      <div className="gameInfo">
+        {<img id="userIconImg" src={championIcon} alt="챔피언 아이콘" style={{ height: 42 }} />}
+        {summonerGameData.role === 'SOLO' ? '솔랭' : '자랭'}&nbsp;
+        {summonerGameData.win === true ? '승리' : '패배'}&nbsp;
+        {linePosition(summonerGameData.individualPosition)}&nbsp;
+        {summonerGameData.kills}/{summonerGameData.deaths}/{summonerGameData.assists}&nbsp; kda:{' '}
+        {getNotRoundDecimalNumber(summonerGameData.challenges.kda)}&nbsp; 미니언: {summonerGameData.totalMinionsKilled}
+      </div>
+    </div>
+  );
+}
+
+export default GameInfoRender;
+
+/*
+{_.map(gameInfo, (item, idx) => {
         return (
           <div className="gameInfo" key={idx}>
             <li className="gameList">
@@ -60,8 +109,4 @@ function GameInfoRender(props) {
           </div>
         );
       })}
-    </div>
-  );
-}
-
-export default GameInfoRender;
+*/
