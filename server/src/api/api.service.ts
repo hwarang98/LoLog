@@ -27,7 +27,6 @@ export class ApiService {
           headers: this.header,
         },
       );
-      console.log(userData.data);
       return userData.data;
     } catch (error) {
       throw new HttpException('소환사를 찾을수 없습니다!', 400);

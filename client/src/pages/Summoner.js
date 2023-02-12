@@ -11,7 +11,7 @@ function Summoner() {
   const [freeRankInfo, setFreeRankInfo] = useState([]);
   const { state } = useLocation();
   const { queueType, wins, losses, tier, rank, leaguePoints } = soloRankInfo;
-  const { name, puuid, profileIconId, summonerLevel } = state.userData;
+  const { id, name, puuid, profileIconId, summonerLevel } = state.userData;
 
   // 솔랭, 자랭 정보저장
   useEffect(() => {
@@ -52,7 +52,7 @@ function Summoner() {
   }, []);
 
   return (
-    <div className='summoner'>
+    <div className="summoner">
       <Profile
         name={name}
         profileIconId={profileIconId}
@@ -65,7 +65,7 @@ function Summoner() {
         rank={rank}
         leaguePoints={leaguePoints}
       />
-      <GameInfoRender gameInfo={state.summonerGameData} winCount={10} />
+      <GameInfoRender gameInfo={state.summonerGameData} winCount={10} summonerId={id} />
     </div>
   );
 }
