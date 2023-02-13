@@ -6,7 +6,6 @@ import _ from 'lodash';
 @Injectable()
 export class ApiService {
   constructor(private readonly summonerRepository: SummonerRepository) {}
-  private readonly logger = new Logger(ApiService.name);
 
   RIOT_URL = process.env.RIOT_URL;
   RIOT_ASIA_URL = process.env.RIOT_ASIA_URL;
@@ -20,7 +19,6 @@ export class ApiService {
    */
   async getUserInfo(name: string) {
     try {
-      this.logger.log('유저 정보 요청');
       const userData = await axios.get(
         `${this.RIOT_URL}/lol/summoner/v4/summoners/by-name/${encodeURI(name)}?api_key=${this.RIOT_API_KEY}`,
         {
@@ -40,7 +38,6 @@ export class ApiService {
    */
   async getLeagueInfo(id: string) {
     try {
-      this.logger.log('리그정보 요청');
       const leagueInfo = await axios.get(`${this.RIOT_URL}/lol/league/v4/entries/by-summoner/${id}`, {
         headers: this.header,
       });
@@ -57,8 +54,6 @@ export class ApiService {
    */
   async getMatchId(puuid: string) {
     try {
-      this.logger.log('게임 매칭 id 조회 요청');
-
       const matchData = await axios.get(
         `${this.RIOT_ASIA_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10`,
         {
@@ -77,7 +72,6 @@ export class ApiService {
    * @returns 유저 정보
    */
   async getGameInfoForMatchId(data: any) {
-    this.logger.log('게임정보 요청');
     const { matchId, name } = data;
     const isCheckSummonerName = await this.summonerRepository.isCheckSummonerName(name);
 
