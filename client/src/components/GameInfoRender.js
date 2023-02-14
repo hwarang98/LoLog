@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
 import _ from 'lodash';
 import './GameInfoRender.css';
 
@@ -7,15 +6,13 @@ function GameInfoRender(props) {
   const [summonerGameData, setSummonerGameData] = useState([]);
   const { gameInfo, winCount, summonerId } = props;
 
-  // const userIcon = `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${profileIconId}.png`;
-
   // 전체 게임 승률
   const recentGames = (winCount / 10) * 100;
 
   // 2번째 소숫점 자리부터 버리는 함수
   const getNotRoundDecimalNumber = (number, decimalPoint = 2) => {
-    console.log(number);
     let num = typeof number === 'number' ? String(number) : number;
+
     const pointPos = num.indexOf('.');
 
     if (pointPos === -1) return Number(num).toFixed(decimalPoint);
@@ -46,6 +43,7 @@ function GameInfoRender(props) {
 
       case 'BOTTOM':
         return '원딜';
+
       case 'UTILITY':
         return '서폿';
 
@@ -53,24 +51,26 @@ function GameInfoRender(props) {
         break;
     }
   };
+
   // teamId 200 = 레드팀
   // teamId 100 = 블루팀
 
   const championIcon = `https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/${summonerGameData.championName}.png`;
 
-  console.log(summonerGameData);
   //  {<img id="userIconImg" src={championIcon} alt="챔피언 아이콘" style={{ height: 42 }} />}
 
   return (
     <div className="gameInfoRendering">
       <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
       <div className="gameInfo">
-        {<img id="userIconImg" src={championIcon} alt="챔피언 아이콘" style={{ height: 42 }} />}
+        <img id="userIconImg" src={championIcon} alt="챔피언 아이콘" style={{ height: 42 }} />
         {summonerGameData.role === 'SOLO' ? '솔랭' : '자랭'}&nbsp;
         {summonerGameData.win === true ? '승리' : '패배'}&nbsp;
         {linePosition(summonerGameData.individualPosition)}&nbsp;
-        {summonerGameData.kills}/{summonerGameData.deaths}/{summonerGameData.assists}&nbsp; kda:{' '}
-        {getNotRoundDecimalNumber(summonerGameData.challenges.kda)}&nbsp; 미니언: {summonerGameData.totalMinionsKilled}
+        {summonerGameData.kills}/{summonerGameData.deaths}/{summonerGameData.assists}&nbsp;
+        {/* kda:{' '} */}
+        {/* {summonerGameData.challenges.kda}&nbsp; */}
+        미니언: {summonerGameData.totalMinionsKilled}
       </div>
     </div>
   );

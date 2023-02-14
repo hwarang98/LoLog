@@ -29,7 +29,7 @@ function Home() {
         name: summoner,
       })
       .catch((error) => {
-        const errorMessage = error.response.data.message;
+        const errorMessage = error.response.data.error;
         alert(errorMessage);
       });
 
@@ -43,7 +43,7 @@ function Home() {
         id: cryptoId,
       })
       .catch((error) => {
-        const errorMessage = error.response.data.message;
+        const errorMessage = error.response.data.error;
         alert(errorMessage);
       });
     const leagueData = getLeague.data;
@@ -60,12 +60,12 @@ function Home() {
   };
 
   return (
-    <div className='home'>
+    <div className="home">
       <h1>LoLog</h1>
       <TextField
-        id='summonerName'
-        label='소환사 이름'
-        size='small'
+        id="summonerName"
+        label="소환사 이름"
+        size="small"
         style={{ width: 400 }}
         onChange={onChange}
         onKeyPress={onEnter}

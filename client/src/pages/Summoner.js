@@ -11,14 +11,13 @@ function Summoner() {
   const [freeRankInfo, setFreeRankInfo] = useState([]);
   const { state } = useLocation();
   const { queueType, wins, losses, tier, rank, leaguePoints } = soloRankInfo;
-  const { id, name, puuid, profileIconId, summonerLevel } = state.userData;
+  const { userData, leagueData, summonerGameData } = state;
+  const { id, name, puuid, profileIconId, summonerLevel } = userData;
 
   // 솔랭, 자랭 정보저장
   useEffect(() => {
     try {
-      const userData = state.leagueData;
-
-      _.map(userData, (item) => {
+      _.map(leagueData, (item) => {
         const queueType = item.queueType;
 
         switch (queueType) {
@@ -41,14 +40,18 @@ function Summoner() {
 
   // matchId 조회 요청
   useEffect(() => {
-    const getMatchData = async () => {
-      const getMatchId = await axios.post('http://localhost:4000/api/match/info', {
-        puuid: puuid,
-      });
+    try {
+      const getMatchData = async () => {
+        const getMatchId = await axios.post('http://localhost:4000/api/match/info', {
+          puuid: puuid,
+        });
 
-      return setMatchId(getMatchId.data);
-    };
-    getMatchData();
+        return setMatchId(getMatchId.data);
+      };
+      getMatchData();
+    } catch (error) {
+      throw new Error(alert({ error: error.message }));
+    }
   }, []);
 
   return (
@@ -65,7 +68,7 @@ function Summoner() {
         rank={rank}
         leaguePoints={leaguePoints}
       />
-      <GameInfoRender gameInfo={state.summonerGameData} winCount={10} summonerId={id} />
+      <GameInfoRender gameInfo={summonerGameData} winCount={10} summonerId={id} />
     </div>
   );
 }
