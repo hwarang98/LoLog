@@ -15,6 +15,7 @@ function Profile(props) {
   const [winCount, setWinCount] = useState(0);
 
   const { name, level, leagueType, profileIconId, matchId, wins, losses, tier, rank, leaguePoints } = props;
+
   const userIcon = `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${profileIconId}.png`;
 
   // matchId에 해당하는 게임 정보조회 요청
@@ -36,24 +37,24 @@ function Profile(props) {
   };
 
   return (
-    <main className='profile'>
+    <main className="profile">
       {/* <Box sx={{ flexGrow: 2 }}> */}
       <Grid container spacing={2}>
         <Grid item xs={1}>
-          <div className='summonerFrofileIcon'>
-            <img id='userIconImg' src={userIcon} alt='유저 아이콘' style={{ height: 85 }} />
+          <div className="summonerFrofileIcon">
+            <img id="userIconImg" src={userIcon} alt="유저 아이콘" style={{ height: 85 }} />
           </div>
-          <span className='level'>{level}</span>
+          <span className="level">{level}</span>
         </Grid>
         <Grid item xs={2}>
-          <div className='summonerName'>
+          <div className="summonerName">
             <span>{name}</span>
           </div>
         </Grid>
         <Grid item xs={9}>
-          <div className='summonerRankInfo'>
-            <div className='leagueType'>{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
-            <div className='tire'>
+          <div className="summonerRankInfo">
+            <div className="leagueType">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
+            <div className="tire">
               {tier} {rank}
             </div>
             <Emblem tier={tier}></Emblem>
@@ -62,13 +63,13 @@ function Profile(props) {
           </div>
         </Grid>
         <Grid item xs={12}>
-          <div className='searchGameInfo'>
+          <div className="searchGameInfo">
             <button onClick={getGameInfo}>전적검색</button>
           </div>
         </Grid>
 
         <Grid item xs={12}>
-          <div className='gameList'>
+          <div className="gameList">
             {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}
           </div>
         </Grid>
