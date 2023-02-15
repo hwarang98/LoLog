@@ -31,7 +31,7 @@ export class SummonerRepository {
   /**
    *
    * @param name string 문자열
-   * @returns 해당 유저의 게임 정보
+   * @returns 해당 유저의 게임 데이터
    */
   async getGameData(name: SummonerData) {
     try {
@@ -41,6 +41,25 @@ export class SummonerRepository {
       }
 
       return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData.info.participants');
+    } catch (error) {
+      throw new HttpException('소환사가 없습니다.', 400);
+    }
+  }
+
+  /**
+   *
+   *
+   * @param name string 문자열
+   * @returns 해당 유저의 게임 메타데이터 정보
+   */
+  async getGameMetaData(name: SummonerData) {
+    try {
+      const summonerName = name.summonerName;
+      if (typeof summonerName !== 'string') {
+        return null;
+      }
+
+      return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData.metadata').lean();
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }

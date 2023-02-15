@@ -4,10 +4,14 @@ import './GameInfoRender.css';
 
 function GameInfoRender(props) {
   const [summonerGameData, setSummonerGameData] = useState([]);
-  const { gameInfo, winCount, summonerId } = props;
+  const [winCount, setWinCount] = useState(0);
+  const { gameInfo, summonerId } = props;
 
   // 전체 게임 승률
   const recentGames = (winCount / 10) * 100;
+  const championIcon = (championName) => {
+    return `https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/${championName}.png`;
+  };
 
   // 2번째 소숫점 자리부터 버리는 함수
   const getNotRoundDecimalNumber = (number, decimalPoint = 2) => {
@@ -23,11 +27,15 @@ function GameInfoRender(props) {
   };
 
   useEffect(() => {
+    const gameData = [];
     _.map(gameInfo, (game) => {
-      if (game.summonerId === summonerId) {
-        setSummonerGameData(game);
+      for (let i = 0; i < game.length; i++) {
+        if (game[i].summonerId === summonerId) {
+          return gameData.push(game[i]);
+        }
       }
     });
+    return setSummonerGameData([...gameData]);
   }, []);
 
   const linePosition = (line) => {
@@ -55,23 +63,21 @@ function GameInfoRender(props) {
   // teamId 200 = 레드팀
   // teamId 100 = 블루팀
 
-  const championIcon = `https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/${summonerGameData.championName}.png`;
-
-  //  {<img id="userIconImg" src={championIcon} alt="챔피언 아이콘" style={{ height: 42 }} />}
-
   return (
     <div className="gameInfoRendering">
       <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
-      <div className="gameInfo">
-        <img id="userIconImg" src={championIcon} alt="챔피언 아이콘" style={{ height: 42 }} />
-        {summonerGameData.role === 'SOLO' ? '솔랭' : '자랭'}&nbsp;
-        {summonerGameData.win === true ? '승리' : '패배'}&nbsp;
-        {linePosition(summonerGameData.individualPosition)}&nbsp;
-        {summonerGameData.kills}/{summonerGameData.deaths}/{summonerGameData.assists}&nbsp;
-        {/* kda:{' '} */}
-        {/* {summonerGameData.challenges.kda}&nbsp; */}
-        미니언: {summonerGameData.totalMinionsKilled}
-      </div>
+      {_.map(summonerGameData, (data, idx) => {
+        return (
+          <div className="gameInfo" key={idx}>
+            <img id="userIconImg" src={championIcon(data.championName)} alt="챔피언 아이콘" style={{ height: 42 }} />
+            {data.role === 'SOLO' ? '솔랭' : '자랭'}&nbsp;
+            {data.win === true ? '승리' : '패배'}&nbsp;
+            {linePosition(data.individualPosition)}&nbsp;
+            {data.kills}/{data.deaths}/{data.assists}&nbsp; kda: {data.challenges.kda}&nbsp; 미니언:{' '}
+            {data.totalMinionsKilled}
+          </div>
+        );
+      })}
     </div>
   );
 }
