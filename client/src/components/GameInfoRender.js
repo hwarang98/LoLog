@@ -5,6 +5,7 @@ import './GameInfoRender.css';
 function GameInfoRender(props) {
   const [summonerGameData, setSummonerGameData] = useState([]);
   const [winCount, setWinCount] = useState(0);
+  const [summoner, setSummoner] = useState([]);
   const { gameInfo, summonerId } = props;
 
   // 전체 게임 승률
@@ -28,14 +29,32 @@ function GameInfoRender(props) {
 
   useEffect(() => {
     const gameData = [];
+
     _.map(gameInfo, (game) => {
-      for (let i = 0; i < game.length; i++) {
-        if (game[i].summonerId === summonerId) {
-          return gameData.push(game[i]);
+      const gameLength = game.info.participants.length;
+      const gameData = game.info.participants;
+      const gameWithSummoner = game.metadata.participants;
+
+      for (let i = 0; i < gameLength; i++) {
+        if (gameData[i].summonerId === summonerId) {
+          return gameData.push(gameData[i]);
         }
       }
     });
     return setSummonerGameData([...gameData]);
+  }, []);
+
+  useEffect(() => {
+    const summonerId = [];
+    _.map(gameInfo, (game) => {
+      const gameWithSummoner = game.metadata.participants;
+
+      _.each(gameWithSummoner, (summoner) => {
+        return summonerId.push(summoner);
+      });
+    });
+    console.log(summonerId);
+    return setSummoner([...summonerId]);
   }, []);
 
   const linePosition = (line) => {

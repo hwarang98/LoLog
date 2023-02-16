@@ -40,7 +40,7 @@ export class SummonerRepository {
         return null;
       }
 
-      return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData.info.participants');
+      return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData').lean();
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
