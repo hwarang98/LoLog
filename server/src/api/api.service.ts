@@ -94,6 +94,7 @@ export class ApiService {
     try {
       const finalData: object[] = [];
       const metaData: object = {};
+
       const [gameData, gameMetaData] = await Promise.all([
         this.summonerRepository.getGameData({ summonerName }),
         this.summonerRepository.getGameMetaData({ summonerName }),
@@ -106,9 +107,9 @@ export class ApiService {
         });
       });
 
-      _.map(gameMetaData, (item: any) => {});
+      const data = gameData.summonerGameData;
 
-      return { finalData: finalData };
+      return gameData.summonerGameData;
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
