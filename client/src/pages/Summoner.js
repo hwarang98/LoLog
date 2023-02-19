@@ -12,6 +12,7 @@ function Summoner() {
   const { state } = useLocation();
   const { queueType, wins, losses, tier, rank, leaguePoints } = soloRankInfo;
   const { userData, leagueData, summonerGameData } = state;
+
   const { id, name, puuid, profileIconId, summonerLevel } = userData;
 
   // 솔랭, 자랭 정보저장
