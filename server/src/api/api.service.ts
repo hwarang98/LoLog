@@ -93,23 +93,15 @@ export class ApiService {
   async getGameDataForSummonerName(summonerName: string) {
     try {
       const finalData: object[] = [];
-      const metaData: object = {};
 
-      const [gameData, gameMetaData] = await Promise.all([
-        this.summonerRepository.getGameData({ summonerName }),
-        this.summonerRepository.getGameMetaData({ summonerName }),
-      ]);
+      const [gameData] = await Promise.all([this.summonerRepository.getGameData({ summonerName })]);
 
-      _.map(gameData, (item: any) => {
-        const data = item.summonerGameData;
-        _.each(data, (data: any) => {
-          finalData.push(data.info.participants);
-        });
+      _.map(gameData.summonerGameData, (item: any) => {
+        const gameData = item.info.participants;
+        return finalData.push(...gameData);
       });
 
-      const data = gameData.summonerGameData;
-
-      return gameData.summonerGameData;
+      return finalData;
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
