@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import _ from 'lodash';
 import './GameInfoRender.css';
 
 function GameInfoRender(props) {
@@ -27,34 +28,19 @@ function GameInfoRender(props) {
   };
 
   useEffect(() => {
-    const gameAllData = [];
-
-    gameInfo.map((game) => {
-      const gameData = game.info.participants;
-
-      gameData.forEach((data) => {
+    let gameData = [];
+    gameInfo.map((data) => {
+      console.log(data)
+      
+      return data.gameData.forEach((data) => {
         if (data.summonerId === summonerId) {
-          return gameAllData.push(data);
+          return gameData.push(data);
         }
       });
+
     });
-
-    return setSummonerGameData([...gameAllData]);
+    return setSummonerGameData([...gameData]);
   }, []);
-
-  // useEffect(() => {
-  //   const summonerId = [];
-
-  //   _.map(gameInfo, (game) => {
-  //     const gameWithSummoner = game.metadata.participants;
-
-  //     _.each(gameWithSummoner, (summoner) => {
-  //       return summonerId.push(summoner);
-  //     });
-  //   });
-
-  //   return setSummoner([...summonerId]);
-  // }, []);
 
   const linePosition = (line) => {
     switch (line) {
@@ -84,34 +70,21 @@ function GameInfoRender(props) {
   return (
     <div className="gameInfoRendering">
       <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
-      {summonerGameData.map((item, idx) => {
+      {_.map(summonerGameData, (data, idx) => {
         return (
-          <div className="gameInfo" key={idx}>
-            <li className="gameList">
-              챔피언 이름: {item.championName}
-              레벨: {item.champLevel}
-              챔피언 ID: {item.championId}
-              {item.kills}/{item.deaths}/{item.assists}
-              {item.deaths === 0 ? 'Perfect' : `(${getNotRoundDecimalNumber(item.challenges.kda)})`}총 딜량:{' '}
-              {item.totalDamageDealtToChampions}
-              받은 피해량: {item.totalDamageTaken}
-              솔킬 횟수: {item.soloKills}
-              퍼스트 블러드: {item.firstBloodKill}
-              더블킬 횟수: {item.doubleKills}
-              트리플킬 횟수: {item.tripleKills}
-              팬타킬 횟수: {item.pentaKills}
-              아이탬1: {item.item0}
-              아이탬2: {item.item1}
-              아이탬3: {item.item2}
-              아이탬4: {item.item3}
-              아이탬5: {item.item4}
-              아이탬6: {item.item5}
-              아이탬7: {item.item6}
-              {item.teamId === 200 ? '레드팀' : '블루팀'}
-              라인: {linePosition(item.teamPosition)}
-              {item.win === true ? '승리' : '패배'}
+          <ul className="gameInfo" key={idx}>
+            <li className="gameInfoList">
+              <img
+                id="summonerIconImg"
+                src={championIcon(data.championName)}
+                alt="챔피언 아이콘"
+                style={{ height: 42 }}
+              />
+              {data.role === 'SOLO' ? '솔랭' : '자랭'};{data.win === true ? '승리' : '패배'}
+              {linePosition(data.individualPosition)};{data.kills}/{data.deaths}/{data.assists}; kda:{' '}
+              {getNotRoundDecimalNumber(data.challenges.kda)}; 미니언: {data.totalMinionsKilled}
             </li>
-          </div>
+          </ul>
         );
       })}
     </div>
@@ -148,22 +121,6 @@ export default GameInfoRender;
               라인: {item.teamPosition}
               {item.win === true ? '승리' : '패배'}
             </li>
-          </div>
-        );
-      })}
-*/
-
-/*
-{_.map(summonerGameData, (data, idx) => {
-        return (
-          <div className="gameInfo" key={idx}>
-            <img id="userIconImg" src={championIcon(data.championName)} alt="챔피언 아이콘" style={{ height: 42 }} />
-            {data.role === 'SOLO' ? '솔랭' : '자랭'}&nbsp;
-            {data.win === true ? '승리' : '패배'}&nbsp;
-            {linePosition(data.individualPosition)}&nbsp;
-            {data.kills}/{data.deaths}/{data.assists}&nbsp;
-            { kda: {data.challenges.kda}&nbsp; }
-            미니언: {data.totalMinionsKilled}
           </div>
         );
       })}

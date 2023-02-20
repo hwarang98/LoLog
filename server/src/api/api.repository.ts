@@ -40,7 +40,7 @@ export class SummonerRepository {
         return null;
       }
 
-      return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData').lean();
+      return await this.Summoner.findOne({ summonerName: summonerName }, { summonerGameData: 1 }).lean();
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
@@ -59,7 +59,10 @@ export class SummonerRepository {
         return null;
       }
 
-      return await this.Summoner.findOne({ summonerName: summonerName }, 'summonerGameData.metadata').lean();
+      return await this.Summoner.findOne(
+        { summonerName: summonerName },
+        'summonerGameData.metadata.participants',
+      ).lean();
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
