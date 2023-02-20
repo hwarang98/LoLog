@@ -28,11 +28,16 @@ function GameInfoRender(props) {
   };
 
   useEffect(() => {
-    const gameData = [];
-    gameInfo.map((data, idx) => {
-      if (data.summonerId === summonerId) {
-        return gameData.push(data);
-      }
+    let gameData = [];
+    gameInfo.map((data) => {
+      console.log(data)
+      
+      return data.gameData.forEach((data) => {
+        if (data.summonerId === summonerId) {
+          return gameData.push(data);
+        }
+      });
+
     });
     return setSummonerGameData([...gameData]);
   }, []);
@@ -67,14 +72,19 @@ function GameInfoRender(props) {
       <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
       {_.map(summonerGameData, (data, idx) => {
         return (
-          <div className="gameInfo" key={idx}>
-            <img id="userIconImg" src={championIcon(data.championName)} alt="챔피언 아이콘" style={{ height: 42 }} />
-            {data.role === 'SOLO' ? '솔랭' : '자랭'}&nbsp;
-            {data.win === true ? '승리' : '패배'}&nbsp;
-            {linePosition(data.individualPosition)}&nbsp;
-            {data.kills}/{data.deaths}/{data.assists}&nbsp; kda: {getNotRoundDecimalNumber(data.challenges.kda)}&nbsp;
-            미니언: {data.totalMinionsKilled}
-          </div>
+          <ul className="gameInfo" key={idx}>
+            <li className="gameInfoList">
+              <img
+                id="summonerIconImg"
+                src={championIcon(data.championName)}
+                alt="챔피언 아이콘"
+                style={{ height: 42 }}
+              />
+              {data.role === 'SOLO' ? '솔랭' : '자랭'};{data.win === true ? '승리' : '패배'}
+              {linePosition(data.individualPosition)};{data.kills}/{data.deaths}/{data.assists}; kda:{' '}
+              {getNotRoundDecimalNumber(data.challenges.kda)}; 미니언: {data.totalMinionsKilled}
+            </li>
+          </ul>
         );
       })}
     </div>
