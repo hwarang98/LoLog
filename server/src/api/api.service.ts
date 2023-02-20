@@ -1,6 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { SummonerRepository } from './api.repository';
+import moment from 'moment';
 import _ from 'lodash';
 
 @Injectable()
@@ -92,13 +93,25 @@ export class ApiService {
 
   async getGameDataForSummonerName(summonerName: string) {
     try {
-      const finalData: object[] = [];
+      // const finalData: any[] = [];
+      // const finalData: object[] = [];
 
       const [gameData] = await Promise.all([this.summonerRepository.getGameData({ summonerName })]);
 
-      _.map(gameData.summonerGameData, (item: any) => {
+      const finalData = _.map(gameData.summonerGameData, (item: any) => {
         const gameData = item.info.participants;
-        return finalData.push(...gameData);
+        const gameStartDate = moment(item.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
+        const gameEndDate = moment(item.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
+
+        const gameDurationMinute = moment.duration(moment(gameEndDate).diff(gameStartDate)).minutes();
+        const gameDurationSecond = moment.duration(moment(gameEndDate).diff(gameStartDate)).seconds();
+
+        return {
+          gameStartDate: gameStartDate,
+          gameEndDate: gameEndDate,
+          gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
+          gameData: gameData,
+        };
       });
 
       return finalData;
@@ -107,3 +120,16 @@ export class ApiService {
     }
   }
 }
+
+/*
+  gameCreation: 1675945261671,
+  gameDuration: 1900,
+  gameEndTimestamp: 1675947197429,
+  gameId: 6353564431,
+  gameMode: 'CLASSIC',
+  gameName: 'teambuilder-match-6353564431',
+  gameStartTimestamp: 1675945296416,
+  gameType: 'MATCHED_GAME',
+  gameVersion: '13.3.491.366',
+  mapId: 11,
+*/
