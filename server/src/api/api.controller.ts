@@ -15,7 +15,7 @@ export class ApiController {
     description: '소환사 이름을 사용한 해당 유저 정보 조회',
   })
   async getUser(@Body('name') name: string) {
-    this.myLogger.log(`${name}님의 정보 조회중...`);
+    this.myLogger.log(`${name} 님의 정보 조회중...`);
     return this.ApiService.getUserInfo(name);
   }
 

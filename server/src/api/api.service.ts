@@ -28,7 +28,9 @@ export class ApiService {
       );
       return userData.data;
     } catch (error) {
-      throw new HttpException('소환사를 찾을수 없습니다!', 400);
+      const errorCode = error.response.data.status.status_code;
+      const errorMessage = errorCode === 400 ? '소환사를 찾을수 없습니다' : error.response.data.status.message;
+      throw new HttpException(errorMessage, errorCode);
     }
   }
 
@@ -107,8 +109,8 @@ export class ApiService {
         const gameDurationSecond = moment.duration(moment(gameEndDate).diff(gameStartDate)).seconds();
 
         return {
-          gameStartDate: gameStartDate,
-          gameEndDate: gameEndDate,
+          gameStartDate: moment(item.info.gameStartTimestamp).format('YY/MM/DD'),
+          gameEndDate: moment(item.info.gameEndTimestamp).format('YY/MM/DD'),
           gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
           gameData: gameData,
         };
