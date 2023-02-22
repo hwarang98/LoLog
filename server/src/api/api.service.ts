@@ -95,33 +95,58 @@ export class ApiService {
 
   async getGameDataForSummonerName(summonerName: string) {
     try {
-      // const finalData: any[] = [];
-      // const finalData: object[] = [];
-
+      console.time('time: ');
       const [gameData] = await Promise.all([this.summonerRepository.getGameData({ summonerName })]);
 
-      const finalData = _.map(gameData.summonerGameData, (item: any) => {
-        const gameData = item.info.participants;
-        const gameStartDate = moment(item.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
-        const gameEndDate = moment(item.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
+      const finalData = [];
+      _.map(gameData.summonerGameData, (data: any) => {
+        const gameDataList = data.info.participants;
+        const gameStartDate = moment(data.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
+        const gameEndDate = moment(data.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
 
         const gameDurationMinute = moment.duration(moment(gameEndDate).diff(gameStartDate)).minutes();
         const gameDurationSecond = moment.duration(moment(gameEndDate).diff(gameStartDate)).seconds();
 
-        return {
-          gameStartDate: moment(item.info.gameStartTimestamp).format('YY/MM/DD'),
-          gameEndDate: moment(item.info.gameEndTimestamp).format('YY/MM/DD'),
-          gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
-          gameData: gameData,
-        };
+        const gameType = data.info.queueId === 420 ? '솔랭' : '자유랭크';
+
+        _.each(gameDataList, (game: any) => {
+          // console.log(game);
+          finalData.push({
+            gameStartDate: moment(data.info.gameStartTimestamp).format('YY/MM/DD'),
+            gameEndDate: moment(data.info.gameEndTimestamp).format('YY/MM/DD'),
+            gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
+            gameType: gameType,
+            summonerName: game.summonerName,
+            summonerLevel: game.summonerLevel,
+            teamId: game.teamId,
+            championName: game.championName,
+            champLevel: game.champLevel,
+            kill: game.kills,
+            death: game.deaths,
+            assist: game.assists,
+            kda: game.challenges.kda,
+            item0: game.item0,
+            item1: game.item1,
+            item2: game.item2,
+            item3: game.item3,
+            item4: game.item4,
+            item5: game.item5,
+            item6: game.item6,
+            lane: game.lane === 'BOTTOM' ? game.role : game.lane,
+            win: game.win,
+          });
+        });
       });
 
+      console.timeEnd('time: ');
       return finalData;
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
   }
 }
+
+// test1: Promise.all ->  69.498ms
 
 /*
   gameCreation: 1675945261671,
