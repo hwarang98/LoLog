@@ -3,7 +3,7 @@ import _ from 'lodash';
 import './GameInfoRender.css';
 
 function GameInfoRender(props) {
-  const [summonerGameData, setSummonerGameData] = useState({ gameStartDate: '', gameDuration: '', gameData: '' });
+  const [summonerGameData, setSummonerGameData] = useState([]);
   const [winCount, setWinCount] = useState(0);
   const [summoner, setSummoner] = useState([]);
   const { gameInfo, summonerId } = props;
@@ -28,7 +28,7 @@ function GameInfoRender(props) {
   };
 
   useEffect(() => {
-    let gameData = [];
+    const gameData = [];
     gameInfo.map((data) => {
       return data.gameData.forEach((data) => {
         if (data.summonerId === summonerId) {
@@ -36,6 +36,7 @@ function GameInfoRender(props) {
         }
       });
     });
+    setSummonerGameData([...gameData]);
   }, []);
 
   const linePosition = (line) => {
@@ -66,16 +67,17 @@ function GameInfoRender(props) {
   return (
     <div className="gameInfoRendering">
       <div className="recentGames">최근 10게임 승률:{recentGames}%</div>
-      {_.map(gameInfo, (item, idx) => {
-        return (
-          <div className="gameInfo" key={idx}>
-            <li className="gameList">
-              시작날짜: {item.gameStartDate}
-              게임 진행시간{item.gameDuration}
+      <div className="gameInfo">
+        {gameInfo.map((item, idx) => {
+          return (
+            <li className="gameList" key={idx}>
+              <div className="type">item</div>
+              <div className="gameStartTime"> {item.gameStartDate}</div>
+              <div className="gameDuration">{item.gameDuration}</div>
             </li>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 }
