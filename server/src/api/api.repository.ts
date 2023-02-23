@@ -1,11 +1,8 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model, Types } from 'mongoose';
-import { throwError } from 'rxjs';
 import { Summoner } from 'src/schema/summoner.schema';
 import { SummonerData } from './dto/summonerData.dto';
-import { isValidObjectId } from 'mongoose';
-import _ from 'lodash';
 
 //데이터베이스 중앙 처리실 (미들웨어랑 비슷한 개념)
 @Injectable()
