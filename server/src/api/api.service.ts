@@ -1,6 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { SummonerRepository } from './api.repository';
+import { SummonerGameData } from './dto/summonerData.dto';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -93,9 +94,13 @@ export class ApiService {
     return { summonerName: name, summonerGameData: summonerGameData };
   }
 
+  /**
+   * 소환사 이름을 받아 게임 정보를 반환해주는 함수
+   * @param {string} summonerName 문자열 타입 소환사 이름
+   * @returns {[object]} 유저 정보
+   */
   async getGameDataForSummonerName(summonerName: string) {
     try {
-      console.time('time: ');
       const [gameData] = await Promise.all([this.summonerRepository.getGameData({ summonerName })]);
 
       const finalData = [];
@@ -110,8 +115,8 @@ export class ApiService {
         const gameType = data.info.queueId === 420 ? '솔랭' : '자유랭크';
 
         _.each(gameDataList, (game: any) => {
-          // console.log(game);
-          finalData.push({
+          console.log(game);
+          return finalData.push({
             gameStartDate: moment(data.info.gameStartTimestamp).format('YY/MM/DD'),
             gameEndDate: moment(data.info.gameEndTimestamp).format('YY/MM/DD'),
             gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
@@ -125,6 +130,9 @@ export class ApiService {
             death: game.deaths,
             assist: game.assists,
             kda: game.challenges.kda,
+            minionsKill: game.totalMinionsKilled,
+            jungleMonsterKill: game.neutralMinionsKilled,
+            totalCs: game.totalMinionsKilled + game.neutralMinionsKilled,
             item0: game.item0,
             item1: game.item1,
             item2: game.item2,
@@ -133,12 +141,18 @@ export class ApiService {
             item5: game.item5,
             item6: game.item6,
             lane: game.lane === 'BOTTOM' ? game.role : game.lane,
+            pinkWard: game.visionWardsBoughtInGame,
+            team: game.teamId === 100 ? '블루팀' : '레드팀',
             win: game.win,
           });
         });
+
+        // _.each(data.info.teams, (team) => {
+        //   console.log(team);
+        //   return finalData.push({});
+        // });
       });
 
-      console.timeEnd('time: ');
       return finalData;
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
@@ -146,17 +160,5 @@ export class ApiService {
   }
 }
 
-// test1: Promise.all ->  69.498ms
-
-/*
-  gameCreation: 1675945261671,
-  gameDuration: 1900,
-  gameEndTimestamp: 1675947197429,
-  gameId: 6353564431,
-  gameMode: 'CLASSIC',
-  gameName: 'teambuilder-match-6353564431',
-  gameStartTimestamp: 1675945296416,
-  gameType: 'MATCHED_GAME',
-  gameVersion: '13.3.491.366',
-  mapId: 11,
-*/
+// teamId 200 = 레드팀
+// teamId 100 = 블루팀
