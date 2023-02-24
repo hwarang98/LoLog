@@ -97,7 +97,7 @@ export class ApiService {
   /**
    * 소환사 이름을 받아 게임 정보를 반환해주는 함수
    * @param {string} summonerName 문자열 타입 소환사 이름
-   * @returns {[object]} 유저 정보
+   * @returns {} 유저 정보
    */
   async getGameDataForSummonerName(summonerName: string) {
     try {
@@ -114,14 +114,14 @@ export class ApiService {
 
         const gameType = data.info.queueId === 420 ? '솔랭' : '자유랭크';
 
-        _.each(gameDataList, (game: any) => {
-          console.log(game);
+        _.each(gameDataList, (game: SummonerGameData) => {
           return finalData.push({
-            gameStartDate: moment(data.info.gameStartTimestamp).format('YY/MM/DD'),
-            gameEndDate: moment(data.info.gameEndTimestamp).format('YY/MM/DD'),
+            gameStartDateTimeStamp: data.info.gameStartTimestamp,
+            gameEndDateTimeStamp: data.info.gameEndTimestamp,
             gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
             gameType: gameType,
             summonerName: game.summonerName,
+            summonerId: game.summonerId,
             summonerLevel: game.summonerLevel,
             teamId: game.teamId,
             championName: game.championName,
@@ -146,14 +146,11 @@ export class ApiService {
             win: game.win,
           });
         });
-
-        // _.each(data.info.teams, (team) => {
-        //   console.log(team);
-        //   return finalData.push({});
-        // });
       });
 
-      return finalData;
+      const sortedArr = finalData.sort((a, b) => b.gameStartDateTimeStamp - a.gameStartDateTimeStamp);
+
+      return sortedArr;
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }
