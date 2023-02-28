@@ -39,23 +39,13 @@ export class ApiController {
     return this.ApiService.getMatchId(puuid);
   }
 
-  @Post('game/info/matchId')
-  @ApiOperation({
-    summary: '게임정보 저장 API',
-    description: 'matchInfo API에서 요청한 matchId를 사용해 해당 게임 정보조회',
-  })
-  async getGameInfo(@Body('data') data: string[]) {
-    this.myLogger.log(`게임정보 조회중...`);
-    return this.ApiService.getGameInfoForMatchId(data);
-  }
-
-  @Post('game/info/summoner/name')
+  @Post('game/info')
   @ApiOperation({
     summary: '게임정보 조회 API',
     description: '소환사 이름으로 게임정보 조회 API',
   })
-  async gameInfo(@Body('name') name: string) {
-    this.myLogger.log(`${name}의 게임정보 조회중...`);
-    return this.ApiService.getGameDataForSummonerName(name);
+  async gameInfo(@Body('data') data: object) {
+    this.myLogger.log(`${data}의 게임정보 조회중...`);
+    return this.ApiService.getGameDataForSummonerName(data);
   }
 }
