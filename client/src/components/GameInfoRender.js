@@ -6,7 +6,6 @@ import './GameInfoRender.css';
 function GameInfoRender(props) {
   const [summonerGameData, setSummonerGameData] = useState([]);
   const [winCount, setWinCount] = useState(0);
-  const [summoner, setSummoner] = useState([]);
   const { gameInfo, summonerId } = props;
 
   // 전체 게임 승률
@@ -71,8 +70,7 @@ function GameInfoRender(props) {
     }
   };
 
-  console.log(winCount);
-  const winRate = (winCount / 2) * 100;
+  const winRate = (winCount / 10) * 100;
 
   return (
     <div className="gameInfoRendering">
