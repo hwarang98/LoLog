@@ -27,12 +27,11 @@ export class SummonerRepository {
 
   /**
    *
-   * @param name string 문자열
+   * @param summonerName string 문자열
    * @returns 해당 유저의 게임 데이터
    */
-  async getGameData(name: SummonerData) {
+  async getGameData(summonerName: SummonerData) {
     try {
-      const summonerName = name.summonerName;
       if (typeof summonerName !== 'string') {
         return null;
       }

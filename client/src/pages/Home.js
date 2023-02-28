@@ -35,6 +35,7 @@ function Home() {
 
     const userData = getSummoner.data;
     const cryptoId = userData.id; // 소환사 암호화 id
+    const puuid = userData.puuid;
     const summonerName = userData.name;
 
     // 소환사 리그정보 조회 요청
@@ -48,8 +49,14 @@ function Home() {
       });
     const leagueData = getLeague.data;
 
-    const getSummonerGameData = await axios.post(`http://localhost:4000/api/game/info/summoner/name`, {
-      name: summonerName,
+    const getMatchId = await axios.post('http://localhost:4000/api/match/info', {
+      puuid: puuid,
+    });
+
+    const matchId = getMatchId.data;
+
+    const getSummonerGameData = await axios.post(`http://localhost:4000/api/game/info`, {
+      data: { summonerName: summonerName, matchId: matchId },
     });
 
     const summonerGameData = getSummonerGameData.data;

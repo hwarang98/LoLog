@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { GameInfoRender, SoloGameRankRate, Emblem } from './index';
-import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
-import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
-
 import './Profile.css';
 
 function Profile(props) {
   const [gameInfo, setGetGameInfo] = useState([]);
   const [clickCheck, setClickCheck] = useState(false);
   const [clickGameInfoCheck, setClickGameInfoCheck] = useState(false);
-  const [winCount, setWinCount] = useState(0);
 
-  const { name, level, leagueType, profileIconId, matchId, wins, losses, tier, rank, leaguePoints } = props;
+  const { name, level, leagueType, profileIconId, matchId, wins, losses, tier, rank, leaguePoints, winCount } = props;
 
   const userIcon = `http://ddragon.leagueoflegends.com/cdn/12.10.1/img/profileicon/${profileIconId}.png`;
 
@@ -25,12 +20,12 @@ function Profile(props) {
     });
 
     // 버튼 클릭시 게임 승리 유무 상태 저장
-    const gameList = getGameInfoList.data;
-    gameList.map((item, idx) => {
-      if (item.win) {
-        setWinCount((winCount) => winCount + 1);
-      }
-    });
+    // const gameList = getGameInfoList.data;
+    // gameList.map((item, idx) => {
+    //   if (item.win) {
+    //     setWinCount((winCount) => winCount + 1);
+    //   }
+    // });
     setGetGameInfo(getGameInfoList.data);
     setClickCheck(true);
     return getGameInfo;

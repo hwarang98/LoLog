@@ -9,11 +9,21 @@ function Summoner() {
   const [matchId, setMatchId] = useState([]);
   const [soloRankInfo, setSoloRankInfo] = useState([]);
   const [freeRankInfo, setFreeRankInfo] = useState([]);
+  const [winCount, setWinCount] = useState(0);
   const { state } = useLocation();
   const { queueType, wins, losses, tier, rank, leaguePoints } = soloRankInfo;
   const { userData, leagueData, summonerGameData } = state;
-
   const { id, name, puuid, profileIconId, summonerLevel } = userData;
+
+  useEffect(() => {
+    let cnt = 0;
+    _.each(summonerGameData, (game) => {
+      if (game.summonerId === id) {
+        if (game.win) cnt++;
+      }
+      setWinCount(cnt);
+    });
+  });
 
   // 솔랭, 자랭 정보저장
   useEffect(() => {
@@ -68,6 +78,7 @@ function Summoner() {
         tier={tier}
         rank={rank}
         leaguePoints={leaguePoints}
+        winCount={winCount}
       />
       <GameInfoRender gameInfo={summonerGameData} winCount={10} summonerId={id} />
     </div>
