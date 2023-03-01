@@ -1,3 +1,10 @@
 .gameInfo {
   padding: 20px 0px 20px 0px;
 }
+
+.game .bar {
+  width: 48px;
+  height: 1px;
+  margin: 8px 0px 4px;
+  /* background-color: #2f436e; */
+}
