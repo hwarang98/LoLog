@@ -46,6 +46,7 @@ export class ApiController {
   })
   async gameInfo(@Body('data') data: object) {
     this.myLogger.log(`${data}의 게임정보 조회중...`);
+    console.log(data);
     return this.ApiService.getGameDataForSummonerName(data);
   }
 }

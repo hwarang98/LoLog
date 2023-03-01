@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
 import './GameInfoRender.css';
 
 function GameInfoRender(props) {
@@ -13,11 +15,8 @@ function GameInfoRender(props) {
     return `https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/${championName}.png`;
   };
 
-  const gameStartDate = (date) => {
-    return moment(date).format('YY/MM/DD');
-  };
-  const gameEndDate = (date) => {
-    return moment(date).format('YY/MM/DD');
+  const gameDatTranslator = (date) => {
+    return moment(date).format('MM/DD');
   };
 
   // 2번째 소숫점 자리부터 버리는 함수
@@ -71,28 +70,82 @@ function GameInfoRender(props) {
   };
 
   const winRate = (winCount / 10) * 100;
+  const winAndDefeat = (result) => {
+    switch (result) {
+      case true:
+        return '승리';
+
+      case false:
+        return '패배';
+
+      default:
+        break;
+    }
+  };
+
+  function Item(props) {
+    const { sx, ...other } = props;
+    return (
+      <Box
+        sx={{
+          p: 1,
+          m: 1,
+          // bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : 'grey.100'),
+          // color: (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800'),
+          // border: '1px solid',
+          // borderColor: (theme) => (theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300'),
+          borderRadius: 2,
+          fontSize: '0.875rem',
+          // fontWeight: '700',
+          ...sx,
+        }}
+        {...other}
+      />
+    );
+  }
 
   return (
     <div className="gameInfoRendering">
       <div className="winRate">최근 10게임 승률:{winRate}%</div>
-      <div className="gameInfo">
+      <div className="content">
         {summonerGameData.map((game, idx) => {
+          console.log(game.win);
           return (
-            <li className="gameList" key={idx}>
+            <li className="game-container" key={idx}>
+              <Box
+                sx={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'flex-start',
+                  p: 1,
+                  m: 1,
+                  bgcolor: 'background.paper',
+                  borderRadius: 1,
+                }}
+              >
+                <Item>
+                  <div className="game">
+                    <div className="type">{game.gameType}</div>
+                    <div className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</div>
+                    <div className="bar"></div>
+                    <div className="win">{winAndDefeat(game.win)}</div>
+                    <div className="gameStartTime">{game.gameDuration}</div>
+                  </div>
+                </Item>
+              </Box>
+
               <img
                 id="summonerIconImg"
                 src={championIcon(game.championName)}
                 alt="챔피언 아이콘"
                 style={{ height: 42 }}
               />
-              <div className="type">{game.gameType}</div>
-              <div className="gameStartTime">{gameStartDate(game.gameStartTimestamp)}</div>
-              <div className="gameEndTime"> {gameEndDate(game.gameEndDateTimeStamp)}</div>
-              <div className="champLevel">{game.champLevel}</div>
-              <div className="kill">{game.kill}</div>
-              <div className="death">{game.death}</div>
-              <div className="assist">{game.assist}</div>
-              <div className="kda">{game.kda}</div>
+
+              <div className="champLevel">lv: {game.champLevel}</div>
+              <div className="kill-death-assist">
+                <span>{game.kill}</span>/<span className="death">{game.death}</span>/<span>{game.assist}</span>
+                <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
+              </div>
               <div className="totalCs">{game.totalCs}</div>
               <div className="item0">{game.item0}</div>
               <div className="item1">{game.item1}</div>
@@ -103,7 +156,6 @@ function GameInfoRender(props) {
               <div className="lane">{game.lane}</div>
               <div className="pinkWard">{game.pinkWard}</div>
               <div className="team">{game.team}</div>
-              <div className="win">{game.win}</div>
             </li>
           );
         })}

@@ -104,14 +104,23 @@ export class ApiService {
           const gameDurationMinute = moment.duration(moment(gameEndDate).diff(gameStartDate)).minutes();
           const gameDurationSecond = moment.duration(moment(gameEndDate).diff(gameStartDate)).seconds();
 
-          const gameType = data.info.queueId === 420 ? '솔랭' : '자유랭크';
-
+          const gameType = (gameQueueId: number) => {
+            switch (gameQueueId) {
+              case 420:
+                return '솔랭';
+              case 430:
+                return '일반게임';
+              default:
+                '자유랭크';
+                break;
+            }
+          };
           _.each(gameDataList, (game: SummonerGameData) => {
             return summonerGameDataList.push({
               gameStartDateTimeStamp: data.info.gameStartTimestamp,
               gameEndDateTimeStamp: data.info.gameEndTimestamp,
               gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
-              gameType: gameType,
+              gameType: gameType(data.info.queueId),
               summonerName: game.summonerName,
               summonerId: game.summonerId,
               summonerLevel: game.summonerLevel,
@@ -155,14 +164,24 @@ export class ApiService {
         const gameDurationMinute = moment.duration(moment(gameEndDate).diff(gameStartDate)).minutes();
         const gameDurationSecond = moment.duration(moment(gameEndDate).diff(gameStartDate)).seconds();
 
-        const gameType = data.info.queueId === 420 ? '솔랭' : '자유랭크';
+        const gameType = (gameQueueId: number) => {
+          switch (gameQueueId) {
+            case 420:
+              return '솔랭';
+            case 430:
+              return '일반게임';
+            default:
+              '자유랭크';
+              break;
+          }
+        };
 
         _.each(gameDataList, (game: SummonerGameData) => {
           return finalData.push({
             gameStartDateTimeStamp: data.info.gameStartTimestamp,
             gameEndDateTimeStamp: data.info.gameEndTimestamp,
             gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
-            gameType: gameType,
+            gameType: gameType(data.info.queueId),
             summonerName: game.summonerName,
             summonerId: game.summonerId,
             summonerLevel: game.summonerLevel,
