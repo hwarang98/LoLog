@@ -10,9 +10,12 @@ function GameInfoRender(props) {
   const [winCount, setWinCount] = useState(0);
   const { gameInfo, summonerId } = props;
 
-  // 전체 게임 승률
   const championIcon = (championName) => {
-    return `https://ddragon.leagueoflegends.com/cdn/10.6.1/img/champion/${championName}.png`;
+    return `https://ddragon.leagueoflegends.com/cdn/13.4.1/img/champion/${championName}.png`;
+  };
+
+  const itemIcon = (itemNum) => {
+    return `http://ddragon.leagueoflegends.com/cdn/13.4.1/img/item/${itemNum}.png`;
   };
 
   const gameDatTranslator = (date) => {
@@ -109,7 +112,7 @@ function GameInfoRender(props) {
       <div className="winRate">최근 10게임 승률:{winRate}%</div>
       <div className="content">
         {summonerGameData.map((game, idx) => {
-          console.log(game.win);
+          console.log(game.championName);
           return (
             <li className="game-container" key={idx}>
               <Box
@@ -147,12 +150,24 @@ function GameInfoRender(props) {
                 <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
               </div>
               <div className="totalCs">{game.totalCs}</div>
-              <div className="item0">{game.item0}</div>
-              <div className="item1">{game.item1}</div>
-              <div className="item2">{game.item2}</div>
-              <div className="item3">{game.item3}</div>
-              <div className="item4">{game.item4}</div>
-              <div className="item5">{game.item5}</div>
+              {game.item0 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item0)} alt="아이탬 아이콘" style={{ height: 42 }} />
+              ) : null}
+              {game.item1 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item1)} alt="아이탬 아이콘" style={{ height: 42 }} />
+              ) : null}
+              {game.item2 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item2)} alt="아이탬 아이콘" style={{ height: 42 }} />
+              ) : null}
+              {game.item3 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item3)} alt="아이탬 아이콘" style={{ height: 42 }} />
+              ) : null}
+              {game.item4 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item4)} alt="아이탬 아이콘" style={{ height: 42 }} />
+              ) : null}
+              {game.item5 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item5)} alt="아이탬 아이콘" style={{ height: 42 }} />
+              ) : null}
               <div className="lane">{game.lane}</div>
               <div className="pinkWard">{game.pinkWard}</div>
               <div className="team">{game.team}</div>
