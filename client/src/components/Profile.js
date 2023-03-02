@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { GameInfoRender, SoloGameRankRate, Emblem } from './index';
 import Grid from '@mui/material/Grid';
+import PropTypes from 'prop-types';
+import Box from '@mui/material/Box';
 import './Profile.css';
 
 function Profile(props) {
@@ -31,45 +33,68 @@ function Profile(props) {
     return getGameInfo;
   };
 
+  const Item = (props) => {
+    const { sx, ...other } = props;
+    return (
+      <Box
+        sx={{
+          p: 1,
+          m: 1,
+          fontSize: '0.875rem',
+          ...sx,
+        }}
+        {...other}
+      />
+    );
+  };
+
   return (
     <main className="profile">
-      {/* <Box sx={{ flexGrow: 2 }}> */}
-      <Grid container spacing={2}>
-        <Grid item xs={1}>
+      <Box
+        sx={{
+          display: 'flex',
+          flexWrap: 'wrap',
+          p: 1,
+          m: 1,
+          bgcolor: 'background.paper',
+          maxWidth: 500,
+          borderRadius: 1,
+        }}
+      >
+        <Item>
           <div className="summonerFrofileIcon">
             <img id="userIconImg" src={userIcon} alt="유저 아이콘" style={{ height: 85 }} />
           </div>
           <span className="level">{level}</span>
-        </Grid>
-        <Grid item xs={2}>
           <div className="summonerName">
             <span>{name}</span>
           </div>
-        </Grid>
-        <Grid item xs={9}>
+        </Item>
+        <Item>
+          <Emblem tier={tier}></Emblem>
+        </Item>
+        <Item>
           <div className="summonerRankInfo">
             <div className="leagueType">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
             <div className="tire">
               {tier} {rank}
             </div>
-            <Emblem tier={tier}></Emblem>
             {leaguePoints} LP
             <SoloGameRankRate wins={wins} losses={losses} winCount={winCount} />
           </div>
-        </Grid>
-        <Grid item xs={12}>
+        </Item>
+
+        <Item>
           <div className="searchGameInfo">
             <button onClick={getGameInfo}>전적검색</button>
           </div>
-        </Grid>
-
-        <Grid item xs={12}>
+        </Item>
+        <Item>
           <div className="gameList">
             {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}
           </div>
-        </Grid>
-      </Grid>
-      {/* </Box> */}
+        </Item>
+      </Box>
     </main>
   );
 }

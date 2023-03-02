@@ -92,14 +92,9 @@ function GameInfoRender(props) {
       <Box
         sx={{
           p: 1,
-          m: 1,
-          // bgcolor: (theme) => (theme.palette.mode === 'dark' ? '#101010' : 'grey.100'),
-          // color: (theme) => (theme.palette.mode === 'dark' ? 'grey.300' : 'grey.800'),
-          // border: '1px solid',
-          // borderColor: (theme) => (theme.palette.mode === 'dark' ? 'grey.800' : 'grey.300'),
+          m: 2,
           borderRadius: 2,
           fontSize: '0.875rem',
-          // fontWeight: '700',
           ...sx,
         }}
         {...other}
@@ -112,21 +107,17 @@ function GameInfoRender(props) {
       <div className="winRate">최근 10게임 승률:{winRate}%</div>
       <div className="content">
         {summonerGameData.map((game, idx) => {
-          console.log(game.championName);
           return (
             <li className="game-container" key={idx}>
               <Box
                 sx={{
                   display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'flex-start',
-                  p: 1,
-                  m: 1,
+                  p: 5,
                   bgcolor: 'background.paper',
                   borderRadius: 1,
                 }}
               >
-                <Item>
+                <Item sx={{ flexGrow: 1 }}>
                   <div className="game">
                     <div className="type">{game.gameType}</div>
                     <div className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</div>
@@ -135,42 +126,46 @@ function GameInfoRender(props) {
                     <div className="gameStartTime">{game.gameDuration}</div>
                   </div>
                 </Item>
+                <Item sx={{ flexGrow: 10 }}>
+                  <div className="summoner-icon-container">
+                    <img
+                      id="summonerIconImg"
+                      src={championIcon(game.championName)}
+                      alt="챔피언 아이콘"
+                      // style={{ height: 42 }}
+                    />
+                    <span className="champLevel">{game.champLevel}</span>
+                  </div>
+                  <span className="kill-death-assist">
+                    <span>{game.kill}</span>/<span className="death">{game.death}</span>/<span>{game.assist}</span>
+                    <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
+                  </span>
+                  <div className="totalCs">{game.totalCs}</div>
+                  {game.item0 !== 0 ? (
+                    <img id="itemIcon" src={itemIcon(game.item0)} alt="아이탬 아이콘" style={{ height: 42 }} />
+                  ) : null}
+                  {game.item1 !== 0 ? (
+                    <img id="itemIcon" src={itemIcon(game.item1)} alt="아이탬 아이콘" style={{ height: 42 }} />
+                  ) : null}
+                  {game.item2 !== 0 ? (
+                    <img id="itemIcon" src={itemIcon(game.item2)} alt="아이탬 아이콘" style={{ height: 42 }} />
+                  ) : null}
+                  {game.item3 !== 0 ? (
+                    <img id="itemIcon" src={itemIcon(game.item3)} alt="아이탬 아이콘" style={{ height: 42 }} />
+                  ) : null}
+                  {game.item4 !== 0 ? (
+                    <img id="itemIcon" src={itemIcon(game.item4)} alt="아이탬 아이콘" style={{ height: 42 }} />
+                  ) : null}
+                  {game.item5 !== 0 ? (
+                    <img id="itemIcon" src={itemIcon(game.item5)} alt="아이탬 아이콘" style={{ height: 42 }} />
+                  ) : null}
+                  <div className="lane">{linePosition(game.lane)}</div>
+                </Item>
+                <Item>
+                  <div className="pinkWard">{game.pinkWard}</div>
+                  <div className="team">{game.team}</div>
+                </Item>
               </Box>
-
-              <img
-                id="summonerIconImg"
-                src={championIcon(game.championName)}
-                alt="챔피언 아이콘"
-                style={{ height: 42 }}
-              />
-
-              <div className="champLevel">lv: {game.champLevel}</div>
-              <div className="kill-death-assist">
-                <span>{game.kill}</span>/<span className="death">{game.death}</span>/<span>{game.assist}</span>
-                <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
-              </div>
-              <div className="totalCs">{game.totalCs}</div>
-              {game.item0 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item0)} alt="아이탬 아이콘" style={{ height: 42 }} />
-              ) : null}
-              {game.item1 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item1)} alt="아이탬 아이콘" style={{ height: 42 }} />
-              ) : null}
-              {game.item2 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item2)} alt="아이탬 아이콘" style={{ height: 42 }} />
-              ) : null}
-              {game.item3 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item3)} alt="아이탬 아이콘" style={{ height: 42 }} />
-              ) : null}
-              {game.item4 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item4)} alt="아이탬 아이콘" style={{ height: 42 }} />
-              ) : null}
-              {game.item5 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item5)} alt="아이탬 아이콘" style={{ height: 42 }} />
-              ) : null}
-              <div className="lane">{game.lane}</div>
-              <div className="pinkWard">{game.pinkWard}</div>
-              <div className="team">{game.team}</div>
             </li>
           );
         })}

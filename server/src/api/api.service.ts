@@ -145,7 +145,7 @@ export class ApiService {
               item4: game.item4,
               item5: game.item5,
               item6: game.item6,
-              lane: game.lane === 'BOTTOM' ? game.role : game.lane,
+              lane: game.teamPosition,
               pinkWard: game.visionWardsBoughtInGame,
               team: game.teamId === 100 ? '블루팀' : '레드팀',
               win: game.win,
@@ -179,8 +179,16 @@ export class ApiService {
               break;
           }
         };
+        //SummonerGameData
 
         _.each(gameDataList, (game: SummonerGameData) => {
+          // if (game.summonerName === '소라카가 가요') {
+          //   console.log('game.visionWardsBoughtInGame: ', game.visionWardsBoughtInGame);
+          //   console.log('game.wardsKilled: ', game.wardsKilled);
+          //   console.log('detectorWardsPlaced: ', game.detectorWardsPlaced);
+          //   console.log('sightWardsBoughtInGame: ', game.sightWardsBoughtInGame);
+          //   console.log('wardsPlaced: ', game.wardsPlaced);
+          // }
           return finalData.push({
             gameStartDateTimeStamp: data.info.gameStartTimestamp,
             gameEndDateTimeStamp: data.info.gameEndTimestamp,
@@ -206,7 +214,7 @@ export class ApiService {
             item4: game.item4,
             item5: game.item5,
             item6: game.item6,
-            lane: game.lane === 'BOTTOM' ? game.role : game.lane,
+            lane: game.teamPosition,
             pinkWard: game.visionWardsBoughtInGame,
             team: game.teamId === 100 ? '블루팀' : '레드팀',
             win: game.win,
