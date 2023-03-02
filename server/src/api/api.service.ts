@@ -108,11 +108,15 @@ export class ApiService {
             switch (gameQueueId) {
               case 420:
                 return '솔랭';
+
               case 430:
                 return '일반게임';
+
+              case 440:
+                return '자유랭크';
+
               default:
-                '자유랭크';
-                break;
+                return '일반게임';
             }
           };
           _.each(gameDataList, (game: SummonerGameData) => {
