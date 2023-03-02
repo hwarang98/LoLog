@@ -33,7 +33,7 @@ export interface SummonerGameData {
   spell3Casts: number;
   spell4Casts: number;
   lane: string;
-  role: string;
+  teamPosition: string;
   visionWardsBoughtInGame: number;
   team: string;
   win: boolean;
