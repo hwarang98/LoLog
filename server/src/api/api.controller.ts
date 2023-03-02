@@ -44,9 +44,8 @@ export class ApiController {
     summary: '게임정보 조회 API',
     description: '소환사 이름으로 게임정보 조회 API',
   })
-  async gameInfo(@Body('data') data: object) {
-    this.myLogger.log(`${data}의 게임정보 조회중...`);
-    console.log(data);
+  async gameInfo(@Body('data') data: any) {
+    this.myLogger.log(`${data.summonerName}의 게임정보 조회중...`);
     return this.ApiService.getGameDataForSummonerName(data);
   }
 }
