@@ -9,9 +9,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Iron.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Iron'
+          alt="Iron"
         />
       );
 
@@ -19,9 +19,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Bronze.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Bronze'
+          alt="Bronze"
         />
       );
 
@@ -29,9 +29,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Silver.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Silver'
+          alt="Silver"
         />
       );
 
@@ -39,9 +39,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Gold.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Gold'
+          alt="Gold"
         />
       );
 
@@ -49,9 +49,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Platinum.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Platinum'
+          alt="Platinum"
         />
       );
 
@@ -59,9 +59,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Diamond.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Diamond'
+          alt="Diamond"
         />
       );
 
@@ -69,9 +69,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Master.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Master'
+          alt="Master"
         />
       );
 
@@ -79,9 +79,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Grandmaster.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Grandmaster'
+          alt="Grandmaster"
         />
       );
 
@@ -89,9 +89,9 @@ function Emblem(props) {
       return (
         <img
           src={require('../images/emblems/Emblem_Challenger.png')}
-          className='userTier'
+          className="userTier"
           style={{ height: 100 }}
-          alt='Challenger'
+          alt="Challenger"
         />
       );
 
