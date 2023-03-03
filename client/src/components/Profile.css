@@ -1,20 +1,17 @@
-main {
-  /* margin: 0px auto; */
-  /* padding-top: 100px; */
-  /* width: 1200px; */
+.profile {
   position: absolute;
   top: 20%;
   left: 50%;
   transform: translate(-50%, -50%);
 }
 
-#userIconImg {
-  /* float: left; */
+/* #userIconImg {
+  float: left;
   border-radius: 12%;
   max-width: 100%;
-}
+} */
 
-.level {
+/* .level {
   font-size: 12px;
   background-color: rgb(32, 45, 55);
   color: rgb(255, 255, 255);
@@ -23,7 +20,7 @@ main {
   line-height: 10px;
   position: relative;
   top: -10%;
-}
+} */
 
 /* .summonerName {
   font-weight: bold;

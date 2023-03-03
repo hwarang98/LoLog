@@ -5,26 +5,26 @@
   transform: translate(-50%, -50%);
 } */
 
-.gameList {
+/* .gameList {
   padding: 20px 0px 20px 0px;
-}
-
+} */
+/* 
 #summonerIconImg {
   width: 43px;
   height: 100%;
   object-fit: cover;
   transform: scale(1.2);
   transition: transform 0.3s ease 0s;
-}
+} */
 
-.champLevel {
+/* .champLevel {
   position: absolute;
-  /* bottom: 0px; */
-  /* right: 0px; */
+  bottom: 0px;
+  right: 0px;
   padding: 2px;
   border-radius: 2px;
   background: rgb(245, 245, 245);
-}
+} */
 /* .game .bar {
   width: 48px;
   height: 1px;

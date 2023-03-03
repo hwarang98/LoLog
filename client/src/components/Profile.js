@@ -49,18 +49,18 @@ function Profile(props) {
   };
 
   return (
-    <main className="profile">
-      <Box
-        sx={{
-          display: 'flex',
-          flexWrap: 'wrap',
-          p: 1,
-          m: 1,
-          bgcolor: 'background.paper',
-          maxWidth: 500,
-          borderRadius: 1,
-        }}
-      >
+    <Box
+      sx={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        p: 1,
+        m: 1,
+        bgcolor: 'background.paper',
+        maxWidth: 500,
+        borderRadius: 1,
+      }}
+    >
+      <div className="profile">
         <Item>
           <div className="summonerFrofileIcon">
             <img id="userIconImg" src={userIcon} alt="유저 아이콘" style={{ height: 85 }} />
@@ -94,8 +94,8 @@ function Profile(props) {
             {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}
           </div>
         </Item>
-      </Box>
-    </main>
+      </div>
+    </Box>
   );
 }
 

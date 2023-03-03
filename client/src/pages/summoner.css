@@ -1,17 +1,18 @@
-.summoner {
-  /* text-align: center; */
-  /* padding: 100px 250px 0px 250px; */
-  /* position: absolute;
+/* .summoner {
+  text-align: center;
+  padding: 100px 250px 0px 250px;
+  position: absolute;
   top: 100%;
   left: 50%;
-  transform: translate(-50%, -50%); */
-}
+  transform: translate(-50%, -50%);
+} */
 
 /* 간격 맞추기 */
 ul {
   margin: 0 auto;
   padding: 0px;
 }
+
 /* 점 없애기 */
 li {
   list-style: none;
