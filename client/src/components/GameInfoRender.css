@@ -1,21 +1,11 @@
-/* .gameInfoRendering {
-  position: absolute;
-  top: 80%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-} */
-
-/* .gameList {
-  padding: 20px 0px 20px 0px;
-} */
-/* 
 #summonerIconImg {
   width: 43px;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1.2);
-  transition: transform 0.3s ease 0s;
-} */
+}
+
+.game-container {
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.635);
+}
 
 /* .champLevel {
   position: absolute;
@@ -25,6 +15,7 @@
   border-radius: 2px;
   background: rgb(245, 245, 245);
 } */
+
 /* .game .bar {
   width: 48px;
   height: 1px;

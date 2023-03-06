@@ -1,17 +1,27 @@
-.profile {
-  position: absolute;
-  top: 20%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+* {
+  /* padding: 30px; */
+  /* margin: 20px; */
 }
 
-/* #userIconImg {
-  float: left;
-  border-radius: 12%;
-  max-width: 100%;
-} */
+#userIconImg {
+  border: 0;
+  vertical-align: middle;
+  /* max-width: 100%; */
+  height: 85px;
+  border-radius: 20px;
+}
 
-/* .level {
+.summonerName {
+  margin-top: 40px;
+}
+
+.profile .summonerFrofileIcon div.level {
+  height: 20px;
+  margin-top: -11px;
+  /* text-align: center; */
+}
+
+.profile .summonerFrofileIcon span.level {
   font-size: 12px;
   background-color: rgb(32, 45, 55);
   color: rgb(255, 255, 255);
@@ -20,7 +30,7 @@
   line-height: 10px;
   position: relative;
   top: -10%;
-} */
+}
 
 /* .summonerName {
   font-weight: bold;

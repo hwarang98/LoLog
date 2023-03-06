@@ -1,11 +1,11 @@
-/* .summoner {
-  text-align: center;
-  padding: 100px 250px 0px 250px;
-  position: absolute;
-  top: 100%;
+.summoner {
+  /* text-align: center; */
+  /* padding: 100px 250px 0px 250px; */
+  /* position: absolute;
+  top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-} */
+  transform: translate(-50%, -50%); */
+}
 
 /* 간격 맞추기 */
 ul {

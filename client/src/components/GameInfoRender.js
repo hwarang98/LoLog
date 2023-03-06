@@ -4,6 +4,7 @@ import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import './GameInfoRender.css';
+import { positions } from '@mui/system';
 
 function GameInfoRender(props) {
   const [summonerGameData, setSummonerGameData] = useState([]);
@@ -104,20 +105,21 @@ function GameInfoRender(props) {
 
   return (
     <div className="gameInfoRendering">
-      <div className="winRate">최근 10게임 승률:{winRate}%</div>
       <div className="content">
+        <div className="winRate">최근 10게임 승률:{winRate}%</div>
         {summonerGameData.map((game, idx) => {
           return (
             <li className="game-container" key={idx}>
               <Box
                 sx={{
                   display: 'flex',
-                  p: 5,
-                  bgcolor: 'background.paper',
-                  borderRadius: 1,
+                  p: 1,
+                  m: 1,
+                  // borderRadius: 1,
+                  justifyContent: 'center',
                 }}
               >
-                <Item sx={{ flexGrow: 1 }}>
+                <Item>
                   <div className="game">
                     <div className="type">{game.gameType}</div>
                     <div className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</div>
@@ -126,14 +128,9 @@ function GameInfoRender(props) {
                     <div className="gameStartTime">{game.gameDuration}</div>
                   </div>
                 </Item>
-                <Item sx={{ flexGrow: 10 }}>
+                <Item>
                   <div className="summoner-icon-container">
-                    <img
-                      id="summonerIconImg"
-                      src={championIcon(game.championName)}
-                      alt="챔피언 아이콘"
-                      // style={{ height: 42 }}
-                    />
+                    <img id="summonerIconImg" src={championIcon(game.championName)} alt="챔피언 아이콘" />
                     <span className="champLevel">{game.champLevel}</span>
                   </div>
                   <span className="kill-death-assist">
@@ -141,24 +138,27 @@ function GameInfoRender(props) {
                     <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
                   </span>
                   <div className="totalCs">{game.totalCs}</div>
-                  {game.item0 !== 0 ? (
-                    <img id="itemIcon" src={itemIcon(game.item0)} alt="아이탬 아이콘" style={{ height: 42 }} />
-                  ) : null}
-                  {game.item1 !== 0 ? (
-                    <img id="itemIcon" src={itemIcon(game.item1)} alt="아이탬 아이콘" style={{ height: 42 }} />
-                  ) : null}
-                  {game.item2 !== 0 ? (
-                    <img id="itemIcon" src={itemIcon(game.item2)} alt="아이탬 아이콘" style={{ height: 42 }} />
-                  ) : null}
-                  {game.item3 !== 0 ? (
-                    <img id="itemIcon" src={itemIcon(game.item3)} alt="아이탬 아이콘" style={{ height: 42 }} />
-                  ) : null}
-                  {game.item4 !== 0 ? (
-                    <img id="itemIcon" src={itemIcon(game.item4)} alt="아이탬 아이콘" style={{ height: 42 }} />
-                  ) : null}
-                  {game.item5 !== 0 ? (
-                    <img id="itemIcon" src={itemIcon(game.item5)} alt="아이탬 아이콘" style={{ height: 42 }} />
-                  ) : null}
+                  <div className="item">
+                    {game.item0 !== 0 ? (
+                      <img id="itemIcon" src={itemIcon(game.item0)} alt={game.item0} style={{ height: 42 }} />
+                    ) : null}
+
+                    {game.item1 !== 0 ? (
+                      <img id="itemIcon" src={itemIcon(game.item1)} alt={game.item0} style={{ height: 42 }} />
+                    ) : null}
+                    {game.item2 !== 0 ? (
+                      <img id="itemIcon" src={itemIcon(game.item2)} alt={game.item0} style={{ height: 42 }} />
+                    ) : null}
+                    {game.item3 !== 0 ? (
+                      <img id="itemIcon" src={itemIcon(game.item3)} alt={game.item0} style={{ height: 42 }} />
+                    ) : null}
+                    {game.item4 !== 0 ? (
+                      <img id="itemIcon" src={itemIcon(game.item4)} alt={game.item0} style={{ height: 42 }} />
+                    ) : null}
+                    {game.item5 !== 0 ? (
+                      <img id="itemIcon" src={itemIcon(game.item5)} alt={game.item0} style={{ height: 42 }} />
+                    ) : null}
+                  </div>
                   <div className="lane">{linePosition(game.lane)}</div>
                 </Item>
                 <Item>

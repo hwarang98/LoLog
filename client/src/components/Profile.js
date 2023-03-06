@@ -49,30 +49,36 @@ function Profile(props) {
   };
 
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexWrap: 'wrap',
-        p: 1,
-        m: 1,
-        bgcolor: 'background.paper',
-        maxWidth: 500,
-        borderRadius: 1,
-      }}
-    >
-      <div className="profile">
+    <div className="profile">
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+
+          p: 1,
+          m: 1,
+          // maxWidth: 600,
+        }}
+      >
         <Item>
-          <div className="summonerFrofileIcon">
-            <img id="userIconImg" src={userIcon} alt="유저 아이콘" style={{ height: 85 }} />
-          </div>
-          <span className="level">{level}</span>
           <div className="summonerName">
             <span>{name}</span>
           </div>
         </Item>
+
+        <Item sx={{ flexGrow: 2 }}>
+          <div className="summonerFrofileIcon">
+            <img id="userIconImg" src={userIcon} alt="유저 아이콘" />
+            <div className="level">
+              <span className="level">{level}</span>
+            </div>
+          </div>
+        </Item>
+
         <Item>
           <Emblem tier={tier}></Emblem>
         </Item>
+
         <Item>
           <div className="summonerRankInfo">
             <div className="leagueType">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
@@ -85,17 +91,29 @@ function Profile(props) {
         </Item>
 
         <Item>
+          {/* <div className="gameList"> */}
+          {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}
+          {/* </div> */}
+        </Item>
+      </Box>
+
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+
+          p: 1,
+          m: 1,
+          // maxWidth
+        }}
+      >
+        <Item sx={{ alignSelf: 'flex-end' }}>
           <div className="searchGameInfo">
             <button onClick={getGameInfo}>전적검색</button>
           </div>
         </Item>
-        <Item>
-          <div className="gameList">
-            {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}
-          </div>
-        </Item>
-      </div>
-    </Box>
+      </Box>
+    </div>
   );
 }
 
