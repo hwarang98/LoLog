@@ -19,10 +19,10 @@ export class ApiService {
    * @param name 문자열 타입 소환사 이름
    * @returns 소환사 이름의 정보
    */
-  async getUserInfo(name: string) {
+  async getUserInfo(summonerName: string) {
     try {
       const userData = await axios.get(
-        `${this.RIOT_URL}/lol/summoner/v4/summoners/by-name/${encodeURI(name)}?api_key=${this.RIOT_API_KEY}`,
+        `${this.RIOT_URL}/lol/summoner/v4/summoners/by-name/${encodeURI(summonerName)}?api_key=${this.RIOT_API_KEY}`,
         {
           headers: this.header,
         },
@@ -172,11 +172,15 @@ export class ApiService {
           switch (gameQueueId) {
             case 420:
               return '솔랭';
+
             case 430:
               return '일반게임';
+
+            case 440:
+              return '자유랭크';
+
             default:
-              '자유랭크';
-              break;
+              return '일반게임';
           }
         };
         //SummonerGameData

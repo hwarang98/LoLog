@@ -26,7 +26,7 @@ function Home() {
   const onClick = async () => {
     const getSummoner = await axios
       .post(`http://localhost:4000/api/summoner/info`, {
-        name: summoner,
+        summonerName: summoner,
       })
       .catch((error) => {
         const errorMessage = error.response.data.error;

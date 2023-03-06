@@ -1,6 +1,6 @@
 import { Controller, Post, Body } from '@nestjs/common';
 import { ApiService } from './api.service';
-import { ApiTags, ApiOperation } from '@nestjs/swagger';
+import { ApiTags, ApiOperation, ApiCreatedResponse } from '@nestjs/swagger';
 import { MyLogger } from 'src/common/middlewares/logger.middleware';
 
 @ApiTags('riot api')
@@ -14,9 +14,12 @@ export class ApiController {
     summary: '유저정보 조회 API',
     description: '소환사 이름을 사용한 해당 유저 정보 조회',
   })
-  async getUser(@Body('name') name: string) {
-    this.myLogger.log(`${name} 님의 정보 조회중...`);
-    return this.ApiService.getUserInfo(name);
+  @ApiCreatedResponse({ status: 200, description: '소환사의 정보조회' })
+  @ApiCreatedResponse({ status: 403, description: 'riot api 토큰 갱신 필요' })
+  async getUser(@Body('summonerName') summonerName: string) {
+    this.myLogger.log(`${summonerName} 님의 정보 조회중...`);
+
+    return this.ApiService.getUserInfo(summonerName);
   }
 
   @Post('league/info')
