@@ -119,6 +119,7 @@ export class ApiService {
                 return '일반게임';
             }
           };
+
           _.each(gameDataList, (game: SummonerGameData) => {
             return summonerGameDataList.push({
               gameStartDateTimeStamp: data.info.gameStartTimestamp,
@@ -231,6 +232,27 @@ export class ApiService {
       return sortedArr;
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
+    }
+  }
+
+  /**
+   *
+   * @param spell 문자열 타입 spell
+   * @returns 게임 매칭 ID
+   */
+  async getSummonerSpell(spell: number) {
+    try {
+      const spellData = await axios.get(`https://ddragon.leagueoflegends.com/cdn/13.4.1/data/ko_KR/summoner.json`, {
+        headers: this.header,
+      });
+
+      const data = _.map(spellData.data, (data) => {
+        console.log(data);
+      });
+
+      return spellData.data;
+    } catch (error) {
+      throw new HttpException('소환사의 puuid를 확인해주세요.', 400);
     }
   }
 }
