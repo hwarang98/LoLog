@@ -51,4 +51,14 @@ export class ApiController {
     this.myLogger.log(`${data.summonerName}의 게임정보 조회중...`);
     return this.ApiService.getGameDataForSummonerName(data);
   }
+
+  @Post('summoner/spell')
+  @ApiOperation({
+    summary: '게임정보 조회 API',
+    description: '소환사 이름으로 게임정보 조회 API',
+  })
+  async summonerSpell(@Body('spell') spell: number) {
+    this.myLogger.log(`${spell}의 spell 조회중...`);
+    return this.ApiService.getSummonerSpell(spell);
+  }
 }
