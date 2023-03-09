@@ -54,10 +54,9 @@ function Profile(props) {
         sx={{
           display: 'flex',
           justifyContent: 'center',
-
           p: 1,
-          m: 1,
-          // maxWidth: 600,
+          ml: 1,
+          mr: 1,
         }}
       >
         <Item>
@@ -66,7 +65,7 @@ function Profile(props) {
           </div>
         </Item>
 
-        <Item sx={{ flexGrow: 2 }}>
+        <Item>
           <div className="summonerFrofileIcon">
             <img id="userIconImg" src={userIcon} alt="유저 아이콘" />
             <div className="level">
@@ -79,7 +78,7 @@ function Profile(props) {
           <Emblem tier={tier}></Emblem>
         </Item>
 
-        <Item>
+        <Item sx={{ flexShrink: 0 }}>
           <div className="summonerRankInfo">
             <div className="leagueType">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
             <div className="tire">

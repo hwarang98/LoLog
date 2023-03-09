@@ -68,18 +68,22 @@ function Home() {
 
   return (
     <div className="home">
-      <h1>LoLog</h1>
-      <TextField
-        id="summonerName"
-        label="소환사 이름"
-        size="small"
-        style={{ width: 400 }}
-        onChange={onChange}
-        onKeyPress={onEnter}
-      />
-      <IconButton onClick={onClick}>
-        <SearchIcon />
-      </IconButton>
+      <div className="serch-container">
+        <h1>LoLog</h1>
+        <div className="info">
+          <TextField
+            id="summonerName"
+            label="소환사 이름"
+            size="small"
+            style={{ width: 400 }}
+            onChange={onChange}
+            onKeyPress={onEnter}
+          />
+          <IconButton className="search-button" onClick={onClick}>
+            <SearchIcon />
+          </IconButton>
+        </div>
+      </div>
     </div>
   );
 }

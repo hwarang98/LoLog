@@ -40,7 +40,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Gold.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Gold"
         />
       );
