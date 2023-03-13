@@ -56,13 +56,12 @@ export class ApiService {
    * @param puuid 문자열 타입 PUUID
    * @returns 게임 매칭 ID
    */
-  async getMatchId(puuid: string) {
+  async getMatchId(puuid: string): Promise<any> {
     try {
+      const header = { headers: this.header };
       const matchData = await axios.get(
         `${this.RIOT_ASIA_URL}/lol/match/v5/matches/by-puuid/${puuid}/ids?start=0&count=10`,
-        {
-          headers: this.header,
-        },
+        header,
       );
       return matchData.data;
     } catch (error) {
@@ -242,15 +241,14 @@ export class ApiService {
    */
   async getSummonerSpell(spell: number) {
     try {
-      const spellData = await axios.get(`https://ddragon.leagueoflegends.com/cdn/13.4.1/data/ko_KR/summoner.json`, {
+      const { data } = await axios.get(`https://ddragon.leagueoflegends.com/cdn/13.4.1/data/ko_KR/summoner.json`, {
         headers: this.header,
       });
 
-      const data = _.map(spellData.data, (data) => {
-        console.log(data);
+      const test = _.map(data.data, (item) => {
+        console.log(item.key);
       });
-
-      return spellData.data;
+      return data;
     } catch (error) {
       throw new HttpException('소환사의 puuid를 확인해주세요.', 400);
     }

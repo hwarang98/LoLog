@@ -1,5 +1,4 @@
 import React from 'react';
-import './Emblem.css';
 
 function Emblem(props) {
   const { tier } = props;
@@ -20,7 +19,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Bronze.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Bronze"
         />
       );
@@ -30,7 +29,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Silver.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Silver"
         />
       );
@@ -50,7 +49,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Platinum.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Platinum"
         />
       );
@@ -60,7 +59,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Diamond.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Diamond"
         />
       );
@@ -70,7 +69,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Master.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Master"
         />
       );
@@ -80,7 +79,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Grandmaster.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Grandmaster"
         />
       );
@@ -90,7 +89,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Challenger.png')}
           className="userTier"
-          style={{ height: 100 }}
+          style={{ height: 100, marginLeft: '300px' }}
           alt="Challenger"
         />
       );
