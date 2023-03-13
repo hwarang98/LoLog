@@ -4,7 +4,6 @@ import axios from 'axios';
 import TextField from '@mui/material/TextField';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import './home.css';
 
 function Home() {
   const [summoner, setSummoner] = useState('');
@@ -67,19 +66,20 @@ function Home() {
   };
 
   return (
-    <div className="home">
+    <div className="flex flex-row justify-center">
       <div className="serch-container">
-        <h1>LoLog</h1>
-        <div className="info">
+        <h1 className="flex justify-center">LoLog</h1>
+        <div className="flex">
           <TextField
             id="summonerName"
             label="소환사 이름"
             size="small"
+            className="flex"
             style={{ width: 400 }}
             onChange={onChange}
             onKeyPress={onEnter}
           />
-          <IconButton className="search-button" onClick={onClick}>
+          <IconButton className="flex" onClick={onClick}>
             <SearchIcon />
           </IconButton>
         </div>

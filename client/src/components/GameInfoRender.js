@@ -3,7 +3,6 @@ import moment from 'moment';
 import _ from 'lodash';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
-import './GameInfoRender.css';
 import { positions } from '@mui/system';
 
 function GameInfoRender(props) {
@@ -110,62 +109,48 @@ function GameInfoRender(props) {
         {summonerGameData.map((game, idx) => {
           return (
             <li className="game-container" key={idx}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  p: 1,
-                  m: 1,
-                  // borderRadius: 1,
-                  justifyContent: 'center',
-                }}
-              >
-                <Item>
-                  <div className="game">
-                    <div className="type">{game.gameType}</div>
-                    <div className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</div>
-                    <div className="bar"></div>
-                    <div className="win">{winAndDefeat(game.win)}</div>
-                    <div className="gameStartTime">{game.gameDuration}</div>
-                  </div>
-                </Item>
-                <Item>
-                  <div className="summoner-icon-container">
-                    <img id="summonerIconImg" src={championIcon(game.championName)} alt="챔피언 아이콘" />
-                    <span className="champLevel">{game.champLevel}</span>
-                  </div>
-                  <span className="kill-death-assist">
-                    <span>{game.kill}</span>/<span className="death">{game.death}</span>/<span>{game.assist}</span>
-                    <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
-                  </span>
-                  <div className="totalCs">{game.totalCs}</div>
-                  <div className="item">
-                    {game.item0 !== 0 ? (
-                      <img id="itemIcon" src={itemIcon(game.item0)} alt={game.item0} style={{ height: 42 }} />
-                    ) : null}
+              <div className="game">
+                <div className="type">{game.gameType}</div>
+                <div className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</div>
+                <div className="bar"></div>
+                <div className="win">{winAndDefeat(game.win)}</div>
+                <div className="gameStartTime">{game.gameDuration}</div>
+              </div>
 
-                    {game.item1 !== 0 ? (
-                      <img id="itemIcon" src={itemIcon(game.item1)} alt={game.item0} style={{ height: 42 }} />
-                    ) : null}
-                    {game.item2 !== 0 ? (
-                      <img id="itemIcon" src={itemIcon(game.item2)} alt={game.item0} style={{ height: 42 }} />
-                    ) : null}
-                    {game.item3 !== 0 ? (
-                      <img id="itemIcon" src={itemIcon(game.item3)} alt={game.item0} style={{ height: 42 }} />
-                    ) : null}
-                    {game.item4 !== 0 ? (
-                      <img id="itemIcon" src={itemIcon(game.item4)} alt={game.item0} style={{ height: 42 }} />
-                    ) : null}
-                    {game.item5 !== 0 ? (
-                      <img id="itemIcon" src={itemIcon(game.item5)} alt={game.item0} style={{ height: 42 }} />
-                    ) : null}
-                  </div>
-                  <div className="lane">{linePosition(game.lane)}</div>
-                </Item>
-                <Item>
-                  <div className="pinkWard">{game.pinkWard}</div>
-                  <div className="team">{game.team}</div>
-                </Item>
-              </Box>
+              <div className="summoner-icon-container">
+                <img id="summonerIconImg" src={championIcon(game.championName)} alt="챔피언 아이콘" />
+                <span className="champLevel">{game.champLevel}</span>
+              </div>
+              <span className="kill-death-assist">
+                <span>{game.kill}</span>/<span className="death">{game.death}</span>/<span>{game.assist}</span>
+                <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
+              </span>
+              <div className="totalCs">{game.totalCs}</div>
+              <div className="item">
+                {game.item0 !== 0 ? (
+                  <img id="itemIcon" src={itemIcon(game.item0)} alt={game.item0} style={{ height: 42 }} />
+                ) : null}
+
+                {game.item1 !== 0 ? (
+                  <img id="itemIcon" src={itemIcon(game.item1)} alt={game.item0} style={{ height: 42 }} />
+                ) : null}
+                {game.item2 !== 0 ? (
+                  <img id="itemIcon" src={itemIcon(game.item2)} alt={game.item0} style={{ height: 42 }} />
+                ) : null}
+                {game.item3 !== 0 ? (
+                  <img id="itemIcon" src={itemIcon(game.item3)} alt={game.item0} style={{ height: 42 }} />
+                ) : null}
+                {game.item4 !== 0 ? (
+                  <img id="itemIcon" src={itemIcon(game.item4)} alt={game.item0} style={{ height: 42 }} />
+                ) : null}
+                {game.item5 !== 0 ? (
+                  <img id="itemIcon" src={itemIcon(game.item5)} alt={game.item0} style={{ height: 42 }} />
+                ) : null}
+              </div>
+              <div className="lane">{linePosition(game.lane)}</div>
+
+              <div className="pinkWard">{game.pinkWard}</div>
+              <div className="team">{game.team}</div>
             </li>
           );
         })}

@@ -3,7 +3,6 @@ import { useLocation } from 'react-router-dom';
 import { Profile, GameInfoRender } from '../components';
 import axios from 'axios';
 import _ from 'lodash';
-import './summoner.css';
 
 function Summoner() {
   const [matchId, setMatchId] = useState([]);
