@@ -103,21 +103,21 @@ function GameInfoRender(props) {
   }
 
   return (
-    <div className="gameInfoRendering">
+    <div className="flex flex-wrap items-center justify-center mt-16">
       <div className="content">
         <div className="winRate">최근 10게임 승률:{winRate}%</div>
         {summonerGameData.map((game, idx) => {
           return (
-            <li className="game-container" key={idx}>
-              <div className="game">
-                <div className="type">{game.gameType}</div>
-                <div className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</div>
-                <div className="bar"></div>
-                <div className="win">{winAndDefeat(game.win)}</div>
-                <div className="gameStartTime">{game.gameDuration}</div>
+            <div className="list-none flex p-5" key={idx}>
+              <div className="w/1-4 flex flex-col">
+                <span className="type">{game.gameType}</span>
+                <span className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</span>
+                <span className="bar"></span>
+                <span className="win">{winAndDefeat(game.win)}</span>
+                <span className="gameStartTime">{game.gameDuration}</span>
               </div>
 
-              <div className="summoner-icon-container">
+              <div className="w-10">
                 <img id="summonerIconImg" src={championIcon(game.championName)} alt="챔피언 아이콘" />
                 <span className="champLevel">{game.champLevel}</span>
               </div>
@@ -126,7 +126,7 @@ function GameInfoRender(props) {
                 <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
               </span>
               <div className="totalCs">{game.totalCs}</div>
-              <div className="item">
+              <div className="flex">
                 {game.item0 !== 0 ? (
                   <img id="itemIcon" src={itemIcon(game.item0)} alt={game.item0} style={{ height: 42 }} />
                 ) : null}
@@ -151,7 +151,7 @@ function GameInfoRender(props) {
 
               <div className="pinkWard">{game.pinkWard}</div>
               <div className="team">{game.team}</div>
-            </li>
+            </div>
           );
         })}
       </div>

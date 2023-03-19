@@ -19,7 +19,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Bronze.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Bronze"
         />
       );
@@ -29,7 +29,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Silver.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Silver"
         />
       );
@@ -39,7 +39,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Gold.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Gold"
         />
       );
@@ -49,7 +49,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Platinum.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Platinum"
         />
       );
@@ -59,7 +59,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Diamond.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Diamond"
         />
       );
@@ -69,7 +69,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Master.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Master"
         />
       );
@@ -79,7 +79,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Grandmaster.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Grandmaster"
         />
       );
@@ -89,7 +89,7 @@ function Emblem(props) {
         <img
           src={require('../images/emblems/Emblem_Challenger.png')}
           className="userTier"
-          style={{ height: 100, marginLeft: '300px' }}
+          style={{ height: 100 }}
           alt="Challenger"
         />
       );

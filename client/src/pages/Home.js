@@ -69,13 +69,11 @@ function Home() {
     <div className="flex flex-row justify-center">
       <div className="serch-container">
         <h1 className="flex justify-center text-3xl my-5">LoLog</h1>
-        <div className="flex bg-white px-4">
+        <div className="flex bg-white px-4 rounded-lg">
           <input
             type="text"
-            id="first_name"
-            className="w-96 text-black text-base rounded-lg p-2.5 border-none border-transparent focus:border-transparent focus:ring-0"
+            className="w-96 text-black text-base p-2.5 peer"
             placeholder="hide on bush"
-            required
             onChange={onChange}
             onKeyDown={onEnter}
           />

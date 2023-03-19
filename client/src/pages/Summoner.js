@@ -65,7 +65,7 @@ function Summoner() {
   }, []);
 
   return (
-    <div className="summoner">
+    <main className="mx-auto">
       <Profile
         name={name}
         profileIconId={profileIconId}
@@ -80,7 +80,7 @@ function Summoner() {
         winCount={winCount}
       />
       <GameInfoRender gameInfo={summonerGameData} winCount={10} summonerId={id} />
-    </div>
+    </main>
   );
 }
 

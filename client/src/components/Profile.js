@@ -31,32 +31,33 @@ function Profile(props) {
   };
 
   return (
-    <div className="profile">
-      <div className="summonerName">
-        <span>{name}</span>
-      </div>
-      <div className="summonerFrofileIcon">
-        <img id="userIconImg" src={userIcon} alt="유저 아이콘" />
-        <div className="level">
+    <div className="flex flex-wrap items-center justify-center mt-16">
+      <div className="flex w-1/3 justify-center">
+        <div className="text-4xl pr-10 font-bold">{name}</div>
+        <div className="rounded-lg overflow-hidden w-20">
+          <img id="userIconImg" className="rounded-lg object-cover" src={userIcon} alt="유저 아이콘" />
           <span className="level">{level}</span>
         </div>
       </div>
-      <Emblem tier={tier}></Emblem>
-      <div className="summonerRankInfo">
-        <div className="leagueType">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
-        <div className="tire">
-          {tier} {rank}
+
+      <div className="flex w-1/3">
+        <div className="pl-44 pr-6">
+          <Emblem tier={tier}></Emblem>
         </div>
-        {leaguePoints} LP
-        <SoloGameRankRate wins={wins} losses={losses} winCount={winCount} />
+        <div className="text-sm">
+          <div className="text-white pb-4">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
+          <div className="text-base font-bold pb-1">
+            {tier} {rank}
+          </div>
+          <div className="text-white-font">
+            <div className="pb-1">{leaguePoints} LP</div>
+            <SoloGameRankRate wins={wins} losses={losses} winCount={winCount} />
+          </div>
+        </div>
+        <div>{clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}</div>
       </div>
-      {/* <div className="gameList"> */}
-      {clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}
-      {/* </div> */}
-      <div className="searchGameInfo">
-        <button onClick={getGameInfo} style={{ marginRight: '600px' }}>
-          전적검색
-        </button>
+      <div className="w-full">
+        <button onClick={getGameInfo}>전적검색</button>
       </div>
     </div>
   );
