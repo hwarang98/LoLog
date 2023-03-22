@@ -1,7 +1,7 @@
 @tailwind base;
-@tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 body {
   background-color: #27272a; /* 배경색을 다크 모드로 지정 */
   color: #ffffff; /* 글자 색상을 밝은 색으로 지정 */

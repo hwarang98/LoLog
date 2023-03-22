@@ -16,6 +16,9 @@ module.exports = {
       black: '#171717',
       white: '#FFFFFF',
       'white-font': '#949494',
+      'red-font': '#dc2626',
+      'win-color': '#2563eb',
+      'lose-color': '#dc2626',
     },
     fontFamily: {
       sans: ['Graphik', 'sans-serif'],

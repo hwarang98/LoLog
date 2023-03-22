@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Profile, GameInfoRender } from '../components';
 import axios from 'axios';
+
 import _ from 'lodash';
 
 function Summoner() {

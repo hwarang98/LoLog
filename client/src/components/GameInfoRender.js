@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
-import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import { positions } from '@mui/system';
+import { lineIcon } from '../config/config.js';
 
 function GameInfoRender(props) {
   const [summonerGameData, setSummonerGameData] = useState([]);
@@ -86,76 +84,69 @@ function GameInfoRender(props) {
     }
   };
 
-  function Item(props) {
-    const { sx, ...other } = props;
-    return (
-      <Box
-        sx={{
-          p: 1,
-          m: 2,
-          borderRadius: 2,
-          fontSize: '0.875rem',
-          ...sx,
-        }}
-        {...other}
-      />
-    );
-  }
-
   return (
-    <div className="flex flex-wrap items-center justify-center mt-16">
-      <div className="content">
-        <div className="winRate">최근 10게임 승률:{winRate}%</div>
-        {summonerGameData.map((game, idx) => {
-          return (
-            <div className="list-none flex p-5" key={idx}>
-              <div className="w/1-4 flex flex-col">
-                <span className="type">{game.gameType}</span>
-                <span className="gameStartTime">{gameDatTranslator(game.gameStartDateTimeStamp)}</span>
-                <span className="bar"></span>
-                <span className="win">{winAndDefeat(game.win)}</span>
-                <span className="gameStartTime">{game.gameDuration}</span>
-              </div>
-
-              <div className="w-10">
-                <img id="summonerIconImg" src={championIcon(game.championName)} alt="챔피언 아이콘" />
-                <span className="champLevel">{game.champLevel}</span>
-              </div>
-              <span className="kill-death-assist">
-                <span>{game.kill}</span>/<span className="death">{game.death}</span>/<span>{game.assist}</span>
-                <span className="kda">({getNotRoundDecimalNumber(game.kda)})</span>
+    // <div className="flex flex-wrap items-center justify-center mt-16">
+    <div className="flex flex-col items-center mt-16">
+      <div className="flex">최근 10게임 승률:{winRate}%</div>
+      {summonerGameData.map((game, idx) => {
+        return (
+          <div className="flex justify-center items-center m-10" key={idx}>
+            <div className="flex flex-col pr-14 text-white-font">
+              <span className="text-white font-bold">{game.gameType}</span>
+              <span className="pb-6">{gameDatTranslator(game.gameStartDateTimeStamp)}</span>
+              <span className={`${game.win === true ? 'text-win-color' : 'text-lose-color'}`}>
+                {winAndDefeat(game.win)}
               </span>
-              <div className="totalCs">{game.totalCs}</div>
-              <div className="flex">
-                {game.item0 !== 0 ? (
-                  <img id="itemIcon" src={itemIcon(game.item0)} alt={game.item0} style={{ height: 42 }} />
-                ) : null}
-
-                {game.item1 !== 0 ? (
-                  <img id="itemIcon" src={itemIcon(game.item1)} alt={game.item0} style={{ height: 42 }} />
-                ) : null}
-                {game.item2 !== 0 ? (
-                  <img id="itemIcon" src={itemIcon(game.item2)} alt={game.item0} style={{ height: 42 }} />
-                ) : null}
-                {game.item3 !== 0 ? (
-                  <img id="itemIcon" src={itemIcon(game.item3)} alt={game.item0} style={{ height: 42 }} />
-                ) : null}
-                {game.item4 !== 0 ? (
-                  <img id="itemIcon" src={itemIcon(game.item4)} alt={game.item0} style={{ height: 42 }} />
-                ) : null}
-                {game.item5 !== 0 ? (
-                  <img id="itemIcon" src={itemIcon(game.item5)} alt={game.item0} style={{ height: 42 }} />
-                ) : null}
-              </div>
-              <div className="lane">{linePosition(game.lane)}</div>
-
-              <div className="pinkWard">{game.pinkWard}</div>
-              <div className="team">{game.team}</div>
+              <span className="gameStartTime">{game.gameDuration}</span>
             </div>
-          );
-        })}
-      </div>
+            <div className="relative">
+              <img
+                id="summonerIconImg"
+                className="w-16"
+                src={championIcon(game.championName)}
+                alt={game.championName}
+              />
+              <div className="flex items-center justify-center">
+                <span className="absolute rounded px-0.5 font-bold text-white line-height bg-black">
+                  {game.champLevel}
+                </span>
+              </div>
+              <span className="lane">{linePosition(game.lane)}</span>
+            </div>
+            <img src={`${lineIcon.TOP_ICON}`} />
+            <span className="kill-death-assist px-4">
+              <span className="text-xl px-1 font-bold">{game.kill}</span>/
+              <span className="text-xl px-1 text-red-font font-bold">{game.death}</span>/
+              <span className="text-xl px-1 font-bold">{game.assist}</span>
+              <span className="text-white-font">({getNotRoundDecimalNumber(game.kda)})</span>
+            </span>
+            <div className="totalCs">{game.totalCs}</div>
+            <div className="flex">
+              {game.item0 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item0)} alt={game.item0} style={{ height: 42 }} />
+              ) : null}
+
+              {game.item1 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item1)} alt={game.item0} style={{ height: 42 }} />
+              ) : null}
+              {game.item2 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item2)} alt={game.item0} style={{ height: 42 }} />
+              ) : null}
+              {game.item3 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item3)} alt={game.item0} style={{ height: 42 }} />
+              ) : null}
+              {game.item4 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item4)} alt={game.item0} style={{ height: 42 }} />
+              ) : null}
+              {game.item5 !== 0 ? (
+                <img id="itemIcon" src={itemIcon(game.item5)} alt={game.item0} style={{ height: 42 }} />
+              ) : null}
+            </div>
+          </div>
+        );
+      })}
     </div>
+    // </div>
   );
 }
 
