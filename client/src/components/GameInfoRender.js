@@ -111,37 +111,36 @@ function GameInfoRender(props) {
                   {game.champLevel}
                 </span>
               </div>
-              <span className="lane">{linePosition(game.lane)}</span>
+              {/* <span className="lane">{linePosition(game.lane)}</span> */}
             </div>
-            <img src={`${lineIcon.TOP_ICON}`} />
+            {/* <img src={`${lineIcon.TOP_ICON}`} /> */}
             <span className="kill-death-assist px-4">
               <span className="text-xl px-1 font-bold">{game.kill}</span>/
               <span className="text-xl px-1 text-red-font font-bold">{game.death}</span>/
               <span className="text-xl px-1 font-bold">{game.assist}</span>
-              <span className="text-white-font">({getNotRoundDecimalNumber(game.kda)})</span>
+              <span className="flex flex-col text-sm text-white-font">({getNotRoundDecimalNumber(game.kda)})</span>
+              {/* <div className="totalCs">{game.totalCs}</div> */}
+              <div className="flex">
+                {game.item0 !== 0 ? (
+                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item0)} alt={game.item0} />
+                ) : null}
+                {game.item1 !== 0 ? (
+                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item1)} alt={game.item0} />
+                ) : null}
+                {game.item2 !== 0 ? (
+                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item2)} alt={game.item0} />
+                ) : null}
+                {game.item3 !== 0 ? (
+                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item3)} alt={game.item0} />
+                ) : null}
+                {game.item4 !== 0 ? (
+                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item4)} alt={game.item0} />
+                ) : null}
+                {game.item5 !== 0 ? (
+                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item5)} alt={game.item0} />
+                ) : null}
+              </div>
             </span>
-            <div className="totalCs">{game.totalCs}</div>
-            <div className="flex">
-              {game.item0 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item0)} alt={game.item0} style={{ height: 42 }} />
-              ) : null}
-
-              {game.item1 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item1)} alt={game.item0} style={{ height: 42 }} />
-              ) : null}
-              {game.item2 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item2)} alt={game.item0} style={{ height: 42 }} />
-              ) : null}
-              {game.item3 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item3)} alt={game.item0} style={{ height: 42 }} />
-              ) : null}
-              {game.item4 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item4)} alt={game.item0} style={{ height: 42 }} />
-              ) : null}
-              {game.item5 !== 0 ? (
-                <img id="itemIcon" src={itemIcon(game.item5)} alt={game.item0} style={{ height: 42 }} />
-              ) : null}
-            </div>
           </div>
         );
       })}

@@ -34,10 +34,10 @@ function Profile(props) {
     <header className="flex flex-col pt-20">
       <div className="flex flex-wrap items-center justify-center mt-16">
         <div className="flex justify-center">
-          <div className="text-4xl pr-10 font-bold">{name}</div>
+          <span className="text-4xl pr-10 font-bold">{name}</span>
+
           <div className="rounded-lg overflow-hidden w-20">
             <img id="userIconImg" className="rounded-lg object-cover" src={userIcon} alt="유저 아이콘" />
-            <span className="level">{level}</span>
           </div>
         </div>
 
@@ -51,6 +51,7 @@ function Profile(props) {
               {tier} {rank}
             </div>
             <div className="text-white-font">
+              <span className="pb-1">{level} Lv</span>
               <div className="pb-1">{leaguePoints} LP</div>
               <SoloGameRankRate wins={wins} losses={losses} winCount={winCount} />
             </div>
