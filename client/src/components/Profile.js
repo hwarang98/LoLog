@@ -31,34 +31,35 @@ function Profile(props) {
   };
 
   return (
-    <header className="flex flex-col pt-20">
-      <div className="flex flex-wrap items-center justify-center mt-16">
+    <header className="pt-20">
+      <div className="flex-wrap items-center justify-center mt-16">
         <div className="flex justify-center">
-          <span className="text-4xl pr-10 font-bold">{name}</span>
+          <span className="flex items-center text-4xl pr-10 items font-bold">{name}</span>
 
-          <div className="rounded-lg overflow-hidden w-20">
+          <div className="flex items-center rounded-lg overflow-hidden w-20">
             <img id="userIconImg" className="rounded-lg object-cover" src={userIcon} alt="유저 아이콘" />
           </div>
+
+          <div className="flex items-center">
+            <div className="pl-44 pr-6">
+              <Emblem tier={tier}></Emblem>
+            </div>
+
+            <div className="text-sm">
+              <div className="text-white pb-4">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
+              <div className="text-base font-bold pb-1">
+                {tier} {rank}
+              </div>
+              <div className="text-white-font">
+                <span className="pb-1">{level} Lv</span>
+                <div className="pb-1">{leaguePoints} LP</div>
+                <SoloGameRankRate wins={wins} losses={losses} winCount={winCount} />
+              </div>
+            </div>
+          </div>
         </div>
 
-        <div className="flex">
-          <div className="pl-44 pr-6">
-            <Emblem tier={tier}></Emblem>
-          </div>
-          <div className="text-sm">
-            <div className="text-white pb-4">{leagueType === 'RANKED_SOLO_5x5' && '솔로랭크'}</div>
-            <div className="text-base font-bold pb-1">
-              {tier} {rank}
-            </div>
-            <div className="text-white-font">
-              <span className="pb-1">{level} Lv</span>
-              <div className="pb-1">{leaguePoints} LP</div>
-              <SoloGameRankRate wins={wins} losses={losses} winCount={winCount} />
-            </div>
-          </div>
-          <div>{clickCheck === true ? <GameInfoRender gameInfo={gameInfo} winCount={winCount} /> : null}</div>
-        </div>
-        <div className="flex flex-wrap">
+        <div className="flex justify-center mt-20">
           <button onClick={getGameInfo}>전적검색</button>
         </div>
       </div>
