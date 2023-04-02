@@ -68,7 +68,7 @@ function Home() {
   return (
     <div className="flex flex-row justify-center">
       <div className="serch-container">
-        <h1 className="flex justify-center text-3xl my-5">LoLog</h1>
+        <h1 className="flex justify-center text-5xl font-bold my-5">LoLog</h1>
         <div className="flex bg-white px-4 rounded-lg">
           <input
             type="text"

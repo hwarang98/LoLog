@@ -218,7 +218,7 @@ export class ApiService {
             item4: game.item4,
             item5: game.item5,
             item6: game.item6,
-            lane: game.teamPosition,
+            line: game.teamPosition,
             pinkWard: game.visionWardsBoughtInGame,
             team: game.teamId === 100 ? '블루팀' : '레드팀',
             win: game.win,

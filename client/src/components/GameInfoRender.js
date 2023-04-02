@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import moment from 'moment';
 import _ from 'lodash';
 import { lineIcon } from '../config/config.js';
@@ -8,12 +8,13 @@ function GameInfoRender(props) {
   const [winCount, setWinCount] = useState(0);
   const { gameInfo, summonerId } = props;
 
+  const itemIcon = useMemo(
+    () => (itemNum) => `http://ddragon.leagueoflegends.com/cdn/13.4.1/img/item/${itemNum}.png`,
+    [],
+  );
+
   const championIcon = (championName) => {
     return `https://ddragon.leagueoflegends.com/cdn/13.4.1/img/champion/${championName}.png`;
-  };
-
-  const itemIcon = (itemNum) => {
-    return `http://ddragon.leagueoflegends.com/cdn/13.4.1/img/item/${itemNum}.png`;
   };
 
   const gameDatTranslator = (date) => {
@@ -22,32 +23,23 @@ function GameInfoRender(props) {
 
   // 2번째 소숫점 자리부터 버리는 함수
   const getNotRoundDecimalNumber = (number, decimalPoint = 2) => {
-    let num = typeof number === 'number' ? String(number) : number;
+    const num = typeof number === 'number' ? String(number) : number;
+    const [leftNum, rightNum] = num.split('.');
+    const truncatedRightNum = rightNum?.slice(0, decimalPoint);
 
-    const pointPos = num.indexOf('.');
-
-    if (pointPos === -1) return Number(num).toFixed(decimalPoint);
-
-    const splitNumber = num.split('.');
-    const rightNum = splitNumber[1].substring(0, decimalPoint);
-    return Number(`${splitNumber[0]}.${rightNum}`).toFixed(decimalPoint);
+    const truncatedNum = truncatedRightNum ? `${leftNum}.${truncatedRightNum}` : leftNum;
+    return Number(truncatedNum).toFixed(decimalPoint);
   };
 
   useEffect(() => {
-    const gameData = [];
-    let winCnt = 0;
-    gameInfo.map((data) => {
-      if (data.summonerId === summonerId) {
-        if (data.win === true) {
-          winCnt++;
-        }
-        return gameData.push(data);
-      }
-    });
-    setWinCount(winCnt);
-    setSummonerGameData([...gameData]);
-  }, []);
+    const filteredGameData = _.filter(gameInfo, (data) => data.summonerId === summonerId);
+    const filteredWinCount = _.reduce(filteredGameData, (acc, cur) => acc + cur.win, 0);
 
+    setSummonerGameData(filteredGameData);
+    setWinCount(filteredWinCount);
+  }, [gameInfo, summonerId]);
+
+  // 라인 한글
   const linePosition = (line) => {
     switch (line) {
       case 'TOP':
@@ -70,7 +62,31 @@ function GameInfoRender(props) {
     }
   };
 
+  /**
+   *
+   * @param {string} line
+   * @returns 각 라안별 아이콘 이미지
+   */
+  const getLineIcon = (line) => {
+    switch (line) {
+      case 'TOP':
+        return lineIcon.TOP_ICON;
+      case 'MIDDLE':
+        return lineIcon.MIDDLE_ICON;
+      case 'JUNGLE':
+        return lineIcon.JUNGLE_ICON;
+      case 'BOTTOM':
+        return lineIcon.BOTTOM_ICON;
+      case 'SUPPORT':
+        return lineIcon.SUPPORT_ICON;
+      default:
+        throw new Error('Invalid line');
+    }
+  };
+
+  // 10게임 승률 구하는 함수
   const winRate = (winCount / 10) * 100;
+
   const winAndDefeat = (result) => {
     switch (result) {
       case true:
@@ -85,67 +101,89 @@ function GameInfoRender(props) {
   };
 
   return (
-    // <div className="flex flex-wrap items-center justify-center mt-16">
     <div className="flex flex-col items-center mt-16">
       <div className="flex">최근 10게임 승률:{winRate}%</div>
       {summonerGameData.map((game, idx) => {
+        const {
+          gameType,
+          gameStartDateTimeStamp,
+          win,
+          gameDuration,
+          championName,
+          champLevel,
+          kill,
+          death,
+          assist,
+          kda,
+          line,
+          item0,
+          item1,
+          item2,
+          item3,
+          item4,
+          item5,
+        } = game;
+        const isWin = win === true;
+        const notRoundKda = getNotRoundDecimalNumber(kda);
+        const flexCenter = 'flex justify-center items-center';
+
         return (
-          <div className="flex justify-center items-center m-10" key={idx}>
-            <div className="flex flex-col pr-14 text-white-font">
-              <span className="text-white font-bold">{game.gameType}</span>
-              <span className="pb-6">{gameDatTranslator(game.gameStartDateTimeStamp)}</span>
-              <span className={`${game.win === true ? 'text-win-color' : 'text-lose-color'}`}>
-                {winAndDefeat(game.win)}
-              </span>
-              <span className="gameStartTime">{game.gameDuration}</span>
+          <div className={`${flexCenter} m-10`} key={idx}>
+            <div className="flex flex-col pr-14 text-sm text-white-font">
+              <span className="text-white font-bold">{gameType}</span>
+              <span className="pb-6">{gameDatTranslator(gameStartDateTimeStamp)}</span>
+              <span className={`${isWin ? 'text-win-color' : 'text-lose-color'}`}>{winAndDefeat(isWin)}</span>
+              <span className="gameStartTime">{gameDuration}</span>
+              <span className="position">{linePosition(line)}</span>
             </div>
+
             <div className="relative">
-              <img
-                id="summonerIconImg"
-                className="w-16"
-                src={championIcon(game.championName)}
-                alt={game.championName}
-              />
-              <div className="flex items-center justify-center">
-                <span className="absolute rounded px-0.5 font-bold text-white line-height bg-black">
-                  {game.champLevel}
+              <div className="flex">
+                {/* <div className="flex items-center justify-center"> */}
+                <div className="asd">
+                  <img id="summonerIconImg" className="w-16" src={championIcon(championName)} alt={championName} />
+                  <span className="absolute rounded px-0.5 font-bold text-white line-height bg-black">
+                    {champLevel}
+                  </span>
+                </div>
+
+                <span className="kill-death-assist px-4">
+                  <span className="text-xl px-1 font-bold">{kill}</span>/
+                  <span className="text-xl px-1 text-red-font font-bold">{death}</span>/
+                  <span className="text-xl px-1 font-bold">{assist}</span>
+                  <span className="flex flex-col text-sm text-white-font">({notRoundKda})</span>
                 </span>
               </div>
-              {/* <span className="lane">{linePosition(game.lane)}</span> */}
-            </div>
-            {/* <img src={`${lineIcon.TOP_ICON}`} /> */}
-            <span className="kill-death-assist px-4">
-              <span className="text-xl px-1 font-bold">{game.kill}</span>/
-              <span className="text-xl px-1 text-red-font font-bold">{game.death}</span>/
-              <span className="text-xl px-1 font-bold">{game.assist}</span>
-              <span className="flex flex-col text-sm text-white-font">({getNotRoundDecimalNumber(game.kda)})</span>
-              {/* <div className="totalCs">{game.totalCs}</div> */}
+
               <div className="flex">
-                {game.item0 !== 0 ? (
-                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item0)} alt={game.item0} />
-                ) : null}
-                {game.item1 !== 0 ? (
-                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item1)} alt={game.item0} />
-                ) : null}
-                {game.item2 !== 0 ? (
-                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item2)} alt={game.item0} />
-                ) : null}
-                {game.item3 !== 0 ? (
-                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item3)} alt={game.item0} />
-                ) : null}
-                {game.item4 !== 0 ? (
-                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item4)} alt={game.item0} />
-                ) : null}
-                {game.item5 !== 0 ? (
-                  <img id="itemIcon" className="p-1 w-10" src={itemIcon(game.item5)} alt={game.item0} />
-                ) : null}
+                {/* <img src={`${getLineIcon(line)}`} className="p-1 mr-8 w-8" alt={line} /> */}
+                {item0 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item0)} alt={item0} />}
+                {item1 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item1)} alt={item0} />}
+                {item2 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item2)} alt={item0} />}
+                {item3 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item3)} alt={item0} />}
+                {item4 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item4)} alt={item0} />}
+                {item5 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item5)} alt={item0} />}
               </div>
-            </span>
+            </div>
+            {/* 
+            <span className="kill-death-assist px-4">
+              <span className="text-xl px-1 font-bold">{kill}</span>/
+              <span className="text-xl px-1 text-red-font font-bold">{death}</span>/
+              <span className="text-xl px-1 font-bold">{assist}</span>
+              <span className="flex flex-col text-sm text-white-font">({notRoundKda})</span>
+              </div>
+              <div className="flex">
+                {item0 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item0)} alt={item0} />}
+                {item1 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item1)} alt={item0} />}
+                {item2 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item2)} alt={item0} />}
+                {item3 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item3)} alt={item0} />}
+                {item4 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item4)} alt={item0} />}
+                {item5 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item5)} alt={item0} />}
+            </span> */}
           </div>
         );
       })}
     </div>
-    // </div>
   );
 }
 

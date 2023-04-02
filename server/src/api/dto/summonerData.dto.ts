@@ -32,7 +32,7 @@ export interface SummonerGameData {
   spell2Casts: number;
   spell3Casts: number;
   spell4Casts: number;
-  lane: string;
+  line: string;
   teamPosition: string;
   visionWardsBoughtInGame: number;
   team: string;
