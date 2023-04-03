@@ -114,6 +114,9 @@ export class ApiService {
               case 440:
                 return '자유랭크';
 
+              case 450:
+                return '칼바람';
+
               default:
                 return '일반게임';
             }
