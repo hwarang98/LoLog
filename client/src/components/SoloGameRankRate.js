@@ -11,7 +11,7 @@ function SoloGameRate(props) {
   return (
     <div className="gameRateInfo">
       <div className="soloRankGameInfo">
-        승률: {soloRankGameRate}%({wins}승 {losses}패)
+        {wins && losses && winCount ? `승률: ${soloRankGameRate}% (${wins}승 ${losses}패)` : `승률: 0% (0승 0패)`}
       </div>
       <div className="recentGames">최근 10 게임 승률: {allGameWinRate}%</div>
     </div>
