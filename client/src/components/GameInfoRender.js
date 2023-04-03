@@ -8,16 +8,20 @@ function GameInfoRender(props) {
   const [winCount, setWinCount] = useState(0);
   const { gameInfo, summonerId } = props;
 
+  // 아이탬 아이콘 이미지
   const itemIcon = useMemo(
     () => (itemNum) => `http://ddragon.leagueoflegends.com/cdn/13.4.1/img/item/${itemNum}.png`,
     [],
   );
 
-  const championIcon = (championName) => {
-    return `https://ddragon.leagueoflegends.com/cdn/13.4.1/img/champion/${championName}.png`;
-  };
+  // 챔피언아이콘 이미지
+  const championIcon = useMemo(
+    () => (championName) => `https://ddragon.leagueoflegends.com/cdn/13.4.1/img/champion/${championName}.png`,
+    [],
+  );
 
-  const gameDatTranslator = (date) => {
+  // 게임 진행
+  const gameDate = (date) => {
     return moment(date).format('MM/DD');
   };
 
@@ -31,6 +35,7 @@ function GameInfoRender(props) {
     return Number(truncatedNum).toFixed(decimalPoint);
   };
 
+  // 검색한 소환사가 이긴 카운터 구하는 함수
   useEffect(() => {
     const filteredGameData = _.filter(gameInfo, (data) => data.summonerId === summonerId);
     const filteredWinCount = _.reduce(filteredGameData, (acc, cur) => acc + cur.win, 0);
@@ -62,11 +67,7 @@ function GameInfoRender(props) {
     }
   };
 
-  /**
-   *
-   * @param {string} line
-   * @returns 각 라안별 아이콘 이미지
-   */
+  // 각 라인별 아이콘 이미지
   const getLineIcon = (line) => {
     switch (line) {
       case 'TOP':
@@ -87,17 +88,35 @@ function GameInfoRender(props) {
   // 10게임 승률 구하는 함수
   const winRate = (winCount / 10) * 100;
 
-  const winAndDefeat = (result) => {
+  const winAndLose = (result) => {
     switch (result) {
       case true:
         return '승리';
-
       case false:
         return '패배';
-
       default:
         break;
     }
+  };
+
+  // 챔피언아이콘 이미지
+  const renderItemIcon = (itemId) => {
+    if (itemId === 0) {
+      return <div className="p-1 w-8"></div>;
+    } else {
+      return <img id="itemIcon" className="p-1 w-8" src={itemIcon(itemId)} alt={itemId} />;
+    }
+  };
+
+  // 챔피언아이콘 이미지
+  const ItemList = ({ items }) => {
+    return (
+      <div className="flex">
+        {items.map((itemId) => (
+          <>{renderItemIcon(itemId)}</>
+        ))}
+      </div>
+    );
   };
 
   return (
@@ -131,18 +150,17 @@ function GameInfoRender(props) {
           <div className={`${flexCenter} m-10`} key={idx}>
             <div className="flex flex-col pr-14 text-sm text-white-font">
               <span className="text-white font-bold">{gameType}</span>
-              <span className="pb-6">{gameDatTranslator(gameStartDateTimeStamp)}</span>
-              <span className={`${isWin ? 'text-win-color' : 'text-lose-color'}`}>{winAndDefeat(isWin)}</span>
+              <span className="pb-6">{gameDate(gameStartDateTimeStamp)}</span>
+              <span className={`${isWin ? 'text-win-color' : 'text-lose-color'}`}>{winAndLose(isWin)}</span>
               <span className="gameStartTime">{gameDuration}</span>
               <span className="position">{linePosition(line)}</span>
             </div>
 
             <div className="relative">
               <div className="flex">
-                {/* <div className="flex items-center justify-center"> */}
-                <div className="asd">
+                <div className="flex justify-center items-end">
                   <img id="summonerIconImg" className="w-16" src={championIcon(championName)} alt={championName} />
-                  <span className="absolute rounded px-0.5 font-bold text-white line-height bg-black">
+                  <span className="absolute rounded px-0.5 text-sm leading-4 font-bold text-white line-height bg-black">
                     {champLevel}
                   </span>
                 </div>
@@ -156,30 +174,9 @@ function GameInfoRender(props) {
               </div>
 
               <div className="flex">
-                {/* <img src={`${getLineIcon(line)}`} className="p-1 mr-8 w-8" alt={line} /> */}
-                {item0 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item0)} alt={item0} />}
-                {item1 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item1)} alt={item0} />}
-                {item2 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item2)} alt={item0} />}
-                {item3 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item3)} alt={item0} />}
-                {item4 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item4)} alt={item0} />}
-                {item5 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item5)} alt={item0} />}
+                <ItemList items={[item0, item1, item2, item3, item4, item5]} />
               </div>
             </div>
-            {/* 
-            <span className="kill-death-assist px-4">
-              <span className="text-xl px-1 font-bold">{kill}</span>/
-              <span className="text-xl px-1 text-red-font font-bold">{death}</span>/
-              <span className="text-xl px-1 font-bold">{assist}</span>
-              <span className="flex flex-col text-sm text-white-font">({notRoundKda})</span>
-              </div>
-              <div className="flex">
-                {item0 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item0)} alt={item0} />}
-                {item1 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item1)} alt={item0} />}
-                {item2 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item2)} alt={item0} />}
-                {item3 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item3)} alt={item0} />}
-                {item4 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item4)} alt={item0} />}
-                {item5 !== 0 && <img id="itemIcon" className="p-1 w-8" src={itemIcon(item5)} alt={item0} />}
-            </span> */}
           </div>
         );
       })}
