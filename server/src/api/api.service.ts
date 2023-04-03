@@ -183,16 +183,8 @@ export class ApiService {
               return '일반게임';
           }
         };
-        //SummonerGameData
 
         _.each(gameDataList, (game: SummonerGameData) => {
-          // if (game.summonerName === '소라카가 가요') {
-          //   console.log('game.visionWardsBoughtInGame: ', game.visionWardsBoughtInGame);
-          //   console.log('game.wardsKilled: ', game.wardsKilled);
-          //   console.log('detectorWardsPlaced: ', game.detectorWardsPlaced);
-          //   console.log('sightWardsBoughtInGame: ', game.sightWardsBoughtInGame);
-          //   console.log('wardsPlaced: ', game.wardsPlaced);
-          // }
           return finalData.push({
             gameStartDateTimeStamp: data.info.gameStartTimestamp,
             gameEndDateTimeStamp: data.info.gameEndTimestamp,
