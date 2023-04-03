@@ -17,18 +17,18 @@ function Summoner() {
 
   useEffect(() => {
     let cnt = 0;
-    _.each(summonerGameData, (game) => {
+    _.forEach(summonerGameData, (game) => {
       if (game.summonerId === id) {
         if (game.win) cnt++;
       }
-      setWinCount(cnt);
     });
-  });
+    setWinCount(cnt);
+  }, [id, summonerGameData]);
 
   // 솔랭, 자랭 정보저장
   useEffect(() => {
     try {
-      _.map(leagueData, (item) => {
+      _.forEach(leagueData, (item) => {
         const queueType = item.queueType;
 
         switch (queueType) {
@@ -51,19 +51,18 @@ function Summoner() {
 
   // matchId 조회 요청
   useEffect(() => {
-    try {
-      const getMatchData = async () => {
+    const getMatchData = async () => {
+      try {
         const getMatchId = await axios.post('http://localhost:4000/api/match/info', {
           puuid: puuid,
         });
-
-        return setMatchId(getMatchId.data);
-      };
-      getMatchData();
-    } catch (error) {
-      throw new Error(alert({ error: error.message }));
-    }
-  }, []);
+        setMatchId(getMatchId.data);
+      } catch (error) {
+        alert({ error: error.message });
+      }
+    };
+    getMatchData();
+  }, [puuid]);
 
   return (
     <main className="mx-auto">
@@ -80,7 +79,7 @@ function Summoner() {
         leaguePoints={leaguePoints}
         winCount={winCount}
       />
-      <GameInfoRender gameInfo={summonerGameData} winCount={10} summonerId={id} />
+      <GameInfoRender gameInfo={summonerGameData} winCount={winCount} summonerId={id} />
     </main>
   );
 }
