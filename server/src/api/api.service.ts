@@ -95,21 +95,21 @@ export class ApiService {
         }
       };
 
+      // db에 저장된 정보가 없을때
       if (!isCheckSummonerName) {
-        const [gameData] = await Promise.all([
-          Promise.all(
-            _.map(matchId, async (data: string) => {
-              const gameInfo = await axios.get(`${this.RIOT_ASIA_URL}/lol/match/v5/matches/${data}`, {
-                headers: this.header,
-              });
-              return gameInfo.data;
-            }),
-          ),
-        ]);
+        const gameData = await Promise.all(
+          _.map(matchId, async (data: string) => {
+            const gameInfo = await axios.get(`${this.RIOT_ASIA_URL}/lol/match/v5/matches/${data}`, {
+              headers: this.header,
+            });
+            return gameInfo.data;
+          }),
+        );
 
         await this.summonerRepository.gameInfoSave({ summonerName: summonerName, summonerGameData: gameData });
 
-        const summonerGameDataList = _.flatMap(gameData, (data) => {
+        // 필요한 게임 데이터 정보 리턴하는 함수
+        const summonerGameDataList = _.flatMap(gameData, (data: any) => {
           const gameDataList = data.info.participants;
           const gameStartDate = moment(data.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
           const gameEndDate = moment(data.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
@@ -158,70 +158,54 @@ export class ApiService {
         return sortedArr;
       }
 
-      const [gameData] = await Promise.all([this.summonerRepository.getGameData(summonerName)]);
+      // db에 정보가 있을때 시작
 
-      const finalData = [];
-      _.map(gameData.summonerGameData, (data: any) => {
+      const gameData = await this.summonerRepository.getGameData(summonerName);
+
+      const finalData = _.flatMap(gameData.summonerGameData, (data) => {
         const gameDataList = data.info.participants;
         const gameStartDate = moment(data.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
         const gameEndDate = moment(data.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
 
-        const gameDurationMinute = moment.duration(moment(gameEndDate).diff(gameStartDate)).minutes();
-        const gameDurationSecond = moment.duration(moment(gameEndDate).diff(gameStartDate)).seconds();
+        const gameDuration = moment.utc(moment(gameEndDate).diff(gameStartDate)).format('mm:ss');
 
-        const gameType = (gameQueueId: number) => {
-          switch (gameQueueId) {
-            case 420:
-              return '솔랭';
-
-            case 430:
-              return '일반게임';
-
-            case 440:
-              return '자유랭크';
-
-            default:
-              return '일반게임';
-          }
-        };
-
-        _.each(gameDataList, (game: SummonerGameData) => {
-          return finalData.push({
-            gameStartDateTimeStamp: data.info.gameStartTimestamp,
-            gameEndDateTimeStamp: data.info.gameEndTimestamp,
-            gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
-            gameType: gameType(data.info.queueId),
-            summonerName: game.summonerName,
-            summonerId: game.summonerId,
-            summonerLevel: game.summonerLevel,
-            teamId: game.teamId,
-            championName: game.championName,
-            champLevel: game.champLevel,
-            kill: game.kills,
-            death: game.deaths,
-            assist: game.assists,
-            kda: game.challenges.kda,
-            minionsKill: game.totalMinionsKilled,
-            jungleMonsterKill: game.neutralMinionsKilled,
-            totalCs: game.totalMinionsKilled + game.neutralMinionsKilled,
-            item0: game.item0,
-            item1: game.item1,
-            item2: game.item2,
-            item3: game.item3,
-            item4: game.item4,
-            item5: game.item5,
-            item6: game.item6,
-            spell1Casts: game.spell1Casts,
-            spell2Casts: game.spell2Casts,
-            spell3Casts: game.spell3Casts,
-            spell4Casts: game.spell4Casts,
-            line: game.teamPosition,
-            pinkWard: game.visionWardsBoughtInGame,
-            team: game.teamId === 100 ? '블루팀' : '레드팀',
-            win: game.win,
-          });
-        });
+        return _.map(gameDataList, (game: SummonerGameData) => ({
+          gameStartDateTimeStamp: data.info.gameStartTimestamp,
+          gameEndDateTimeStamp: data.info.gameEndTimestamp,
+          gameDuration,
+          gameType: gameType(data.info.queueId),
+          summonerName: game.summonerName,
+          summonerId: game.summonerId,
+          summonerLevel: game.summonerLevel,
+          teamId: game.teamId,
+          championName: game.championName,
+          champLevel: game.champLevel,
+          kill: game.kills,
+          death: game.deaths,
+          assist: game.assists,
+          kda: game.challenges.kda,
+          minionsKill: game.totalMinionsKilled,
+          jungleMonsterKill: game.neutralMinionsKilled,
+          totalCs: game.totalMinionsKilled + game.neutralMinionsKilled,
+          item0: game.item0,
+          item1: game.item1,
+          item2: game.item2,
+          item3: game.item3,
+          item4: game.item4,
+          item5: game.item5,
+          item6: game.item6,
+          spell1Casts: game.spell1Casts,
+          spell2Casts: game.spell2Casts,
+          spell3Casts: game.spell3Casts,
+          spell4Casts: game.spell4Casts,
+          line: game.teamPosition,
+          pinkWard: game.visionWardsBoughtInGame,
+          team: game.teamId === 100 ? '블루팀' : '레드팀',
+          win: game.win,
+        }));
       });
+
+      // const result = [].concat(finalData);
 
       const sortedArr = finalData.sort((a, b) => b.gameStartDateTimeStamp - a.gameStartDateTimeStamp);
 
