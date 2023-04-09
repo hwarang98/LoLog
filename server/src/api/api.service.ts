@@ -1,7 +1,7 @@
 import { HttpException, Injectable, Logger } from '@nestjs/common';
 import axios from 'axios';
 import { SummonerRepository } from './api.repository';
-import { SummonerGameData } from './dto/summonerData.dto';
+import { SummonerGameData, SummonerSpellDTO } from './dto/summonerData.dto';
 import moment from 'moment';
 import _ from 'lodash';
 
@@ -80,6 +80,21 @@ export class ApiService {
 
       const isCheckSummonerName = await this.summonerRepository.isCheckSummonerName(summonerName);
 
+      const gameType = (gameQueueId: number) => {
+        switch (gameQueueId) {
+          case 420:
+            return '솔랭';
+          case 430:
+            return '일반게임';
+          case 440:
+            return '자유랭크';
+          case 450:
+            return '칼바람';
+          default:
+            return '일반게임';
+        }
+      };
+
       if (!isCheckSummonerName) {
         const [gameData] = await Promise.all([
           Promise.all(
@@ -94,39 +109,17 @@ export class ApiService {
 
         await this.summonerRepository.gameInfoSave({ summonerName: summonerName, summonerGameData: gameData });
 
-        const summonerGameDataList = [];
-        _.each(gameData, (data: any) => {
+        const summonerGameDataList = _.flatMap(gameData, (data) => {
           const gameDataList = data.info.participants;
           const gameStartDate = moment(data.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
           const gameEndDate = moment(data.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
+          const gameDuration = moment.utc(moment(gameEndDate).diff(gameStartDate)).format('mm:ss');
 
-          const gameDurationMinute = moment.duration(moment(gameEndDate).diff(gameStartDate)).minutes();
-          const gameDurationSecond = moment.duration(moment(gameEndDate).diff(gameStartDate)).seconds();
-
-          const gameType = (gameQueueId: number) => {
-            switch (gameQueueId) {
-              case 420:
-                return '솔랭';
-
-              case 430:
-                return '일반게임';
-
-              case 440:
-                return '자유랭크';
-
-              case 450:
-                return '칼바람';
-
-              default:
-                return '일반게임';
-            }
-          };
-
-          _.each(gameDataList, (game: SummonerGameData) => {
-            return summonerGameDataList.push({
+          return _.map(gameDataList, (game: SummonerGameData) => {
+            const summonerGameData = {
               gameStartDateTimeStamp: data.info.gameStartTimestamp,
               gameEndDateTimeStamp: data.info.gameEndTimestamp,
-              gameDuration: `${gameDurationMinute}:${gameDurationSecond}`,
+              gameDuration,
               gameType: gameType(data.info.queueId),
               summonerName: game.summonerName,
               summonerId: game.summonerId,
@@ -148,11 +141,16 @@ export class ApiService {
               item4: game.item4,
               item5: game.item5,
               item6: game.item6,
+              spell1Casts: game.spell1Casts,
+              spell2Casts: game.spell2Casts,
+              spell3Casts: game.spell3Casts,
+              spell4Casts: game.spell4Casts,
               lane: game.teamPosition,
               pinkWard: game.visionWardsBoughtInGame,
               team: game.teamId === 100 ? '블루팀' : '레드팀',
               win: game.win,
-            });
+            };
+            return summonerGameData;
           });
         });
 
@@ -213,6 +211,10 @@ export class ApiService {
             item4: game.item4,
             item5: game.item5,
             item6: game.item6,
+            spell1Casts: game.spell1Casts,
+            spell2Casts: game.spell2Casts,
+            spell3Casts: game.spell3Casts,
+            spell4Casts: game.spell4Casts,
             line: game.teamPosition,
             pinkWard: game.visionWardsBoughtInGame,
             team: game.teamId === 100 ? '블루팀' : '레드팀',
@@ -236,14 +238,17 @@ export class ApiService {
    */
   async getSummonerSpell(spell: number) {
     try {
-      const { data } = await axios.get(`https://ddragon.leagueoflegends.com/cdn/13.4.1/data/ko_KR/summoner.json`, {
+      const { data } = await axios.get(`http://ddragon.leagueoflegends.com/cdn/13.7.1/data/ko_KR/summoner.json`, {
         headers: this.header,
       });
 
-      const test = _.map(data.data, (item) => {
-        console.log(item.key);
+      console.log(spell);
+
+      const spellImage = _.map(data.data, (item: SummonerSpellDTO) => {
+        return item.image;
       });
-      return data;
+
+      return spellImage;
     } catch (error) {
       throw new HttpException('소환사의 puuid를 확인해주세요.', 400);
     }
