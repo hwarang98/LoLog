@@ -141,10 +141,10 @@ export class ApiService {
               item4: game.item4,
               item5: game.item5,
               item6: game.item6,
-              spell1Casts: game.spell1Casts,
-              spell2Casts: game.spell2Casts,
-              spell3Casts: game.spell3Casts,
-              spell4Casts: game.spell4Casts,
+              summoner1Casts: game.summoner1Casts,
+              summoner1Id: game.summoner1Id,
+              summoner2Casts: game.summoner2Casts,
+              summoner2Id: game.summoner2Id,
               lane: game.teamPosition,
               pinkWard: game.visionWardsBoughtInGame,
               team: game.teamId === 100 ? '블루팀' : '레드팀',
@@ -167,6 +167,7 @@ export class ApiService {
         const gameStartDate = moment(data.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
         const gameEndDate = moment(data.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
 
+        // 게임 진행시간 구하는 함수
         const gameDuration = moment.utc(moment(gameEndDate).diff(gameStartDate)).format('mm:ss');
 
         return _.map(gameDataList, (game: SummonerGameData) => ({
@@ -194,10 +195,10 @@ export class ApiService {
           item4: game.item4,
           item5: game.item5,
           item6: game.item6,
-          spell1Casts: game.spell1Casts,
-          spell2Casts: game.spell2Casts,
-          spell3Casts: game.spell3Casts,
-          spell4Casts: game.spell4Casts,
+          summoner1Casts: game.summoner1Casts,
+          summoner1Id: game.summoner1Id,
+          summoner2Casts: game.summoner2Casts,
+          summoner2Id: game.summoner2Id,
           line: game.teamPosition,
           pinkWard: game.visionWardsBoughtInGame,
           team: game.teamId === 100 ? '블루팀' : '레드팀',
@@ -220,19 +221,25 @@ export class ApiService {
    * @param spell 문자열 타입 spell
    * @returns 게임 매칭 ID
    */
-  async getSummonerSpell(spell: number) {
+  async getSummonerSpell(spell: [number]) {
     try {
       const { data } = await axios.get(`http://ddragon.leagueoflegends.com/cdn/13.7.1/data/ko_KR/summoner.json`, {
         headers: this.header,
       });
 
-      console.log(spell);
+      const spellKey = _.reduce(
+        data.data,
+        (acc: any[], item: SummonerSpellDTO) => {
+          const itemkey = Number(item.key);
+          if (_.includes(spell, itemkey)) {
+            acc.push(item.image);
+          }
+          return acc;
+        },
+        [],
+      );
 
-      const spellImage = _.map(data.data, (item: SummonerSpellDTO) => {
-        return item.image;
-      });
-
-      return spellImage;
+      return spellKey;
     } catch (error) {
       throw new HttpException('소환사의 puuid를 확인해주세요.', 400);
     }

@@ -146,15 +146,15 @@ function GameInfoRender(props) {
           item3,
           item4,
           item5,
-          spell1Casts,
-          spell2Casts,
-          spell3Casts,
-          spell4Casts,
+          summoner1Casts,
+          summoner1Id,
+          summoner2Casts,
+          summoner2Id,
         } = game;
+
         const isWin = win === true;
         const notRoundKda = getNotRoundDecimalNumber(kda);
         const flexCenter = 'flex justify-center items-center';
-        console.log({ spell1Casts, spell2Casts, spell3Casts, spell4Casts });
         return (
           <div className={`${flexCenter} m-10`} key={idx}>
             <div className="flex flex-col pr-14 text-sm text-white-font">
@@ -169,7 +169,7 @@ function GameInfoRender(props) {
               <div className="flex">
                 <div className="flex justify-center items-end">
                   <img id="summonerIconImg" className="w-16" src={championIcon(championName)} alt={championName} />
-                  <img id="test" className="w-16" src={spellIcon(5)} alt={spell1Casts} />
+                  {/* <img id="test" className="w-16" src={spellIcon(5)} alt={spell1Casts} /> */}
                   <span className="absolute rounded px-0.5 text-sm leading-4 font-bold text-white line-height bg-black">
                     {champLevel}
                   </span>

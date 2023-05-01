@@ -28,10 +28,10 @@ export interface SummonerGameData {
   item4: number;
   item5: number;
   item6: number;
-  spell1Casts: number;
-  spell2Casts: number;
-  spell3Casts: number;
-  spell4Casts: number;
+  summoner1Casts: number;
+  summoner1Id: number;
+  summoner2Casts: number;
+  summoner2Id: number;
   line: string;
   teamPosition: string;
   visionWardsBoughtInGame: number;
