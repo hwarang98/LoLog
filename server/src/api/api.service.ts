@@ -159,10 +159,24 @@ export class ApiService {
       }
 
       // db에 정보가 있을때 시작
+      const [getGameData, getMatchIds] = await Promise.all([
+        this.summonerRepository.getGameData(summonerName),
+        this.summonerRepository.getMatchIdsBySummonerName(summonerName),
+      ]);
 
-      const gameData = await this.summonerRepository.getGameData(summonerName);
+      const myMatchIdList = _.map(getMatchIds, 'metadata.matchId');
+      const differencesMatchIdList = _.xor(matchId, myMatchIdList);
+      // if (differencesMatchIdList.length !== 0) {
+      const gameData = await Promise.all(
+        _.map(differencesMatchIdList, async (data: string) => {
+          const gameInfo = await axios.get(`${this.RIOT_ASIA_URL}/lol/match/v5/matches/${data}`, {
+            headers: this.header,
+          });
+          return gameInfo.data;
+        }),
+      );
 
-      const finalData = _.flatMap(gameData.summonerGameData, (data) => {
+      const finalData = _.flatMap(getGameData.summonerGameData, (data) => {
         const gameDataList = data.info.participants;
         const gameStartDate = moment(data.info.gameStartTimestamp).format('YYYY-MM-DD HH:mm:ss');
         const gameEndDate = moment(data.info.gameEndTimestamp).format('YYYY-MM-DD HH:mm:ss');
@@ -206,11 +220,10 @@ export class ApiService {
         }));
       });
 
-      // const result = [].concat(finalData);
-
       const sortedArr = finalData.sort((a, b) => b.gameStartDateTimeStamp - a.gameStartDateTimeStamp);
 
       return sortedArr;
+      // }
     } catch (error) {
       throw new HttpException('소환사가 없습니다.', 400);
     }

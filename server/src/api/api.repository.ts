@@ -44,6 +44,28 @@ export class SummonerRepository {
 
   /**
    *
+   * @param summonerName string 문자열
+   * @returns 해당 유저의 게임 데이터
+   */
+  async getMatchIdsBySummonerName(summonerName: SummonerData) {
+    try {
+      if (typeof summonerName !== 'string') {
+        return null;
+      }
+
+      const result = await this.Summoner.findOne(
+        { summonerName: summonerName },
+        { _id: 0, 'summonerGameData.metadata.matchId': 1 },
+      ).lean();
+
+      return result ? result.summonerGameData : null;
+    } catch (error) {
+      throw new HttpException('소환사가 없습니다.', 400);
+    }
+  }
+
+  /**
+   *
    *
    * @param name string 문자열
    * @returns 해당 유저의 게임 메타데이터 정보
@@ -71,7 +93,7 @@ export class SummonerRepository {
    */
   async isCheckSummonerName(summonerName: string): Promise<object> {
     try {
-      const result = await this.Summoner.exists({ summonerName });
+      const result = await this.Summoner.exists({ summonerName: summonerName });
       return result;
     } catch (error) {
       throw new HttpException('소환사가 이미 존재합니다.', 400);
